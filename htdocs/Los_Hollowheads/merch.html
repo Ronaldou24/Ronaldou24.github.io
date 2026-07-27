@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Compra merch oficial de Los Hollowheads: camisetas, gorras y más." />
+<title>Merch - Los Hollowheads</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto&display=swap" rel="stylesheet" />
+<style>
+  /* Reset básico */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #f9f6f0;
+    color: #181818;
+    min-height: 100vh;
+  }
+
+  /* Navbar */
+  nav.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255 255 255 / 0.95);
+    padding: 16px 24px;
+    box-shadow: 0 4px 20px rgba(193,179,124,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Fredericka the Great', cursive;
+    border-radius: 0 0 12px 12px;
+  }
+  nav.navbar .LetrasNav a {
+    text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #888242;
+    letter-spacing: 3px;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  nav.navbar .LetrasNav a:hover {
+    color: #C1B37C;
+  }
+  nav.navbar ul.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  nav.navbar ul.navbar-menu li a {
+    text-decoration: none;
+    color: #181818;
+    font-weight: 600;
+    font-size: 1.05rem;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  nav.navbar ul.navbar-menu li a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #C1B37C;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  nav.navbar ul.navbar-menu li a:hover,
+  nav.navbar ul.navbar-menu li a:focus {
+    color: #8E8A5C;
+  }
+  nav.navbar ul.navbar-menu li a:hover::after,
+  nav.navbar ul.navbar-menu li a:focus::after {
+    width: 100%;
+  }
+
+  /* Contenedor principal */
+  section.container {
+    max-width: 960px;
+    background: rgba(255 255 255 / 0.9);
+    margin: 40px auto;
+    padding: 32px 36px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgb(193 179 124 / 0.2);
+  }
+
+  /* Merch Section */
+  .merch-section {
+    text-align: center;
+  }
+  .merch-title {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 3rem;
+    color: #8E8A5C;
+    margin-bottom: 8px;
+    letter-spacing: 3px;
+  }
+  .merch-subtitle {
+    font-size: 1.25rem;
+    color: #444;
+    margin-bottom: 32px;
+  }
+
+  /* Flex container for merch images and info */
+  .merch-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 36px;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  /* Merch images */
+  .merch-img {
+    position: relative;
+    flex: 1 1 280px;
+    max-width: 320px;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 6px 24px rgb(193 179 124 / 0.3);
+    transition: transform 0.3s ease;
+    cursor: pointer;
+  }
+  .merch-img:hover {
+    transform: scale(1.05) rotate(-2deg);
+  }
+  .merch-img img {
+    width: 100%;
+    display: block;
+    border-radius: 24px;
+  }
+  .badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: #C1B37Ccc;
+    color: #181818;
+    font-weight: 700;
+    font-family: 'Fredericka the Great', cursive;
+    padding: 6px 14px;
+    border-radius: 12px;
+    font-size: 1rem;
+    user-select: none;
+  }
+
+  /* Merch info */
+  .merch-info {
+    flex: 1 1 320px;
+    max-width: 360px;
+    text-align: left;
+  }
+  .merch-info h2 {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 2.4rem;
+    color: #8E8A5C;
+    margin-bottom: 24px;
+  }
+  .merch-info ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 32px;
+    font-size: 1.1rem;
+    color: #444;
+  }
+  .merch-info ul li {
+    margin-bottom: 12px;
+  }
+  .merch-info ul li strong {
+    color: #8E8A5C;
+  }
+
+  /* Comprar botón */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #C1B37C, #8E8A5C);
+    color: #181818;
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding: 16px 36px;
+    border-radius: 40px;
+    box-shadow: 0 8px 24px rgb(193 179 124 / 0.4);
+    text-decoration: none;
+    transition: background 0.4s ease, transform 0.3s ease;
+    user-select: none;
+  }
+  .btn:hover,
+  .btn:focus {
+    background: linear-gradient(135deg, #8E8A5C, #C1B37C);
+    transform: scale(1.05);
+    outline: none;
+  }
+  .btn-icon {
+    width: 24px;
+    height: 24px;
+    stroke: currentColor;
+  }
+
+  /* Footer */
+  footer.container.footer-con-imagen {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    color: #8E8A5C;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  footer.container.footer-con-imagen img {
+    margin-top: 12px;
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgb(193 179 124 / 0.3);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .merch-flex {
+      flex-direction: column;
+      align-items: center;
+    }
+    .merch-info {
+      max-width: 100%;
+      text-align: center;
+    }
+    .merch-info ul {
+      margin-bottom: 24px;
+    }
+    .merch-info h2 {
+      font-size: 2rem;
+    }
+  }
+  @media (max-width: 500px) {
+    .merch-img {
+      max-width: 100%;
+    }
+    .btn {
+      font-size: 1.1rem;
+      padding: 14px 28px;
+    }
+  }
+</style>
+</head>
+<body>
+<nav class="navbar container">
+
+  <h1 class="LetrasNav"> <a href="index.html">Los Hollowheads </a></h1>
+  <ul class="navbar-menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contenido.html">Música</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="formulario.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="container merch-section">
+  <h1 class="merch-title">Playera Oficial Hollowheads</h1>
+  <p class="merch-subtitle">¡Edición limitada! Consigue la tuya antes que se agoten.</p>
+  <div class="merch-flex">
+    <div class="merch-img">
+      <img src="arte/merch.png" alt="Playera Hollow Heads Frente" />
+      <div class="badge">Frontal</div>
+    </div>
+    <div class="merch-img">
+      <img src="arte/merch2.png" alt="Playera Hollow Heads Espalda" />
+      <div class="badge">Espalda</div>
+    </div>
+    <div class="merch-info">
+      <h2>$200 MXN</h2>
+      <ul>
+        <li><strong>Tallas:</strong> L</li>
+        <li><strong>Colores:</strong> Blanco y negro</li>
+        <li><strong>Material:</strong> Algodón suave</li>
+        <li><strong>Diseño:</strong> Estampado frontal y trasero exclusivo</li>
+      </ul>
+      <a href="https://wa.me/521XXXXXXXXXX?text=Hola,%20quiero%20una%20playera%20Hollow%20Heads!" class="btn" target="_blank" rel="noopener noreferrer">
+        <span class="btn-text">¡Comprar por WhatsApp!</span>
+        <svg class="btn-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h11M9 21V3m6 18l6-6-6-6" /></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="container footer-con-imagen">
+  &copy; 2025 Los Hollowheads. Todos los derechos reservados.
+  <br />
+  <img src="arte/angel_alberca.jpg" alt="Angel" />
+</footer>
+</body>
+</html>

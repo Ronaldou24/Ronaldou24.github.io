@@ -1,0 +1,88 @@
+@import url(https://fonts.googleapis.com/css?family=Noto+Sans);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+body{
+    height: 100px;
+    font-family: sans-serif;
+    background-color: blueviolet;
+}
+.contact_form{
+    width: 400px;
+    height: 40px;
+    margin: 100px;
+    border-radius: 10px;
+    padding-top: 30px;
+    padding-bottom: 20px;
+    background-color: rgb(253, 253, 253);
+    padding-left: 30px;
+}
+input{
+    background-color: beige;
+    width: 400px;
+    height: 40px;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-color: rgb(154, 70, 232);
+    margin-top: 10px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+textarea{
+    background-color: beige;
+    width: 400px;
+    height: 150px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: 1px;
+    border-color: rgb(154, 70, 232);
+    margin-top: 10px;
+    padding-left: 10px;
+    margin-bottom: 20px;
+}
+label{
+    display: block;
+    float: center;
+}
+button{
+    height: 45px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-bottom: 20px;
+    margin-top: 10px;
+    text-transform: uppercase;
+    background-color: blueviolet;
+    border-radius: 10px;
+    border-color: rgb(95, 29, 156);
+    border-style: solid;
+    width: 428px;
+    cursor: pointer;
+
+
+}
+button p{
+    color: rgb(254, 234, 195);
+}
+span{
+    color: blueviolet;
+}
+h1{
+    font-size: 50px;
+    text-align: center;
+    padding-bottom: 20px;
+    color: blueviolet;
+}
+h2{
+    font-size: 40px;
+    padding-bottom: 20px;
+    color: rgb(0, 0, 0);
+}
+p{
+    font-size: 40px;
+}

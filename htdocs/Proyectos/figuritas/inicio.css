@@ -1,0 +1,13 @@
+.navbar-nav{
+    background-color: rgb(65, 65, 175);
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    border-radius: 30;
+    align-items: center;
+}
+.active{
+    font-size: 40px;
+}
+body{
+    align-self: center;
+}

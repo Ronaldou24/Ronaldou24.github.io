@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Ronaldo Web</title>
+    <style type="text/css"> 
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        h1 {
+            text-align: center;
+            color: red;
+            width: 100%;
+        }
+
+        .redes-sociales {
+            width: 30%;
+            margin-left: auto;
+        }
+
+        .redes-sociales h2 {
+            margin-top: 0;
+        }
+
+        .redes-sociales button {
+            display: block;
+            margin-bottom: 5px;
+            color: #FFF;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .redes-sociales button.instagram {
+            background-color: #E1306C;
+        }
+
+        .redes-sociales button.youtube {
+            background-color: #FF0000;
+        }
+
+        .redes-sociales button.spotify {
+            background-color: #1DB954;
+        }
+
+        .redes-sociales img {
+            width: 50px;
+            height: 50px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .formulario {
+            width: 60%;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            max-width: 100%;
+            padding: 5px;
+            margin-bottom: 10px;
+        }
+
+        input[type="submit"],
+        input[type="reset"] {
+            background-color: purple;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Papu Pagina</h1>
+    <h1>Web Ronaldo</h1>
+
+    <div class="redes-sociales"> 
+        <h2>Redes Sociales:</h2>
+        <button class="instagram" onclick="window.open('https://www.instagram.com/ronaldou_/')">Instagram</button> <img src="insta.jpg">
+        <button class="youtube" onclick="window.open('https://www.youtube.com/channel/UCNI-87tIdmyMYacMtGbodHw')">Canal de Yutu</button> <img src="yutu.jpg">
+        <button class="spotify" onclick="window.open('https://open.spotify.com/user/ylq7d63y89clgle7hdgtba50f?si=2e76ba6c5a024986')">Cuenta de Spotify</button><img src="spoti.jpg">
+    </div>
+
+    <div class="formulario">
+        <h2>Datos del Papu Master</h2> 
+        <form action="conexion.php" method="post">
+            <label for="nomusu">Nombre del Papu:</label>
+            <input type="text" name="nomusu" id="nomusu">
+            <br>
+            <label for="pasusu">Contraseña:</label>
+            <input type="password" name="pasusu" id="pasusu">
+            <br>
+            <label for="codusu">Codigo:</label>
+            <input type="text" name="codusu" id="codusu">
+            <br>
+            <p>
+                <input type="submit" value="Guardar Papu datos">
+                <input type="reset" value="Borrar">
+            </p>
+        </form>
+    </div>
+    
+</body>
+</html>

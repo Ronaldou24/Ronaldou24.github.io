@@ -1,0 +1,113 @@
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+body{
+    font-family: sans-serif;
+    text-align: center;
+    background-color: darkgreen;
+
+
+}
+.container{
+
+    width: 1000px;
+    margin: 15px;
+    text-align: left;
+    border: 7px solid black;
+}
+#encabezado{
+    font-size: 40px;
+    border: 7px solid black;
+    padding: 20px;
+    background-color: rgb(34, 61, 24);
+}
+h2{
+    font-weight: solid;
+    font-size: 30px;
+}
+
+h2{
+    font-weight: solid;
+    font-size: 20px;
+}
+
+#menu{
+    background-color: rgb(54, 105, 34);
+    border: 7px solid black;    
+}
+
+    #menu li{
+        display: inline-block;
+        list-style: none;
+        margin: 5px;
+        width: 120px;
+        padding: 15px;
+        font-weight: bold;
+        font-size: 30px;
+    }
+    #menu li :hover{
+        background-color: rgb(37, 101, 19);
+        cursor: pointer;
+        border-radius: 2px;
+    }
+    #menu li a{
+        list-style: none;
+        color: rgba(0, 237, 59, 0.248);
+    }
+
+#principal{
+    float: left;
+    width: 650px;
+    margin: 20px;
+    border: 10px;
+    
+}
+#comulna_principal{
+    float: left;
+    width: 200px;
+    height: 20px;
+}
+#pie_pagina{
+    clear: both;
+    text-align: center;
+    padding: 29px;
+    border-top: 10px solid rgb(0, 0, 0);
+    color: blue;
+    background-color: rgb(53, 99, 7);
+}
+article{
+    background-color: rgb(52, 103, 16);
+    border: 5px solid black;
+    padding: 20px;
+    margin-bottom: 15px;
+    border-radius: 20px;
+}
+article footer{
+    text-align: right;
+}
+article img{
+    max-width: 300px;
+    max-height: 300px;
+    margin-left: 10px;
+}
+#home{
+    width: 100px;
+    padding:  20px;
+ background-color: rgb(15, 49, 12);
+ color: black;
+ border-radius: 30px;
+ text-decoration: none;
+ cursor: pointer;
+}
+#home :hover{
+    background: rgb(255, 255, 255);
+}
+#tabla img{
+    width: 273px;
+    height: 200px;
+    margin-left: 10px;
+}

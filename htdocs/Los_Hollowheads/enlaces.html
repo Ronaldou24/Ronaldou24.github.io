@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Enlaces oficiales y recursos de Los Hollowheads." />
+<title>Enlaces - Los Hollowheads</title>
+
+<!-- Fuentes -->
+<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto&display=swap" rel="stylesheet" />
+
+<!-- Font Awesome para íconos -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+<style>
+  /* Reset básico */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #f9f6f0;
+    color: #181818;
+    min-height: 100vh;
+  }
+
+  /* Navbar */
+  nav.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255 255 255 / 0.95);
+    padding: 16px 24px;
+    box-shadow: 0 4px 20px rgba(193,179,124,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Fredericka the Great', cursive;
+    border-radius: 0 0 12px 12px;
+  }
+  nav.navbar .LetrasNav a {
+    text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #8E8A5C;
+    letter-spacing: 3px;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  nav.navbar .LetrasNav a:hover {
+    color: #C1B37C;
+  }
+  nav.navbar ul.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  nav.navbar ul.navbar-menu li a {
+    text-decoration: none;
+    color: #181818;
+    font-weight: 600;
+    font-size: 1.05rem;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+  }
+  nav.navbar ul.navbar-menu li a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #C1B37C;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  nav.navbar ul.navbar-menu li a:hover,
+  nav.navbar ul.navbar-menu li a:focus {
+    color: #8E8A5C;
+  }
+  nav.navbar ul.navbar-menu li a:hover::after,
+  nav.navbar ul.navbar-menu li a:focus::after {
+    width: 100%;
+  }
+
+  /* Encabezado con fondo */
+  section.header-enlaces {
+    background: url('images/hollowheads-bg7.jpg') center center/cover no-repeat;
+    padding: 80px 24px 60px;
+    text-align: center;
+    color: #8E8A5C;
+    text-shadow: 0 0 10px #181818cc;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  section.header-enlaces h1 {
+    font-size: 3.8rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }
+  section.header-enlaces p {
+    font-size: 1.3rem;
+    margin-top: 12px;
+  }
+
+  /* Contenedor principal */
+  section.container {
+    max-width: 700px;
+    background: #fff;
+    margin: 40px auto 60px;
+    padding: 36px 32px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgb(193 179 124 / 0.2);
+  }
+
+  /* Lista de enlaces con íconos */
+  ul.enlaces-lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  ul.enlaces-lista li {
+    margin-bottom: 20px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  ul.enlaces-lista li a {
+    color: #8E8A5C;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    transition: color 0.3s ease;
+  }
+  ul.enlaces-lista li a:hover,
+  ul.enlaces-lista li a:focus {
+    color: #C1B37C;
+  }
+
+  /* Íconos */
+  ul.enlaces-lista li a .icon {
+    font-size: 1.6rem;
+    min-width: 28px;
+    text-align: center;
+  }
+
+  /* Íconos específicos para cada link */
+  a[href*="spotify.com"] .icon::before {
+    content: "\f1bc"; /* FontAwesome Spotify */
+    font-family: "Font Awesome 6 Brands";
+  }
+  a[href*="instagram.com"] .icon::before {
+    content: "\f16d"; /* FontAwesome Instagram */
+    font-family: "Font Awesome 6 Brands";
+  }
+  a[href*="youtube.com"] .icon::before {
+    content: "\f167"; /* FontAwesome YouTube */
+    font-family: "Font Awesome 6 Brands";
+  }
+  a[href*="linktr.ee"] .icon::before {
+    content: "\f08e"; /* FontAwesome Link */
+    font-family: "Font Awesome 6 Free";
+    font-weight: 900;
+  }
+
+  /* Footer */
+  footer.container.footer-con-imagen {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    color: #8E8A5C;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  footer.container.footer-con-imagen img {
+    margin-top: 12px;
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgb(193 179 124 / 0.3);
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    section.header-enlaces h1 {
+      font-size: 2.8rem;
+    }
+    section.container {
+      margin: 24px 12px;
+      padding: 28px 20px;
+    }
+    nav.navbar ul.navbar-menu {
+      gap: 16px;
+      font-size: 0.95rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar container">
+  <h1 class="LetrasNav"><a href="index.html">Los Hollowheads</a></h1>
+  <ul class="navbar-menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contenido.html">Música</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="formulario.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="header-enlaces">
+  <h1>Enlaces Oficiales</h1>
+  <p>Sigue a Los Hollowheads en sus plataformas digitales.</p>
+</section>
+
+<section class="container">
+  <ul class="enlaces-lista">
+    <li><a href="https://open.spotify.com/artist/0VpFDgD4gO55y4IvkJZCVS" target="_blank" rel="noopener noreferrer"><span class="icon"></span>Spotify Oficial</a></li>
+    <li><a href="https://www.instagram.com/los_hollowheads/" target="_blank" rel="noopener noreferrer"><span class="icon"></span>Instagram</a></li>
+    <li><a href="https://www.youtube.com/channel/UClsPE_Z0yflHCbrrIr45btA" target="_blank" rel="noopener noreferrer"><span class="icon"></span>Canal de YouTube</a></li>
+  </ul>
+</section>
+
+<footer class="container footer-con-imagen">
+  &copy; 2025 Los Hollowheads. Todos los derechos reservados.
+  <br />
+  <img src="arte/angel_alberca.jpg" alt="Angel" />
+</footer>
+
+</body>
+</html>

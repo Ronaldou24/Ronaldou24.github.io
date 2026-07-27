@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetos js</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+
+<header class="main-head text-center">
+    <div class="container">
+        <h1 class="texto-main">Registro de Corredores en un maraton</h1>
+        <br>
+        <h2 class="texto-dos">Ronaldo Gael Solano Gutierez</h2>
+    </div>
+</header>
+
+
+<main>
+    <div class="container">
+        <br>
+        <br>
+        <div class="row justify-content-center">
+            <div class="col-md-5">
+                <div class="card">
+                    <h1 class="text-center">Ingrese el corredor</h1>
+                    <div class="card-header text-center">Insertar</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="nombre" placeholder="Ingresa el nombre del corredor"/>
+                            <label for="tiempo" class="form-label">Tiempo (Minutos)</label>
+                            <input type="numero" class="form-control" id="tiempo" placeholder="Ingresa el timepo logrado"/>
+                            <label for="numero" class="form-label">Numero</label>
+                            <input type="number" class="form-control" id="numero" placeholder="Ingresa el numero del corredor"/>
+
+                        </div>
+                        <h4 class="card-title text-center">Opciones</h4>
+                    </div>
+                    <div class="card-footer text-muted text-center">
+                        <button onclick="agregarElemento()" type="button" class="btnn btn-agregar">Agregar</button>
+                        <button onclick="mostrarElementos()" type="button" class="btnn btn-mostrar">Mostrar</button>
+                        <button onclick="eliminaUnElemento()" type="button" class="btnn btn-eliminar">Eliminar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card text-center">
+                    <h3>Tabla de Datos Generales</h3>
+                    <div id="tablaCorredores" class="card-body"></div>
+                </div>
+                <br>
+                <br>
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <h4 class="divs">Conteo:</h4>
+                            <div id="numero_corredores" class="card-body"></div>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <h4 class="divs">Minimo:</h4>
+                            <div id="minimo_corredores" class="card-body"></div>
+                        </div>
+                    </div>
+                
+                    <div class="col-md-4">
+                        <div class="card text-center">
+                            <h4 class="divs">Promedio:</h4>
+                            <div id="promedio_corredores" class="card-body"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script>
+
+    let corredores = [];
+
+
+    function agregarElemento() {
+        const nombre = document.getElementById('nombre').value;
+        const tiempo = document.getElementById('tiempo').value;
+        const numero = document.getElementById('numero').value;
+
+
+
+
+        const corredor = {
+            nombre: nombre,
+            tiempo: tiempo,
+            numero: numero
+        };
+
+
+        corredores.push(corredor);
+
+        document.getElementById('nombre').value = '';
+        document.getElementById('tiempo').value = '';
+        document.getElementById('numero').value = '';
+
+    }
+    function cantCorredores() {
+    document.getElementById('numero_corredores').innerText = corredores.length;
+}
+
+function sacarMinimo() {
+    if (corredores.length == 0) {
+        document.getElementById('minimo_corredores').innerText = 'No hay corredores registrados';
+        return;
+    }
+    let minTiempo = corredores[0].tiempo;
+    for (let i = 1; i < corredores.length; i++) {
+        if (corredores[i].tiempo < minTiempo) {
+            minTiempo = corredores[i].tiempo;
+        }
+    }
+    document.getElementById('minimo_corredores').innerText = minTiempo + ' minutos';
+}
+
+function sacarPromedio() {
+    if (corredores.length == 0) {
+        document.getElementById("promedio_corredores").innerText = "No hay corredores registrados";
+        return;
+    }
+    let sumTiempo = 0;
+    for (let i = 0; i < corredores.length; i++) {
+        sumTiempo += parseInt(corredores[i].tiempo);
+    }
+    const promedio = sumTiempo / corredores.length;
+    document.getElementById("promedio_corredores").innerText = promedio.toFixed(2) + ' minutos';
+}
+
+
+    function mostrarElementos() {
+        const tablaCorredores = document.getElementById('tablaCorredores');
+        
+
+        tablaCorredores.innerHTML = '';
+
+        const table = document.createElement('table');
+        table.classList.add('table');
+        const thead = document.createElement('thead');
+        thead.innerHTML = `
+            <tr>
+                <th scope="col">Nombre</th>
+                <th scope="col">Tiempo</th>
+                <th scope="col">Numero</th>
+                
+            </tr>
+        `;
+        table.appendChild(thead);
+
+      
+        const tbody = document.createElement('tbody');
+        corredores.forEach(corredor => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+  
+                <td>${corredor.nombre}</td>
+                <td>${corredor.tiempo}</td>
+                <td>${corredor.numero}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+   
+        table.appendChild(tbody);
+
+
+        tablaCorredores.appendChild(table);
+        cantCorredores();
+        sacarMinimo();
+        sacarPromedio();
+        
+    }
+
+
+    function eliminaUnElemento() {
+        const indice = prompt("Ingrese el índice del elemento a eliminar (0-19):");
+        if (indice >= 0 && indice < corredores.length) {
+            corredores.splice(indice, 1);
+            mostrarElementos();
+        } else {
+            alert("Índice inválido");
+        }
+    }
+</script>
+
+</body>
+</html>

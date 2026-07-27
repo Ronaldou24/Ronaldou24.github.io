@@ -1,0 +1,62 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #121212;
+}
+.texto-main{
+    color: #ffffff;
+            margin: 0;
+            text-align: center;
+            font-size: 60px;
+}
+.texto-dos{
+    color: #ffffff;
+    margin: 0;
+    text-align: center;
+    font-size: 20px;
+}
+.main-head{
+    background-color: #a2ab26;
+    padding: 15px 0;
+    text-align: center;
+}
+.container{
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+}
+.ejemplo{
+    color: #000000;
+    margin: 0;
+    text-align: center;
+     margin: 0 auto;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+
+}
+.btn{
+display: block;
+text-align: center;
+text-decoration: none;
+font-family: Verdana, Geneva, Tahoma, sans-serif;
+font-size: 20px;
+width: 120px;
+background: #d3da1d;
+color: rgb(0, 0, 0);
+padding: 10px;
+margin: 20px auto;
+border-radius: 5px;
+cursor: pointer;
+}
+.texto-tres{
+    color: #000000;
+    margin: 0;
+    text-align: center;
+    font-size: 30px;
+}
+p{
+    font-family: Arial, sans-serif;
+    font-size: 50px;
+}

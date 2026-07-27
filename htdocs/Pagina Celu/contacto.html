@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Contacto - HospiCELL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .contact-container {
+            background: #fff;
+            padding: 30px 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.15);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #202020;
+            margin-bottom: 20px;
+        }
+        p {
+            font-size: 1.1rem;
+            color: #333;
+            margin: 10px 0;
+        }
+        .phone {
+            font-weight: bold;
+            color: #328711;
+            font-size: 1.2rem;
+        }
+        .btn-regresar {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 25px;
+            background-color: #127f15;
+            color: #202020;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+        .btn-regresar:hover {
+            background-color: #0e8737;
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <h1>Contacto</h1>
+        <p><strong>HospiCELL - Hospital del Celular</strong></p>
+        <p>Ubicación: Puerto Vallarta, Jalisco</p>
+        <p>Teléfono: <span class="phone">312-124-7431</span></p>
+
+        <button class="btn-regresar" onclick="window.location.href='celu.html';">
+            Regresar al Lobby
+        </button>
+    </div>
+</body>
+</html>

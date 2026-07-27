@@ -1,0 +1,62 @@
+
+.navbar {
+    background-color: #276CDB;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #343a40;
+    font-weight: bold;
+    margin-right: 20px;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #007bff;
+}
+
+.navbar-nav .nav-item .nav-link.active {
+    color: #007bff;
+}
+.nav-link{
+font-size: 30px;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.navbar .nav-item img {
+    height: 70px;
+}
+.navbar {
+    background-color: #276CDB; /* Azul */
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar-nav .nav-item .nav-link {
+    color: #0a2192; /* Rosa */
+    font-weight: bold;
+    margin-right: 20px;
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.navbar-nav .nav-item .nav-link:hover {
+    color: #FFD700; /* Amarillo */
+}
+
+.navbar-nav .nav-item .nav-link.active {
+    color: #FFD700; /* Amarillo */
+}
+
+.navbar .nav-item img {
+    height: 10%; /* Ajusta el tamaño de la imagen según sea necesario */
+}
+.logopunta{
+    
+    margin-left: 20px;
+    padding: 0%;
+}   
+

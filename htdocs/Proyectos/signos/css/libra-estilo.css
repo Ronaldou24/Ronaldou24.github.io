@@ -1,0 +1,24 @@
+/* Estilo para el contenedor que contiene la imagen y el texto */
+.contenedor {
+    display: flex; /* Utilizamos flexbox para alinear los elementos */
+    align-items: center; /* Alineamos verticalmente los elementos */
+}
+
+/* Estilo para la imagen */
+.contenedor img {
+    margin-right: 20px; /* Espacio entre la imagen y el texto */
+}
+
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-image: url(../images/back-libra.jpeg);
+    color: rgb(249, 249, 244);
+}
+table{
+    background-color: rgb(118, 48, 136);
+
+}
+
+a{
+    color: rgb(79, 68, 237);
+}

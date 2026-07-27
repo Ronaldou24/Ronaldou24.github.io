@@ -1,0 +1,5 @@
+AMX01,Aeromexico,Paris,10:00
+VOI02,Volaris,Cancun,10:10
+IBE03,Iberia,Madrid,10:05
+AMX04,Aeromexico,NY,10:15
+VOI05,Volaris,Tijuana,10:20

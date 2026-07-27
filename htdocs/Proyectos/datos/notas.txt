@@ -1,0 +1,16 @@
+Tipos de Datos
+Matices simples y mulgidimesionales
+
+
+Sintaxis basica arreglos unidimensionales
+array (1,2,3,4,5)
+aeeay ('lolo', 'juanpa', 'ian')
+
+Sintaxis Diccionario de datos en donde el primer elemento
+indica el indice y el segundo el valor
+
+
+array (1=>'ana', 2=>'omar´)
+
+array("MAT" => "Calculo Integral", "WEB" => "Desarrollo web")
+

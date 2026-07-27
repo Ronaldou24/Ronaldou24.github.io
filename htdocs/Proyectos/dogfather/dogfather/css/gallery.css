@@ -1,0 +1,30 @@
+.gallery__img {
+    object-fit: cover;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.gallery__img:hover {
+    transform: scale(1.03);
+}
+
+.gallery__img-big {
+    height: 400px;
+}
+
+.gallery__img-small {
+    height: 200px;
+}
+.column--50-25 {
+    width: 24%;
+}
+.container {
+    width: 100%;
+    margin: auto;
+}
+.container--flex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+}

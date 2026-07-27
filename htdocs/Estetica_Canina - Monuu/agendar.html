@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Agendar Servicio - Estética Canina</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        <h1>Agendar Servicio</h1>
+        <a href="index.html" class="volver">← Volver al menú</a>
+    </header>
+    <main>
+        <section class="form-section">
+            <h2>¡Reserva una cita para tu mascota!</h2>
+            <form>
+                <label for="folio">Folio del Cliente</label>
+                <input type="text" id="folio" name="folio" placeholder="Ej. 4231" required />
+
+                <label for="mascota">Nombre de la Mascota</label>
+                <input type="text" id="mascota" name="mascota" placeholder="Ej. Rocky" required />
+
+                <label for="fecha">Fecha</label>
+                <input type="date" id="fecha" name="fecha" required />
+
+                <label for="hora">Hora</label>
+                <input type="time" id="hora" name="hora" required />
+
+                <label for="servicio">Servicio</label>
+                <select id="servicio" name="servicio" required>
+                    <option value="">Selecciona...</option>
+                    <option value="corte">Corte de Pelo</option>
+                    <option value="bano">Baño</option>
+                    <option value="corte_bano">Corte y Baño</option>
+                </select>
+
+                <label for="tamano">Tamaño</label>
+                <select id="tamano" name="tamano" required>
+                    <option value="">Selecciona...</option>
+                    <option value="S">Pequeño</option>
+                    <option value="M">Mediano</option>
+                    <option value="L">Grande</option>
+                </select>
+
+                <label for="costo">Costo</label>
+                <input type="number" id="costo" name="costo" required />
+                
+                <label for="estado">Estado</label>
+                 <select id="estado" name="estado" required>
+                    <option value="">Selecciona...</option>
+                    <option value="confirmado">Confirmado</option>
+                    <option value="pendiente">Pendiente</option>
+   
+                </select>
+
+                <button type="submit">Agendar</button>
+            </form>
+        </section>
+    </main>
+</body>
+</html>

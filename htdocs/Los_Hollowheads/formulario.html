@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Formulario de contacto para Los Hollowheads." />
+<title>Contacto - Los Hollowheads</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto&display=swap" rel="stylesheet" />
+<style>
+  /* Reset básico */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #f9f6f0;
+    color: #181818;
+    min-height: 100vh;
+  }
+
+  /* Navbar */
+  nav.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255 255 255 / 0.95);
+    padding: 16px 24px;
+    box-shadow: 0 4px 20px rgba(193,179,124,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Fredericka the Great', cursive;
+    border-radius: 0 0 12px 12px;
+  }
+  nav.navbar .LetrasNav a {
+    text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #888242;
+    letter-spacing: 3px;
+    user-select: none;
+  }
+  nav.navbar .LetrasNav a:hover {
+    color: #C1B37C;
+  }
+  nav.navbar ul.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  nav.navbar ul.navbar-menu li a {
+    text-decoration: none;
+    color: #181818;
+    font-weight: 600;
+    font-size: 1.05rem;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+  }
+  nav.navbar ul.navbar-menu li a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #C1B37C;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  nav.navbar ul.navbar-menu li a:hover,
+  nav.navbar ul.navbar-menu li a:focus {
+    color: #8E8A5C;
+  }
+  nav.navbar ul.navbar-menu li a:hover::after,
+  nav.navbar ul.navbar-menu li a:focus::after {
+    width: 100%;
+  }
+
+  /* Encabezado con fondo */
+  section.header-contacto {
+    background: url('images/hollowheads-bg5.jpg') center center/cover no-repeat;
+    padding: 80px 24px 60px;
+    text-align: center;
+    color: #a18a40;
+    text-shadow: 0 0 10px #181818cc;
+  }
+  section.header-contacto h1 {
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 3.8rem;
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }
+  section.header-contacto p {
+    font-size: 1.3rem;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  /* Contenedor principal */
+  section.container {
+    max-width: 700px;
+    background: #fff;
+    margin: 40px auto;
+    padding: 36px 32px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgb(193 179 124 / 0.2);
+  }
+
+  /* Formulario */
+  form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #8E8A5C;
+    font-size: 1.1rem;
+  }
+  form input[type="text"],
+  form input[type="email"],
+  form textarea {
+    width: 100%;
+    padding: 14px 16px;
+    margin-bottom: 24px;
+    border: 2px solid #C1B37C;
+    border-radius: 14px;
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.3s ease;
+    resize: vertical;
+  }
+  form input[type="text"]:focus,
+  form input[type="email"]:focus,
+  form textarea:focus {
+    border-color: #8E8A5C;
+    outline: none;
+  }
+  form button[type="submit"] {
+    background: linear-gradient(135deg, #C1B37C, #8E8A5C);
+    color: #181818;
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 1.3rem;
+    font-weight: 700;
+    padding: 16px 36px;
+    border: none;
+    border-radius: 40px;
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgb(193 179 124 / 0.4);
+    transition: background 0.4s ease, transform 0.3s ease;
+    user-select: none;
+  }
+  form button[type="submit"]:hover,
+  form button[type="submit"]:focus {
+    background: linear-gradient(135deg, #8E8A5C, #C1B37C);
+    transform: scale(1.05);
+    outline: none;
+  }
+
+  
+  section.enlaces-adicionales {
+    max-width: 700px;
+    margin: 0 auto 60px;
+    padding: 0 24px;
+    text-align: center;
+  }
+  section.enlaces-adicionales p {
+    margin: 12px 0;
+  }
+  section.enlaces-adicionales a {
+    font-family: 'Fredericka the Great', cursive;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #8E8A5C;
+    text-decoration: none;
+    border-bottom: 2px solid transparent;
+    transition: border-color 0.3s ease, color 0.3s ease;
+  }
+  section.enlaces-adicionales a:hover,
+  section.enlaces-adicionales a:focus {
+    color: #C1B37C;
+    border-color: #C1B37C;
+  }
+
+
+  footer.container.footer-con-imagen {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    color: #8E8A5C;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  footer.container.footer-con-imagen img {
+    margin-top: 12px;
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgb(193 179 124 / 0.3);
+  }
+
+  @media (max-width: 700px) {
+    section.header-contacto h1 {
+      font-size: 2.8rem;
+    }
+    section.container,
+    section.enlaces-adicionales {
+      margin: 24px 12px;
+      padding: 28px 20px;
+    }
+    nav.navbar {
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+    }
+    nav.navbar ul.navbar-menu {
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar container">
+  <h1 class="LetrasNav"><a href="index.html">Los Hollowheads</a></h1>
+  <ul class="navbar-menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contenido.html">Música</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="formulario.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="header-contacto">
+  <h1>Contacto</h1>
+  <p>¿Quieres escribirnos? Llena el formulario y te responderemos pronto.</p>
+</section>
+
+<section class="container">
+  <form action="#" method="post" novalidate>
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre completo" />
+
+    <label for="email">Correo electrónico:</label>
+    <input type="email" id="email" name="email" required placeholder="ejemplo@correo.com" />
+
+    <label for="mensaje">Mensaje:</label>
+    <textarea id="mensaje" name="mensaje" rows="5" required placeholder="Escribe tu mensaje aquí..."></textarea>
+
+    <button type="submit">Enviar</button>
+  </form>
+</section>
+
+<section class="enlaces-adicionales">
+  <p><a href="faq.html">Preguntas comunes</a></p>
+  <p><a href="eventos.html">Ver eventos próximos</a></p>
+  <p><a href="enlaces.html">Enlaces oficiales</a></p>
+</section>
+
+<footer class="container footer-con-imagen">
+  &copy; 2025 Los Hollowheads. Todos los derechos reservados.
+  <br />
+  <img src="arte/angel_alberca.jpg" alt="Angel" />
+</footer>
+
+</body>
+</html>

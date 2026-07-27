@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetos js</title>
+    <link rel="stylesheet" href="estilo.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+
+<header class="main-head">
+    <div class="container">
+        <h1 class="texto-main">Ficha de Actividades con Objetos</h1>
+        <br>
+        <h2 class="texto-dos">Ronaldo Gael Solano Gutierez</h2>
+    </div>
+</header>
+
+
+<main>
+    <div class="container">
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-5">
+                <div class="card">
+                    <h1>Ingresa actividad</h1>
+                    <div class="card-header">Insertar</div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label for="hora" class="form-label">Hora</label>
+                            <input type="time" class="form-control" id="hora" placeholder="Ingresa hora del trabajo"/>
+                            <label for="act" class="form-label">Actividad</label>
+                            <input type="text" class="form-control" id="act" placeholder="Ingresa nombre de actividad"/>
+                            <label for="estado" class="form-label">Estado</label>
+                            <input type="text" class="form-control" id="estado" placeholder="Entregada sí o no"/>
+                            <small id="helpId" class="form-text text-muted">Ingresa un momento master</small>
+                        </div>
+                        <h4 class="card-title">Opciones</h4>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <button onclick="agregarElemento()" type="button" class="btnn btn-agregar">Agregar</button>
+                        <button onclick="mostrarElementos()" type="button" class="btnn btn-mostrar">Mostrar</button>
+                        <button onclick="eliminaUnElemento()" type="button" class="btnn btn-eliminar">Eliminar</button>
+                        <button onclick="editaUnElemento()" type="button" class="btnn btn-editarr">Editar</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div id="tablaActividades" class="card-body"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+
+<script>
+
+    let actividades = [];
+
+    function agregarElemento() {
+        const hora = document.getElementById('hora').value;
+        const act = document.getElementById('act').value;
+        const estado = document.getElementById('estado').value;
+
+
+        const actividad = {
+            hora: hora,
+            act: act,
+            estado: estado
+        };
+
+
+        actividades.push(actividad);
+
+        document.getElementById('hora').value = '';
+        document.getElementById('act').value = '';
+        document.getElementById('estado').value = '';
+    }
+
+
+    function mostrarElementos() {
+        const tablaActividades = document.getElementById('tablaActividades');
+        
+
+        tablaActividades.innerHTML = '';
+
+        const table = document.createElement('table');
+        table.classList.add('table');
+        const thead = document.createElement('thead');
+        thead.innerHTML = `
+            <tr>
+                <th scope="col">Hora</th>
+                <th scope="col">Actividad</th>
+                <th scope="col">Estado</th>
+            </tr>
+        `;
+        table.appendChild(thead);
+
+      
+        const tbody = document.createElement('tbody');
+        actividades.forEach(actividad => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${actividad.hora}</td>
+                <td>${actividad.act}</td>
+                <td>${actividad.estado}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+   
+        table.appendChild(tbody);
+
+
+        tablaActividades.appendChild(table);
+    }
+
+
+    function eliminaUnElemento() {
+        const indice = prompt("Ingrese el índice del elemento a eliminar (0-19):");
+        if (indice >= 0 && indice < actividades.length) {
+            actividades.splice(indice, 1);
+            mostrarElementos();
+        } else {
+            alert("Índice inválido");
+        }
+    }
+
+    function editaUnElemento() {
+    let indice = prompt("Ingrese el índice del elemento a editar (0-" + (actividades.length - 1) + "):");
+    indice = parseInt(indice)
+
+    if (isNaN(indice) || indice < 0 || indice >= actividades.length) {
+        alert("Índice inválido");
+        return; 
+    }
+
+    let new_trabajo = prompt("Ingrese el nuevo nombre de trabajo");
+    let new_estado = prompt("Ingrese el nuevo estado");
+
+
+    actividades[indice].act = new_trabajo;
+    actividades[indice].estado = new_estado;
+
+    mostrarElementos();
+}
+
+    
+</script>
+
+</body>
+</html>

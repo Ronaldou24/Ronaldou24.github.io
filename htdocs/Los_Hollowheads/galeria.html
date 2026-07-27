@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Galería oficial de imágenes de Los Hollowheads." />
+<title>Galería - Los Hollowheads</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto&display=swap" rel="stylesheet" />
+<style>
+  /* Reset básico */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: url('images/hollowheads-bg6.jpg') center center/cover no-repeat fixed;
+    color: #181818;
+    min-height: 100vh;
+    line-height: 1.5;
+  }
+
+  /* Navbar */
+  nav.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255 255 255 / 0.9);
+    padding: 16px 24px;
+    box-shadow: 0 4px 20px rgba(193,179,124,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-radius: 0 0 12px 12px;
+  }
+  nav.navbar a.navbar-logo img {
+    height: 48px;
+    transition: transform 0.3s ease;
+  }
+  nav.navbar a.navbar-logo img:hover {
+    transform: scale(1.1);
+  }
+  nav.navbar ul.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  nav.navbar ul.navbar-menu li a {
+    text-decoration: none;
+    color: #181818;
+    font-weight: 600;
+    font-family: 'Fredericka the Great', cursive;
+    font-size: 1.05rem;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+  }
+  nav.navbar ul.navbar-menu li a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #C1B37C;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  nav.navbar ul.navbar-menu li a:hover,
+  nav.navbar ul.navbar-menu li a:focus {
+    color: #8E8A5C;
+  }
+  nav.navbar ul.navbar-menu li a:hover::after,
+  nav.navbar ul.navbar-menu li a:focus::after {
+    width: 100%;
+  }
+
+  /* Contenedores */
+  .container {
+    background: rgba(255 255 255 / 0.85);
+    max-width: 960px;
+    margin: 30px auto;
+    padding: 28px 32px;
+    border-radius: 16px;
+    box-shadow: 0 0 25px #C1B37C44;
+  }
+
+  /* Títulos */
+  h1, h2 {
+    font-family: 'Fredericka the Great', cursive;
+    color: #8E8A5C;
+    margin-top: 0;
+    letter-spacing: 2px;
+  }
+  h1 {
+
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  h2 {
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+
+  /* Párrafos */
+  p {
+    font-size: 1.1rem;
+    margin-bottom: 18px;
+  }
+
+  /* Galería */
+  .gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+    gap: 48px 64px;
+  }
+  .gallery img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    border-radius: 18px;
+    box-shadow: 0 4px 24px #C1B37C44;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: pointer;
+  }
+  .gallery img:hover {
+    transform: scale(1.06) rotate(-2deg);
+    box-shadow: 0 8px 32px #8E8A5C99;
+  }
+
+  /* Footer */
+  footer.container {
+    text-align: center;
+    font-size: 0.95rem;
+    margin: 40px auto 20px;
+    padding-top: 20px;
+    border-top: 2px solid #C1B37C;
+    color: #8E8A5C;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  footer.container a {
+    color: #8E8A5C;
+    text-decoration: none;
+    margin: 0 12px;
+    font-weight: 700;
+    transition: color 0.3s ease;
+  }
+  footer.container a:hover,
+  footer.container a:focus {
+    color: #C1B37C;
+    text-decoration: underline;
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .gallery {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+    nav.navbar ul.navbar-menu {
+      gap: 16px;
+      font-size: 0.95rem;
+    }
+    .container {
+      margin: 20px 12px;
+      padding: 20px 20px;
+    }
+    h1 {
+      font-size: 2.8rem;
+    }
+    h2 {
+      font-size: 1.8rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar container">
+
+  <h1 class="LetrasNav"> <a href="index.html">Los Hollowheads </a></h1>
+  <ul class="navbar-menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contenido.html">Música</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="formulario.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="container">
+  <h1>Galería Oficial</h1>
+  <p>Momentos, conciertos y sesiones de Los Hollowheads.</p>
+</section>
+
+<section class="container gallery">
+  <img src="arte/galeria.jpg" alt="Los Hollowheads en concierto" />
+  <img src="arte/galeria2.jpg" alt="Sesión de estudio" />
+  <img src="arte/galeria3.jpg" alt="Presentación en festival" />
+  <img src="arte/galeria4.jpg" alt="Foto promocional" />
+  <img src="arte/galeria5.PNG" alt="Ensayo de la banda" />
+  <img src="arte/galeria6.PNG" alt="Fans y autógrafos" />
+  <img src="arte/galeria7.PNG" alt="Concierto épico" />
+  <img src="arte/galeria8.PNG" alt="Arte 1" />
+  <img src="arte/galeria9.PNG" alt="Arte 2" />
+
+</section>
+
+<footer class="container footer-con-imagen" style="text-align:center; font-size:0.9rem; margin-top: 40px;">
+    &copy; 2025 Los Hollowheads. Todos los derechos reservados.
+    <img src="arte/angel_alberca.jpg" alt="Angel" />
+</footer>
+
+</body>
+</html>

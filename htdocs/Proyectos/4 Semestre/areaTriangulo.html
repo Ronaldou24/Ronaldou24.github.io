@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function area(){
+            var base = document.getElementById('base').value;
+            var altura = document.getElementById('altura').value;
+            var area = (base * altura) / 2;
+
+            document.getElementById('resultado').innerHTML = "El area es " + area;
+        }
+    </script>
+    <title>Area de un trinagulo</title>
+</head>
+<body>
+<label for="base">Pon la base</label>
+<input type="text" id="base" name="base">
+<br>
+<label for="altura">Pon la altura</label>
+<input type="text" id="altura" name="altura">
+<button onclick="area()">Calcular Area</button>
+<br>
+<p id="resultado"></p>
+</body>
+</html>

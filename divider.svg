@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 28" width="100%" height="28">
+  <defs>
+    <pattern id="pixelRow" width="112" height="28" patternUnits="userSpaceOnUse">
+      <rect x="0"  width="28" height="28" fill="#FF004D"/>
+      <rect x="28" width="28" height="28" fill="#FFEC27"/>
+      <rect x="56" width="28" height="28" fill="#29ADFF"/>
+      <rect x="84" width="28" height="28" fill="#00E436"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="28" fill="url(#pixelRow)" stroke="#1D2B53" stroke-width="0"/>
+  <g stroke="#1D2B53" stroke-width="2">
+    <line x1="0" y1="1" x2="1200" y2="1"/>
+    <line x1="0" y1="27" x2="1200" y2="27"/>
+  </g>
+</svg>

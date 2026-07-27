@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Cita</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #f5f5f5;
+        }
+        .container { 
+            max-width: 600px; 
+            margin: 0 auto; 
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 { 
+            text-align: center; 
+            color: #333; 
+            margin-bottom: 30px;
+        }
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+        }
+        button { 
+            background-color: #007bff; 
+            color: white; 
+            padding: 12px 25px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            margin-right: 10px;
+        }
+        button:hover { 
+            background-color: #0056b3; 
+        }
+        .btn-secondary { 
+            background-color: #6c757d; 
+        }
+        .btn-secondary:hover { 
+            background-color: #545b62; 
+        }
+        .form-section { 
+            background-color: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 5px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Editar Cita</h1>
+       
+        <div class="form-section">
+            <form action="{{ url_for('editar') }}" method="POST">
+                <input type="hidden" name="folio" value="{{ cita[0] }}">
+               
+                <div class="form-group">
+                    <label for="mascota">Nombre de la mascota:</label>
+                    <input type="text" id="mascota" name="mascota" value="{{ cita[1] }}" required>
+                </div>
+               
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" value="{{ cita[2] }}" required>
+                </div>
+               
+                <div class="form-group">
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" name="hora" value="{{ cita[3] }}" required>
+                </div>
+               
+                <div class="form-group">
+                    <label for="servicio">Servicio:</label>
+                    <select id="servicio" name="servicio" required onchange="calcularCosto()">
+                        <option value="Corte" {{ 'selected' if cita[4] == 'Corte' else '' }}>Corte</option>
+                        <option value="Baño" {{ 'selected' if cita[4] == 'Baño' else '' }}>Baño</option>
+                        <option value="Corte y Baño" {{ 'selected' if cita[4] == 'Corte y Baño' else '' }}>Corte y Baño</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="tamano">Tamaño:</label>
+                    <select id="tamano" name="tamano" required onchange="calcularCosto()">
+                        <option value="Chico" {{ 'selected' if cita[5] == 'Chico' else '' }}>Chico</option>
+                        <option value="Mediano" {{ 'selected' if cita[5] == 'Mediano' else '' }}>Mediano</option>
+                        <option value="Grande" {{ 'selected' if cita[5] == 'Grande' else '' }}>Grande</option>
+                    </select>
+                </div>
+               
+                <div class="form-group">
+                    <label for="costo">Costo:</label>
+                    <input type="number" id="costo" name="costo" step="0.01" value="{{ cita[6] }}" readonly>
+                </div>
+               
+                <button type="submit">Guardar Cambios</button>
+                <a href="{{ url_for('index') }}">
+                    <button type="button" class="btn-secondary">Cancelar</button>
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        function calcularCosto() {
+            const servicio = document.getElementById('servicio').value;
+            const tamaño = document.getElementById('tamano').value;
+            const costoInput = document.getElementById('costo');
+            
+            const precios = {
+                'Corte': { 'Chico': 80, 'Mediano': 100, 'Grande': 120 },
+                'Baño': { 'Chico': 60, 'Mediano': 80, 'Grande': 100 },
+                'Corte y Baño': { 'Chico': 120, 'Mediano': 150, 'Grande': 180 }
+            };
+            
+            if (servicio && tamaño && precios[servicio] && precios[servicio][tamaño]) {
+                costoInput.value = precios[servicio][tamaño];
+            }
+        }
+    </script>
+</body>
+</html>

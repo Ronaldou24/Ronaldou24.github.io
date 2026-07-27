@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso 1</title>
+</head>
+<body> 
+    <header align = "center">
+    <h1>Ingreasando datos a un arreglo</h1>
+    <input type="text" name="" id="nombre" placeholder="Ingresa el nombre">
+    <input type="button" value="Agregar" onclick="agregarElemento();"> 
+    <input type="button" value="Mostrar" onclick="mostrarElementos();">   
+    <input type="button" value="Eliminar" onclick="eliminaUnElemento();">   
+    <hr width="80%">
+    <div id = "resultado"></div>
+    </header>
+    <script>
+        window.onload  = function() {
+            window.datos = [];
+
+        }
+        function agregarElemento() {
+            let dato = document.getElementById('nombre').value;
+            datos.push(dato);
+            document.getElementById('nombre').value = "";
+        }
+        function mostrarElementos() {
+            let resultado = document.getElementById('resultado');
+            resultado.innerHTML = '';
+
+            for(const dato of datos) {
+                let datoParrafo = document.createElement('p');
+                datoParrafo.innerText = dato;
+
+                resultado.appendChild(datoParrafo);
+
+            }
+             }
+             function eliminaUnElemento() {
+                let num = prompt("Ingresa el numero del elemento a eliminar");
+                datos.splice(num , 1);
+                mostrarElementos();
+
+             }
+    </script>
+</body>
+</html>

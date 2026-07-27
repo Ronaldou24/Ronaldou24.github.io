@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mapa Conceptual – MODO</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;600&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #1A1A1A;
+    font-family: 'Inter', sans-serif;
+    color: #F5EFE6;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+
+  .page-title {
+    text-align: center;
+    margin-bottom: 10px;
+  }
+  .page-title h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.8rem;
+    color: #C9A84C;
+    letter-spacing: 2px;
+  }
+  .page-title p {
+    font-size: 1rem;
+    color: #8A8A8A;
+    margin-top: 6px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+  }
+
+  .map-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* CENTER NODE */
+  .center-node {
+    display: flex;
+    justify-content: center;
+    margin: 40px 0 30px;
+  }
+  .center-box {
+    background: #B85042;
+    border-radius: 16px;
+    padding: 22px 40px;
+    text-align: center;
+    max-width: 380px;
+    box-shadow: 0 8px 30px rgba(184,80,66,0.4);
+  }
+  .center-box .label {
+    font-size: 0.7rem;
+    letter-spacing: 5px;
+    color: rgba(245,239,230,0.7);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .center-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.9rem;
+    color: #F5EFE6;
+    line-height: 1.2;
+  }
+  .center-box .sub {
+    font-size: 0.85rem;
+    color: rgba(245,239,230,0.8);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* CONNECTOR LINE */
+  .connector {
+    display: flex;
+    justify-content: center;
+    margin: 4px 0;
+  }
+  .connector-line {
+    width: 2px;
+    height: 30px;
+    background: #C9A84C;
+  }
+  .connector-h {
+    height: 2px;
+    background: #C9A84C;
+    flex: 1;
+  }
+  .connector-row {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    margin: 0;
+  }
+
+  /* GRID LAYERS */
+  .layer {
+    display: grid;
+    gap: 16px;
+    margin-bottom: 10px;
+  }
+  .layer-2 { grid-template-columns: 1fr 1fr; }
+  .layer-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .layer-4 { grid-template-columns: repeat(4, 1fr); }
+
+  /* NODE CARDS */
+  .node {
+    background: #2E2E2E;
+    border-radius: 12px;
+    padding: 16px;
+    border: 1px solid #3A3A3A;
+    transition: transform 0.2s, box-shadow 0.2s;
+    cursor: default;
+  }
+  .node:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  }
+  .node .node-icon { font-size: 1.6rem; margin-bottom: 6px; }
+  .node .node-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    color: #C9A84C;
+    font-weight: 700;
+    margin-bottom: 6px;
+    line-height: 1.2;
+  }
+  .node .node-body {
+    font-size: 0.78rem;
+    color: #AAAAAA;
+    line-height: 1.5;
+  }
+  .node.accent { background: #1E0A2D; border-color: #6B3FA0; }
+  .node.warm { background: #2A1810; border-color: #B85042; }
+  .node.gold { background: #1E1800; border-color: #C9A84C; }
+
+  /* SECTION TITLE */
+  .section-label {
+    text-align: center;
+    font-size: 0.65rem;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #8A8A8A;
+    margin: 24px 0 12px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before,
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #3A3A3A;
+  }
+
+  /* BOTTOM STRIP */
+  .bottom-strip {
+    background: #C9A84C;
+    border-radius: 10px;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 30px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .strip-item {
+    text-align: center;
+  }
+  .strip-item .strip-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #1A1A1A;
+  }
+  .strip-item .strip-label {
+    font-size: 0.7rem;
+    color: #3A2800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  .arrow-down {
+    text-align: center;
+    color: #C9A84C;
+    font-size: 1.4rem;
+    margin: 4px 0;
+    line-height: 1;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-title">
+  <h1>MODO</h1>
+  <p>Mapa Conceptual · Museo del Objeto del Objeto · CDMX</p>
+</div>
+
+<div class="map-container">
+
+  <!-- CENTER NODE -->
+  <div class="center-node">
+    <div class="center-box">
+      <div class="label">Núcleo del Museo</div>
+      <h2>Museo del Objeto<br>del Objeto</h2>
+      <div class="sub">Primer museo en México dedicado al diseño<br>gráfico y la comunicación visual · 2010</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- LAYER 1: PILARES -->
+  <div class="section-label">Pilares Fundamentales</div>
+  <div class="layer layer-3">
+    <div class="node warm">
+      <div class="node-icon">🎯</div>
+      <div class="node-title">Misión</div>
+      <div class="node-body">Contar la historia de México a través de los objetos cotidianos. Fomentar el diseño, la comunicación y el coleccionismo.</div>
+    </div>
+    <div class="node warm">
+      <div class="node-icon">🏛️</div>
+      <div class="node-title">El Espacio</div>
+      <div class="node-body">Casa Art Nouveau de 1906, Colima 145, Colonia Roma Norte. Uno de los 8 edificios de ese estilo mejor conservados en CDMX.</div>
+    </div>
+    <div class="node warm">
+      <div class="node-icon">👤</div>
+      <div class="node-title">Fundador</div>
+      <div class="node-body">Bruno Newman. Coleccionista que empezó a los 13 años en La Lagunilla. 40 años de acumulación se convirtieron en el acervo base.</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- LAYER 2: COLECCIÓN -->
+  <div class="section-label">La Colección · +140,000 Objetos · 1810 a Hoy</div>
+  <div class="layer layer-4">
+    <div class="node">
+      <div class="node-icon">🍼</div>
+      <div class="node-title">Envases y Empaques</div>
+      <div class="node-body">Botellas, frascos, latas, cajas. El corazón de la colección. Embalaje de alimentos, farmacia y bebidas desde el siglo XIX.</div>
+    </div>
+    <div class="node">
+      <div class="node-icon">📣</div>
+      <div class="node-title">Publicidad y Gráfica</div>
+      <div class="node-body">Carteles, folletos, rótulos, anuncios. Publicidad de cerveza de 1890. Diseño tipográfico industrial a través del tiempo.</div>
+    </div>
+    <div class="node">
+      <div class="node-icon">🧸</div>
+      <div class="node-title">Juguetes y Entrete­nimiento</div>
+      <div class="node-body">Robots, patinetas 70s, tenis 80s, postales. La cultura lúdica como documento histórico de cada generación.</div>
+    </div>
+    <div class="node">
+      <div class="node-icon">⚙️</div>
+      <div class="node-title">Tecnología y Hogar</div>
+      <div class="node-body">Electrodomésticos, lámparas, prensas, utensilios. La evolución tecnológica vista desde los espacios domésticos.</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- LAYER 3: EXPOSICIONES -->
+  <div class="section-label">Modelo de Exhibición</div>
+  <div class="layer layer-2">
+    <div class="node gold">
+      <div class="node-icon">🔄</div>
+      <div class="node-title">Exposiciones 100% Temporales</div>
+      <div class="node-body">No hay exposición permanente fija. El museo cambia constantemente. Cada visita puede ser una experiencia completamente diferente a la anterior. Esto mantiene vivo el interés y la sorpresa.</div>
+    </div>
+    <div class="node gold">
+      <div class="node-icon">🔤</div>
+      <div class="node-title">Expo Actual: "La colección, con todas sus letras" (2025–2026)</div>
+      <div class="node-body">15° aniversario. Más de 3,000 objetos organizados por el abecedario. Curaduría de Manuel y Christian Cañibe. Abierta hasta octubre 2026.</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- LAYER 4: TEMAS DE EXPOS -->
+  <div class="section-label">Temas de Exposiciones Pasadas y Actuales</div>
+  <div class="layer layer-4">
+    <div class="node accent">
+      <div class="node-icon">🥊</div>
+      <div class="node-title">Lucha Libre</div>
+      <div class="node-body">Cultura popular mexicana, máscaras, carteles, gráfica de barrio.</div>
+    </div>
+    <div class="node accent">
+      <div class="node-icon">🎸</div>
+      <div class="node-title">Rock Mexicano</div>
+      <div class="node-body">Historia del rock en México: discos, carteles, ropa, instrumentos, fanzines.</div>
+    </div>
+    <div class="node accent">
+      <div class="node-icon">💋</div>
+      <div class="node-title">Belleza y Tocador</div>
+      <div class="node-body">Cosméticos, perfumes, accesorios. La historia de la belleza como práctica cultural.</div>
+    </div>
+    <div class="node accent">
+      <div class="node-icon">💔</div>
+      <div class="node-title">Relaciones Rotas</div>
+      <div class="node-body">Museo itinerante. Objetos que cuentan historias de pérdida amorosa y duelo.</div>
+    </div>
+  </div>
+
+  <div class="arrow-down">↓</div>
+
+  <!-- LAYER 5: VALOR -->
+  <div class="section-label">Valor Cultural y Filosófico</div>
+  <div class="layer layer-3">
+    <div class="node">
+      <div class="node-icon">📚</div>
+      <div class="node-title">Rescate de la Memoria Urbana</div>
+      <div class="node-body">Preserva lo que la modernidad desecha. Da dignidad histórica a objetos que nadie pensó que valía la pena conservar.</div>
+    </div>
+    <div class="node">
+      <div class="node-icon">🔍</div>
+      <div class="node-title">El Diseño como Lenguaje</div>
+      <div class="node-body">Cada objeto es leído desde el diseño: tipografía, color, material, forma. El diseño como evidencia de una época.</div>
+    </div>
+    <div class="node">
+      <div class="node-icon">🔒</div>
+      <div class="node-title">Los Candados del Amor</div>
+      <div class="node-body">Tradición desde 2011. El museo genera los objetos del futuro. Colima y Córdoba, Roma Norte. El MODO fabrica historia.</div>
+    </div>
+  </div>
+
+  <!-- BOTTOM STRIP -->
+  <div class="bottom-strip">
+    <div class="strip-item">
+      <div class="strip-value">+140K</div>
+      <div class="strip-label">Objetos en el acervo</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-value">2010</div>
+      <div class="strip-label">Año de fundación</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-value">200+</div>
+      <div class="strip-label">Años de historia abarcados</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-value">1906</div>
+      <div class="strip-label">Edificio Art Nouveau</div>
+    </div>
+    <div class="strip-item">
+      <div class="strip-value">$60</div>
+      <div class="strip-label">Entrada general MXN</div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

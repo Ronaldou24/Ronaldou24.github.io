@@ -1,0 +1,22 @@
+<?php
+$servername = "localhost";
+$username = "id21302151_dbuser";
+$password = "RonaldoSolano1!";
+$dbname = "id21302151_library";
+
+try {
+    // Crear la conexión
+    global $conn;
+    $conn = mysqli_connect($servername, $username, $password, $dbname);
+    // Checar la conexión
+    if (!$conn) {
+        // Lanzar una excepción en caso de error
+        throw new Exception();
+    }
+    // Si no hubo error entonces la conexión fue exitosa
+} catch (Exception $e) {
+    // Manejar la excepción (mostrar un mensaje de error)
+    echo $e->getMessage();
+} 
+?>
+

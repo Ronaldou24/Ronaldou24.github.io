@@ -1,0 +1,46 @@
+body{
+    background-image: url("../imagenes/anonymus.jpeg");
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+table{
+    width: 500px;
+    height: 500px;
+    margin-top: 150px;
+    border-radius: 10px;
+    background-color: rgb(225, 171, 36);
+
+}
+th{
+    font-size: 24px;
+    color: rgb(92, 67, 34);
+
+}
+
+input{
+    text-align: right;
+    font-size: 25px;
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
+td{
+    font-size: 20px;
+    color: black;
+
+    
+}
+#precio1,#precio2,#precio3{
+    color: rgb(220, 25, 25);
+}
+button{
+    font-size: 20px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    width: 120px;
+    height: 50px;
+    background-color: aqua;
+    color: black;
+    border-radius: 5px;
+    margin: 5px 10px;
+}
+button:hover{
+    background-color: aquamarine;
+}

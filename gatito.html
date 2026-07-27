@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>gatito.exe // RONI//SYS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:#0a0812; --bone:#e9e5da; --haze:#7d769b;
+    --cyan:#3fe0cf; --magenta:#ff4fa0; --line:#26213f;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    background:var(--void);
+    font-family:'Space Mono',ui-monospace,monospace;
+    color:var(--bone);
+    overflow:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(ellipse 80% 55% at 20% -10%, #1a1236 0%, transparent 55%),
+      radial-gradient(ellipse 70% 55% at 100% 110%, #201430 0%, transparent 55%);
+  }
+  body::after{
+    content:"";position:fixed;inset:0;z-index:5;pointer-events:none;
+    background:repeating-linear-gradient(to bottom,transparent 0,transparent 2px,#00000022 3px,transparent 4px);
+    mix-blend-mode:overlay;opacity:.5;
+  }
+  #scene{position:fixed;inset:0;z-index:1;touch-action:none}
+  .hud{position:fixed;z-index:10;pointer-events:none;letter-spacing:.12em}
+  .hud.top{top:18px;left:22px;font-size:.78rem;color:var(--cyan)}
+  .hud.top .b{color:var(--haze)}
+  .hud.bottom{
+    bottom:18px;left:50%;transform:translateX(-50%);
+    font-size:.68rem;color:var(--haze);text-align:center;line-height:1.9;
+    padding:8px 16px;border:1px solid var(--line);border-radius:8px;
+    background:#0a0812aa;backdrop-filter:blur(6px);white-space:nowrap;
+  }
+  .hud.bottom .k{color:var(--bone)}
+  .hud.bottom .c{color:var(--cyan)}
+  .hud.bottom .m{color:var(--magenta)}
+  @media(max-width:560px){.hud.bottom{white-space:normal;max-width:88vw}}
+</style>
+</head>
+<body>
+<div class="hud top">&gt; gatito.exe <span class="b">// entidad amistosa detectada</span></div>
+<canvas id="scene"></canvas>
+<div class="hud bottom">
+  <span class="k">arrastra</span> <span class="c">→ rotar</span> &nbsp;·&nbsp;
+  <span class="k">clic derecho</span> <span class="m">→ agarrar y mover</span> &nbsp;·&nbsp;
+  <span class="k">soltar</span> <span class="c">→ cae y rebota</span> &nbsp;·&nbsp;
+  <span class="k">rueda</span> <span class="c">→ zoom</span>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  'use strict';
+
+  // ---------- setup ----------
+  var canvas = document.getElementById('scene');
+  var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+  camera.position.set(0, 1.2, 7.5);
+  camera.lookAt(0, 0.6, 0);
+
+  // luces suaves tipo render kawaii
+  scene.add(new THREE.HemisphereLight(0xbfd8ff, 0x2a2140, 0.9));
+  var key = new THREE.DirectionalLight(0xffffff, 0.9);
+  key.position.set(3, 5, 4);
+  scene.add(key);
+  var rim = new THREE.DirectionalLight(0x3fe0cf, 0.35);
+  rim.position.set(-4, 2, -3);
+  scene.add(rim);
+  var rim2 = new THREE.DirectionalLight(0xff4fa0, 0.22);
+  rim2.position.set(4, -1, -3);
+  scene.add(rim2);
+
+  // ---------- materiales ----------
+  var WHITE  = new THREE.MeshStandardMaterial({color:0xf4f1ec, roughness:0.55, metalness:0.02});
+  var NAVY   = new THREE.MeshStandardMaterial({color:0x232744, roughness:0.4,  metalness:0.15});
+  var NAVY2  = new THREE.MeshStandardMaterial({color:0x2e3358, roughness:0.35, metalness:0.2});
+  var PINK   = new THREE.MeshStandardMaterial({color:0xffa8c5, roughness:0.7});
+  var INK    = new THREE.MeshStandardMaterial({color:0x1c1a26, roughness:0.6});
+  var SILVER = new THREE.MeshStandardMaterial({color:0xd8dce6, roughness:0.22, metalness:0.9});
+
+  function mesh(geo, mat, x, y, z){
+    var m = new THREE.Mesh(geo, mat);
+    m.position.set(x||0, y||0, z||0);
+    return m;
+  }
+  // "capsula" a mano (r128 no trae CapsuleGeometry): cilindro + 2 esferas
+  function capsule(r, len, mat){
+    var g = new THREE.Group();
+    g.add(mesh(new THREE.CylinderGeometry(r, r, len, 14), mat));
+    g.add(mesh(new THREE.SphereGeometry(r, 14, 12), mat, 0,  len/2, 0));
+    g.add(mesh(new THREE.SphereGeometry(r, 14, 12), mat, 0, -len/2, 0));
+    return g;
+  }
+
+  // ---------- el gatito ----------
+  var cat = new THREE.Group();     // posicion (fisica)
+  var spin = new THREE.Group();    // rotacion (drag izquierdo)
+  var squash = new THREE.Group();  // squash & stretch
+  cat.add(spin); spin.add(squash);
+  scene.add(cat);
+
+  // cabeza grandota
+  var headGeo = new THREE.SphereGeometry(1, 28, 22);
+  var head = mesh(headGeo, WHITE, 0, 1.05, 0);
+  head.scale.set(1.28, 1.1, 1.15);
+  squash.add(head);
+
+  // orejas
+  function ear(sx){
+    var e = mesh(new THREE.ConeGeometry(0.34, 0.62, 4), WHITE, sx*0.78, 2.02, 0);
+    e.rotation.y = Math.PI/4;
+    e.rotation.z = -sx*0.32;
+    return e;
+  }
+  squash.add(ear(1)); squash.add(ear(-1));
+
+  // audifonos: diadema (torus arc) + copas
+  var band = mesh(new THREE.TorusGeometry(1.22, 0.13, 12, 32, Math.PI), NAVY, 0, 1.12, 0.02);
+  band.scale.set(1.06, 1.02, 1);
+  squash.add(band);
+  function cup(sx){
+    var g = new THREE.Group();
+    var outer = mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.34, 20), NAVY);
+    outer.rotation.z = Math.PI/2;
+    var pad = mesh(new THREE.CylinderGeometry(0.42, 0.42, 0.1, 20), NAVY2, -sx*0.2, 0, 0);
+    pad.rotation.z = Math.PI/2;
+    g.add(outer); g.add(pad);
+    g.position.set(sx*1.28, 1.02, 0.02);
+    g.rotation.z = sx*0.08;
+    return g;
+  }
+  squash.add(cup(1)); squash.add(cup(-1));
+
+  // ojitos felices cerrados (arcos "n")
+  function eye(sx){
+    var e = mesh(new THREE.TorusGeometry(0.14, 0.028, 8, 16, Math.PI), INK, sx*0.42, 1.02, 1.04);
+    e.rotation.x = -0.12;
+    return e;
+  }
+  squash.add(eye(1)); squash.add(eye(-1));
+
+  // chapitas rosas
+  function blush(sx){
+    var b = mesh(new THREE.SphereGeometry(0.14, 12, 10), PINK, sx*0.66, 0.78, 0.95);
+    b.scale.set(1.4, 0.8, 0.35);
+    b.rotation.y = sx*0.35;
+    return b;
+  }
+  squash.add(blush(1)); squash.add(blush(-1));
+
+  // boquita ω
+  function mw(sx){
+    var w = mesh(new THREE.TorusGeometry(0.07, 0.02, 8, 14, Math.PI), INK, sx*0.065, 0.72, 1.12);
+    w.rotation.z = Math.PI;      // arco abre hacia arriba
+    w.rotation.x = 0.25;
+    return w;
+  }
+  squash.add(mw(1)); squash.add(mw(-1));
+
+  // cuerpo
+  var body = mesh(new THREE.SphereGeometry(0.62, 22, 18), WHITE, 0, -0.28, 0);
+  body.scale.set(1, 1.12, 0.92);
+  squash.add(body);
+
+  // bracitos arriba (pose de baile)
+  function arm(sx){
+    var a = capsule(0.16, 0.52, WHITE);
+    a.position.set(sx*0.72, 0.12, 0.1);
+    a.rotation.z = sx*2.35;
+    return a;
+  }
+  squash.add(arm(1)); squash.add(arm(-1));
+
+  // patitas
+  function leg(sx){
+    var l = capsule(0.18, 0.34, WHITE);
+    l.position.set(sx*0.3, -0.98, 0.05);
+    return l;
+  }
+  squash.add(leg(1)); squash.add(leg(-1));
+
+  // colita
+  var tail = capsule(0.11, 0.4, WHITE);
+  tail.position.set(0.15, -0.75, -0.62);
+  tail.rotation.x = -1.0;
+  tail.rotation.z = -0.4;
+  squash.add(tail);
+
+  // ---------- notas y estrellas orbitando ----------
+  function musicNote(){
+    var g = new THREE.Group();
+    var headN = mesh(new THREE.SphereGeometry(0.11, 10, 8), NAVY2, 0, 0, 0);
+    headN.scale.set(1.25, 0.85, 0.6);
+    var stem = mesh(new THREE.BoxGeometry(0.045, 0.5, 0.045), NAVY2, 0.12, 0.26, 0);
+    var flag = mesh(new THREE.BoxGeometry(0.2, 0.06, 0.045), NAVY2, 0.2, 0.49, 0);
+    flag.rotation.z = -0.4;
+    g.add(headN); g.add(stem); g.add(flag);
+    return g;
+  }
+  function starShape(){
+    var s = new THREE.Shape();
+    var R = 0.28, r = 0.115;
+    for(var i=0;i<10;i++){
+      var rad = (i%2===0)? R : r;
+      var a = i*Math.PI/5 - Math.PI/2;
+      var x = Math.cos(a)*rad, y = Math.sin(a)*rad;
+      if(i===0) s.moveTo(x,y); else s.lineTo(x,y);
+    }
+    s.closePath();
+    return new THREE.ExtrudeGeometry(s, {depth:0.1, bevelEnabled:true, bevelThickness:0.04, bevelSize:0.04, bevelSegments:2});
+  }
+  var floaters = [];
+  var floaterDefs = [
+    {mk:musicNote, r:2.2, y: 1.9, sp: 0.55, ph: 0.0},
+    {mk:musicNote, r:2.4, y:-0.4, sp:-0.4,  ph: 2.6},
+    {mk:function(){return mesh(starShape(), SILVER,0,0,0);}, r:2.6, y: 1.2, sp: 0.35, ph: 4.1},
+    {mk:function(){return mesh(starShape(), SILVER,0,0,0);}, r:2.3, y:-0.9, sp:-0.5,  ph: 1.4}
+  ];
+  floaterDefs.forEach(function(d){
+    var f = d.mk();
+    scene.add(f);
+    floaters.push({obj:f, def:d});
+  });
+
+  // sombrita
+  var shadow = mesh(new THREE.CircleGeometry(1, 28),
+    new THREE.MeshBasicMaterial({color:0x000000, transparent:true, opacity:0.28}), 0, 0, 0);
+  shadow.rotation.x = -Math.PI/2;
+  scene.add(shadow);
+
+  // ---------- interaccion ----------
+  var FLOOR = -1.35;               // altura del "piso" para la panza del gato
+  var pos = new THREE.Vector3(0, 0, 0);   // offset fisico del gato
+  var vel = new THREE.Vector3();
+  var grabbing = false, rotating = false;
+  var grabOffset = new THREE.Vector3();
+  var lastGrab = new THREE.Vector3();
+  var raycaster = new THREE.Raycaster();
+  var ndc = new THREE.Vector2();
+  var dragPlane = new THREE.Plane(new THREE.Vector3(0,0,1), 0);
+  var hit = new THREE.Vector3();
+  var px = 0, py = 0;
+  var rotVelY = 0.25, rotVelX = 0;  // giro idle
+
+  function setNDC(e){
+    var r = canvas.getBoundingClientRect();
+    var cx = (e.touches? e.touches[0].clientX : e.clientX);
+    var cy = (e.touches? e.touches[0].clientY : e.clientY);
+    ndc.x = ((cx - r.left)/r.width)*2 - 1;
+    ndc.y = -((cy - r.top)/r.height)*2 + 1;
+    return {x:cx, y:cy};
+  }
+  function planeHit(){
+    raycaster.setFromCamera(ndc, camera);
+    raycaster.ray.intersectPlane(dragPlane, hit);
+    return hit;
+  }
+
+  canvas.addEventListener('contextmenu', function(e){ e.preventDefault(); });
+
+  canvas.addEventListener('pointerdown', function(e){
+    var p = setNDC(e);
+    px = p.x; py = p.y;
+    if(e.button === 2){                       // clic derecho: agarrar
+      grabbing = true;
+      dragPlane.constant = -pos.z;            // plano a la profundidad del gato
+      planeHit();
+      grabOffset.copy(pos).sub(hit);
+      lastGrab.copy(pos);
+      vel.set(0,0,0);
+      canvas.style.cursor = 'grabbing';
+    } else {                                  // izquierdo: rotar
+      rotating = true;
+      canvas.style.cursor = 'grab';
+    }
+    canvas.setPointerCapture(e.pointerId);
+  });
+
+  canvas.addEventListener('pointermove', function(e){
+    var p = setNDC(e);
+    if(grabbing){
+      planeHit();
+      lastGrab.copy(pos);
+      pos.copy(hit).add(grabOffset);
+      pos.y = Math.max(pos.y, FLOOR);         // no atravesar el piso
+      vel.copy(pos).sub(lastGrab).multiplyScalar(18); // guarda inercia del aventon
+    } else if(rotating){
+      var dx = (p.x - px) * 0.011;
+      var dy = (p.y - py) * 0.009;
+      spin.rotation.y += dx;
+      spin.rotation.x = Math.max(-0.6, Math.min(0.6, spin.rotation.x + dy));
+      rotVelY = dx * 34;                      // inercia de giro
+      rotVelX = 0;
+    }
+    px = p.x; py = p.y;
+  });
+
+  function release(e){
+    if(grabbing){ grabbing = false; }         // suelta -> la fisica se encarga
+    rotating = false;
+    canvas.style.cursor = 'default';
+    if(e && e.pointerId !== undefined){
+      try{ canvas.releasePointerCapture(e.pointerId); }catch(_){/*noop*/}
+    }
+  }
+  canvas.addEventListener('pointerup', release);
+  canvas.addEventListener('pointercancel', release);
+
+  canvas.addEventListener('wheel', function(e){
+    e.preventDefault();
+    camera.position.z = Math.max(4.5, Math.min(12, camera.position.z + e.deltaY*0.004));
+  }, {passive:false});
+
+  // ---------- resize ----------
+  function resize(){
+    var w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w/h;
+    camera.updateProjectionMatrix();
+  }
+  window.addEventListener('resize', resize);
+  resize();
+
+  // ---------- loop ----------
+  var clock = new THREE.Clock();
+  var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var sq = 1, sqTarget = 1;
+
+  function animate(){
+    requestAnimationFrame(animate);
+    var dt = Math.min(clock.getDelta(), 0.05);
+    var t = clock.elapsedTime;
+
+    // fisica cuando esta suelto
+    if(!grabbing){
+      vel.y -= 22 * dt;                        // gravedad
+      pos.addScaledVector(vel, dt);
+      vel.x *= 0.995; vel.z *= 0.995;
+      // limites laterales suaves
+      if(pos.x >  3.4){ pos.x =  3.4; vel.x *= -0.5; }
+      if(pos.x < -3.4){ pos.x = -3.4; vel.x *= -0.5; }
+      if(pos.y <= FLOOR + 1.35){                // 1.35 = donde "reposa" el grupo
+        pos.y = FLOOR + 1.35;
+        if(vel.y < -1){
+          sqTarget = 0.72;                      // ¡splat!
+          vel.y = -vel.y * 0.45;                // rebote con perdida
+          if(Math.abs(vel.y) < 1.2) vel.y = 0;
+        } else { vel.y = 0; }
+      }
+    }
+    cat.position.copy(pos);
+
+    // idle: bob + giro con inercia
+    if(!rotating && !grabbing){
+      spin.rotation.y += rotVelY * dt;
+      rotVelY *= 0.96;
+      if(Math.abs(rotVelY) < 0.06) rotVelY = reduce ? 0 : 0.25;
+      spin.rotation.x *= 0.97;
+      if(!reduce && Math.abs(vel.y) < 0.01){
+        squash.position.y = Math.sin(t*2.2)*0.06;
+      }
+    } else {
+      squash.position.y = 0;
+    }
+
+    // squash & stretch
+    sqTarget += (1 - sqTarget) * Math.min(1, dt*8);
+    sq += (sqTarget - sq) * Math.min(1, dt*14);
+    squash.scale.set(1/Math.sqrt(sq), sq, 1/Math.sqrt(sq));
+
+    // colita meneandose
+    tail.rotation.z = -0.4 + (reduce? 0 : Math.sin(t*3)*0.25);
+
+    // sombra sigue al gato y escala con la altura
+    shadow.position.x = pos.x;
+    shadow.position.z = pos.z;
+    shadow.position.y = FLOOR - 0.001;
+    var hgt = Math.max(0, pos.y - 0);
+    var sScale = Math.max(0.45, 1 - hgt*0.18);
+    shadow.scale.set(sScale, sScale, 1);
+    shadow.material.opacity = 0.28 * sScale;
+
+    // notas y estrellas orbitando al gato
+    floaters.forEach(function(f){
+      var d = f.def;
+      var a = t*d.sp + d.ph;
+      f.obj.position.set(
+        pos.x + Math.cos(a)*d.r,
+        pos.y + d.y + (reduce? 0 : Math.sin(t*1.4 + d.ph)*0.18),
+        pos.z + Math.sin(a)*d.r*0.55 - 0.3
+      );
+      f.obj.rotation.y = a*1.4;
+      f.obj.rotation.z = Math.sin(t + d.ph)*0.2;
+    });
+
+    renderer.render(scene, camera);
+  }
+  animate();
+})();
+</script>
+</body>
+</html>

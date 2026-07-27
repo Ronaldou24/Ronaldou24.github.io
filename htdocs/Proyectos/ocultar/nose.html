@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienes un mensaje</title>
+    <style>
+        img{
+            max-width: 100%;
+            object-fit: cover;
+        }
+        .imagen{
+            display: none;
+        }
+    </style>
+    <script>
+        function mostrar(){
+            document.getElementById('imagen').style.display = "block";
+
+        }
+        function ocultar(){
+            document.getElementById('imagen').style.display = "none";
+        }
+    </script>
+</head>
+<body>
+    <button onclick="mostrar();" id="boton" >Mostrar img</button>
+    <div class="imagen" id="imagen">
+        <button id="boton" onclick="ocultar()">Ocultar imgb</button>
+        <img src="anonymus.jpeg" alt="">
+    </div>
+</body>
+</html>

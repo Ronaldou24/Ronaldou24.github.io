@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Calendario y eventos próximos de Los Hollowheads." />
+<title>Eventos - Los Hollowheads</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto&display=swap" rel="stylesheet" />
+<style>
+  /* Reset básico */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #f9f6f0;
+    color: #181818;
+    min-height: 100vh;
+  }
+
+  /* Navbar */
+  nav.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255 255 255 / 0.95);
+    padding: 16px 24px;
+    box-shadow: 0 4px 20px rgba(193,179,124,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Fredericka the Great', cursive;
+    border-radius: 0 0 12px 12px;
+  }
+  nav.navbar .LetrasNav a {
+    text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #8E8A5C;
+    letter-spacing: 3px;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  nav.navbar .LetrasNav a:hover {
+    color: #C1B37C;
+  }
+  nav.navbar ul.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  nav.navbar ul.navbar-menu li a {
+    text-decoration: none;
+    color: #181818;
+    font-weight: 600;
+    font-size: 1.05rem;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+  }
+  nav.navbar ul.navbar-menu li a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #C1B37C;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  nav.navbar ul.navbar-menu li a:hover,
+  nav.navbar ul.navbar-menu li a:focus {
+    color: #8E8A5C;
+  }
+  nav.navbar ul.navbar-menu li a:hover::after,
+  nav.navbar ul.navbar-menu li a:focus::after {
+    width: 100%;
+  }
+
+  /* Encabezado con fondo */
+  section.header-eventos {
+    background: url('images/hollowheads-bg8.jpg') center center/cover no-repeat;
+    padding: 80px 24px 60px;
+    text-align: center;
+    color: #646142;
+    text-shadow: 0 0 10px #181818cc;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  section.header-eventos h1 {
+    font-size: 3.8rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }
+  section.header-eventos p {
+    font-size: 1.3rem;
+    margin-top: 12px;
+  }
+
+  /* Contenedor principal */
+  section.container {
+    max-width: 800px;
+    background: #fff;
+    margin: 40px auto 60px;
+    padding: 36px 32px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgb(193 179 124 / 0.2);
+  }
+
+  /* Tabla estilizada */
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0 12px;
+    font-size: 1.1rem;
+  }
+  thead tr {
+    background: #C1B37C;
+    color: #181818;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  thead th {
+    padding: 14px 12px;
+    border-radius: 12px 12px 0 0;
+  }
+  tbody tr {
+    background: #f9f6f0;
+    box-shadow: 0 4px 12px rgb(193 179 124 / 0.15);
+    transition: background-color 0.3s ease;
+  }
+  tbody tr:hover {
+    background: #e6e1c3;
+  }
+  tbody td {
+    padding: 14px 12px;
+    text-align: center;
+    border-bottom: none;
+  }
+
+  /* Footer */
+  footer.container.footer-con-imagen {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    color: #8E8A5C;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  footer.container.footer-con-imagen img {
+    margin-top: 12px;
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgb(193 179 124 / 0.3);
+  }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    section.header-eventos h1 {
+      font-size: 2.8rem;
+    }
+    section.container {
+      margin: 24px 12px;
+      padding: 28px 20px;
+    }
+    nav.navbar ul.navbar-menu {
+      gap: 16px;
+      font-size: 0.95rem;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar container">
+  <h1 class="LetrasNav"><a href="index.html">Los Hollowheads</a></h1>
+  <ul class="navbar-menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contenido.html">Música</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="formulario.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="header-eventos">
+  <h1>Eventos Próximos</h1>
+  <p>No te pierdas nuestras próximas presentaciones.</p>
+</section>
+
+<section class="container">
+  <table>
+    <thead>
+      <tr><th>Fecha</th><th>Evento</th><th>Ubicación</th><th>Hora</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>17 de Abril</td><td>Voragine</td><td>Vallarta</td><td>20:00</td></tr>
+      <tr><td>????</td><td>Mirador de la cruz</td><td>Vallarta</td><td>....</td></tr>
+      <tr><td>Proximamente</td><td>?¡¡?¡¡¡?</td><td>......</td><td>Muy Pronto</td></tr>
+
+    </tbody>
+  </table>
+</section>
+
+<footer class="container footer-con-imagen">
+  &copy; 2025 Los Hollowheads. Todos los derechos reservados.
+  <br />
+  <img src="arte/angel_alberca.jpg" alt="Angel" />
+</footer>
+
+</body>
+</html>

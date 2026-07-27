@@ -1,0 +1,31 @@
+<style>
+    #formulario {
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: 3px;
+  font-size: 13px;
+  background-image: url('icono.png');
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+#formulario input[type="text"],
+#formulario textarea {
+  width: 100%;
+  padding: 5px 10px;
+  border: 1px solid;
+  border-radius: 3px;
+  font-size: 13px;
+}
+
+</style>
+
+<form>
+    <label for="nombre">Nombre:</label>
+    <input type="text" id="nombre" name="nombre" required>
+  
+    <label for="mensaje">Mensaje:</label>
+    <textarea id="mensaje" name="mensaje" rows="5" required></textarea>
+  
+    <button type="submit">Enviar</button>
+  </form>

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <title>Galería - HospiCELL</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #202020;
+            margin-bottom: 30px;
+        }
+        .gallery-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* espacio entre galería y botón */
+        }
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 15px;
+        }
+        .gallery-grid img {
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .gallery-grid img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        /* Responsive height for larger images in wider screens */
+        @media(min-width: 768px) {
+            .gallery-grid img {
+                height: 150px;
+            }
+        }
+        @media(min-width: 1024px) {
+            .gallery-grid img {
+                height: 180px;
+            }
+        }
+        /* Contenedor para el botón alineado a la derecha */
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+        }
+        button {
+            background-color: #29840e;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            transition: background-color 0.3s ease;
+            font-size: 1rem;
+        }
+        button:hover {
+            background-color: #239b1a;
+        }
+        a {
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Galería de HospiCELL</h1>
+    <div class="gallery-container">
+        <div class="gallery-grid">
+            <!--Aquí van tus 28 imágenes-->
+            <img src="fotos/1.jpg" alt="Descripción 1" />
+            <img src="fotos/2.jpg" alt="Descripción 2" />
+            <img src="fotos/3.jpg" alt="Descripción 3" />
+            <img src="fotos/4.jpg" alt="Descripción 4" />
+            <img src="fotos/5.jpg" alt="Descripción 5" />
+            <img src="fotos/6.jpg" alt="Descripción 6" />
+            <img src="fotos/7.jpg" alt="Descripción 7" />
+            <img src="fotos/8.jpg" alt="Descripción 8" />
+            <img src="fotos/9.jpg" alt="Descripción 9" />
+            <img src="fotos/10.jpg" alt="Descripción 10" />
+            <img src="fotos/11.jpg" alt="Descripción 11" />
+            <img src="fotos/12.jpg" alt="Descripción 12" />
+            <img src="fotos/13.jpg" alt="Descripción 13" />
+            <img src="fotos/14.jpg" alt="Descripción 14" />
+            <img src="fotos/15.jpg" alt="Descripción 15" />
+            <img src="fotos/16.jpg" alt="Descripción 16" />
+            <img src="fotos/17.jpg" alt="Descripción 17" />
+            <img src="fotos/18.jpg" alt="Descripción 18" />
+            <img src="fotos/19.jpg" alt="Descripción 19" />
+            <img src="fotos/20.jpg" alt="Descripción 20" />
+            <img src="fotos/21.jpg" alt="Descripción 21" />
+            <img src="fotos/22.jpg" alt="Descripción 22" />
+            <img src="fotos/23.jpg" alt="Descripción 23" />
+            <img src="fotos/24.jpg" alt="Descripción 24" />
+            <img src="fotos/25.jpg" alt="Descripción 25" />
+            <img src="fotos/26.jpg" alt="Descripción 26" />
+            <img src="fotos/27.jpg" alt="Descripción 27" />
+            <img src="fotos/28.jpg" alt="Descripción 28" />
+        </div>
+
+        <div class="button-container">
+            <a href="celu.html"><button>Volver al menú</button></a>
+        </div>
+    </div>
+</body>
+</html>

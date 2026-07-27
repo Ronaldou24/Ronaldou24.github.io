@@ -1,0 +1,18 @@
+aplicación web con python - flask y mysql
+para trabajo ocupamos:
+- VS Code 
+- python
+- MySQL y WorkBench
+- Flask Framework
+----- Extensiones ----
+- Bootstrap 4 y 5
+- Flask Snippets
+- flask Snippets
+- jinja2 snippets
+
+para la instalación del framework flask
+> pip install Flask 
+para la instalación del manejador de bd
+> pip install Flask-MySQL 
+para trabajo con el template
+> pip install jinja2 

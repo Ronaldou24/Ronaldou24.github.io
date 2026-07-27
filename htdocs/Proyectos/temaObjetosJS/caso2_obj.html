@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso 2</title>
+</head>
+<body> 
+    <header align = "center">
+    <h1>Ingreasando datos a un arreglo</h1>
+    <input type="text" name="" id="nombre" placeholder="Ingresa el nombre">
+    <input type="text" name="" id="edad" placeholder="Ingresa la edad">
+    <input type="text" name="" id="cel" placeholder="Ingresa tu celular">
+
+
+    <input type="button" value="Agregar" onclick="agregarElemento();"> 
+    <input type="button" value="Mostrar" onclick="mostrarElementos();">   
+    <input type="button" value="Eliminar" onclick="eliminaUnElemento();">   
+    <hr width="80%">
+    <div id = "resultado"></div>
+    </header>
+    <script>
+        window.onload  = function() {
+            window.datos = [];
+
+        }
+        function Persona(nom, ed, cel){
+            this.nombre = nom;
+            this.edad = ed;
+            this.celular = cel;
+        }
+        function agregarElemento() {
+            let nom = document.getElementById('nombre').value;
+            let ed = document.getElementById('edad').value;
+            let cel = document.getElementById('cel').value;
+
+            persona  = new Persona(nom,ed, cel);
+
+
+            datos.push(persona);
+            document.getElementById('nombre').value = "";
+            document.getElementById('edad').value = "";
+            document.getElementById('cel').value = "";
+
+        }
+        function mostrarElementos() {
+            let resultado = document.getElementById('resultado');
+            resultado.innerHTML = '';
+
+            for(const dato of datos) {
+                let datoParrafo = document.createElement('p');
+                datoParrafo.innerText = dato.nombre + " | Edad : " + dato.edad + 
+                " | Celular: "+ dato.celular;
+
+                resultado.appendChild(datoParrafo);
+
+            }
+             }
+             function eliminaUnElemento() {
+                let num = prompt("Ingresa el numero del elemento a eliminar");
+                datos.splice(num , 1);
+                mostrarElementos();
+
+             }
+    </script>
+</body>
+</html>

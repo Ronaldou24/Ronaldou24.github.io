@@ -1,0 +1,26 @@
+/* Main Content */
+main {
+    padding: 40px 0;
+    text-align: center;
+    background-color: #f8f9fa; /* Fondo claro */
+}
+
+.flyer {
+    margin: 0 auto;
+    max-width: 700px;
+}
+
+.flyer img {
+    max-width: 100%;
+    height: auto;
+    border: 10px solid #195370;
+    border-radius: 10px;
+}
+
+.container {
+    background-color: #247FAE; /* Fondo azul */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+}

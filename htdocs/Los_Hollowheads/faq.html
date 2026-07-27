@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Preguntas frecuentes sobre Los Hollowheads." />
+<title>FAQ - Los Hollowheads</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto&display=swap" rel="stylesheet" />
+<style>
+  /* Reset básico */
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #f9f6f0;
+    color: #181818;
+    min-height: 100vh;
+  }
+
+  /* Navbar */
+  nav.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255 255 255 / 0.95);
+    padding: 16px 24px;
+    box-shadow: 0 4px 20px rgba(193,179,124,0.3);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    font-family: 'Fredericka the Great', cursive;
+    border-radius: 0 0 12px 12px;
+  }
+  nav.navbar .LetrasNav a {
+    text-decoration: none;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #8E8A5C;
+    letter-spacing: 3px;
+    user-select: none;
+    transition: color 0.3s ease;
+  }
+  nav.navbar .LetrasNav a:hover {
+    color: #C1B37C;
+  }
+  nav.navbar ul.navbar-menu {
+    list-style: none;
+    display: flex;
+    gap: 28px;
+    margin: 0;
+    padding: 0;
+  }
+  nav.navbar ul.navbar-menu li a {
+    text-decoration: none;
+    color: #181818;
+    font-weight: 600;
+    font-size: 1.05rem;
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.3s ease;
+  }
+  nav.navbar ul.navbar-menu li a::after {
+    content: "";
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: #C1B37C;
+    transition: width 0.3s ease;
+    border-radius: 2px;
+  }
+  nav.navbar ul.navbar-menu li a:hover,
+  nav.navbar ul.navbar-menu li a:focus {
+    color: #8E8A5C;
+  }
+  nav.navbar ul.navbar-menu li a:hover::after,
+  nav.navbar ul.navbar-menu li a:focus::after {
+    width: 100%;
+  }
+
+  /* Botón hamburguesa para móvil */
+  .navbar-toggle {
+    display: none;
+    font-size: 2rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #181818;
+  }
+
+  /* Header con fondo */
+  section.header-faq {
+    background: url('images/hollowheads-bg10.jpg') center center/cover no-repeat;
+    padding: 80px 24px 60px;
+    text-align: center;
+    color: #f0e9d2;
+    text-shadow: 0 0 10px #181818cc;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  section.header-faq h1 {
+    font-size: 3.8rem;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 4px;
+  }
+
+  /* FAQ container */
+  section.container {
+    max-width: 720px;
+    background: #fff;
+    margin: 40px auto 60px;
+    padding: 36px 32px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgb(193 179 124 / 0.2);
+  }
+
+  /* FAQ estilo acordeón */
+  dl {
+    margin: 0;
+  }
+  dt {
+    cursor: pointer;
+    position: relative;
+    padding: 18px 48px 18px 24px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #8E8A5C;
+    border-bottom: 2px solid #C1B37C44;
+    transition: background-color 0.3s ease;
+    user-select: none;
+  }
+  dt:hover, dt.active {
+    background-color: #f0e9d2;
+    color: #181818;
+  }
+  dt::after {
+    content: "+";
+    position: absolute;
+    right: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.6rem;
+    color: #C1B37C;
+    transition: transform 0.3s ease;
+  }
+  dt.active::after {
+    content: "-";
+    transform: translateY(-50%) rotate(180deg);
+  }
+  dd {
+    margin: 0 0 20px 24px;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    color: #444;
+    display: none;
+    animation: fadeIn 0.4s ease forwards;
+  }
+  dd.show {
+    display: block;
+  }
+  @keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+  }
+
+  /* Footer */
+  footer.container.footer-con-imagen {
+    text-align: center;
+    font-size: 0.9rem;
+    margin-top: 40px;
+    color: #8E8A5C;
+    font-family: 'Fredericka the Great', cursive;
+  }
+  footer.container.footer-con-imagen img {
+    margin-top: 12px;
+    width: 80px;
+    height: auto;
+    border-radius: 50%;
+    box-shadow: 0 4px 20px rgb(193 179 124 / 0.3);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav.navbar ul.navbar-menu {
+      display: none;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+      background: rgba(255 255 255 / 0.95);
+      position: absolute;
+      top: 64px;
+      left: 0;
+      border-radius: 0 0 12px 12px;
+      box-shadow: 0 8px 24px rgba(193,179,124,0.3);
+      padding: 16px 24px;
+      z-index: 999;
+    }
+    nav.navbar ul.navbar-menu.active {
+      display: flex;
+    }
+    .navbar-toggle {
+      display: block;
+    }
+  }
+</style>
+</head>
+<body>
+
+<nav class="navbar container">
+  <h1 class="LetrasNav"><a href="index.html">Los Hollowheads</a></h1>
+  <button class="navbar-toggle" aria-label="Abrir menú">&#9776;</button>
+  <ul class="navbar-menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contenido.html">Música</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="formulario.html">Contacto</a></li>
+  </ul>
+</nav>
+
+<section class="header-faq">
+  <h1>Preguntas Frecuentes</h1>
+</section>
+
+<section class="container">
+  <dl>
+    <dt>¿Dónde puedo escuchar su música?</dt>
+    <dd>Puedes escuchar nuestra música en Spotify, YouTube y otras plataformas de streaming. Visita nuestra página de contenido para enlaces directos.</dd>
+
+    <dt>¿Cómo puedo comprar merch oficial?</dt>
+    <dd>En la sección de merch encontrarás camisetas, contamos con talla L Blanco y negro</dd>
+
+    <dt>¿Dónde se presentan en vivo?</dt>
+    <dd>Nos presentamos en eventos locales de la bahia</dd>
+
+    <dt>¿Cómo puedo contactarlos?</dt>
+    <dd>Utiliza nuestro formulario de contacto en la página de contacto para enviarnos un mensaje.</dd>
+
+    <dt>¿Cuál es el origen del nombre "Los Hollowheads"?</dt>
+    <dd>El nombre refleja un juego de palabras con un toque irónico y creativo, representando la esencia libre y divertida de la banda.</dd>
+  </dl>
+</section>
+
+<footer class="container footer-con-imagen">
+  &copy; 2025 Los Hollowheads. Todos los derechos reservados.
+  <br />
+  <img src="arte/angel_alberca.jpg" alt="Angel" />
+</footer>
+
+<script>
+  // Toggle menú hamburguesa
+  const toggleBtn = document.querySelector('.navbar-toggle');
+  const menu = document.querySelector('.navbar-menu');
+
+  toggleBtn.addEventListener('click', () => {
+    menu.classList.toggle('active');
+  });
+
+  // Toggle FAQ acordeón
+  document.querySelectorAll('dt').forEach(dt => {
+    dt.addEventListener('click', () => {
+      dt.classList.toggle('active');
+      const dd = dt.nextElementSibling;
+      dd.classList.toggle('show');
+    });
+  });
+</script>
+
+</body>
+</html>

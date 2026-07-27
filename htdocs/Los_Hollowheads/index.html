@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="description" content="Página oficial de Los Hollowheads, banda surf punk. Explora su música, arte y estilo." />
+<title>Los Hollowheads - Surf Punk Band</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredericka+the+Great&family=Roboto&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<nav class="navbar container">
+
+  <h1 class="LetrasNav"> <a href="index.html">Los Hollowheads </a></h1>
+  <ul class="navbar-menu">
+    <li><a href="index.html">Inicio</a></li>
+    <li><a href="nosotros.html">Nosotros</a></li>
+    <li><a href="contenido.html">Música</a></li>
+    <li><a href="galeria.html">Galería</a></li>
+    <li><a href="merch.html">Merch</a></li>
+    <li><a href="formulario.html">Contacto</a></li>
+  </ul>
+</nav>
+
+
+<section class="container section-flex">
+  <div class="texto">
+    <h1>Los Hollowheads</h1>
+    <p>Esta cabeza hueca está llena de emociones que explotan constantemente...</p>
+    <p>Somos Los Hollowheads, una agrupación de roca y giro de Puerto Vallarta. Si necesitas drenarte un poco bienvenido llegaste al lugar adecuado. <a href="blog.html">Ver blog</a></p>
+    <a href="https://open.spotify.com/artist/0VpFDgD4gO55y4IvkJZCVS" target="_blank" class="btn" rel="noopener noreferrer">Escuchar en Spotify</a>
+  </div>
+  <div class="img-container">
+    <img src="arte/arte_principalw.jpg" alt="Hollow">
+  </div>
+
+</section>
+
+<section class="container section-flex">
+  <div class="texto">
+    <h1>Integrantes</h1>
+    <ul>
+      <li><strong>Arath</strong> - Voz y Lira</li>
+      <li><strong>David</strong> - Voz y Bajo</li>
+      <li><strong>Roni</strong> - Bateria</li>
+
+    </ul>
+  </div>
+  <div class="imagenes-integrantes">
+    <img src="arte/arath.jpg" alt="Arath" />
+    <img src="arte/david.jpg" alt="David" />
+    <img src="arte/roni.jpg" alt="Roni" />
+  </div>
+</section>
+
+
+<section class="container">
+    <h2>Próximos Eventos</h2>
+    <table>
+        <thead>
+            <tr><th>Fecha</th><th>Evento</th><th>Lugar</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>18 Abril 2025</td><td>Voragine</td><td>Puerto Vallarta</td></tr>
+            <tr><td>Proximamente...</td><td>Mirador de la Cruz</td><td>Puerto Vallarta</td></tr>
+
+        </tbody>
+    </table>
+
+</section>
+
+<section class="container gallery">
+    <img src="arte/epico.PNG" alt="Concierto de Los Hollowheads" />
+    <img src="arte/skeit.jpg" alt="Arte 1" />
+    <img src="arte/clika.jpg" alt="Arte 2" />
+</section>
+
+
+<footer class="container footer-con-imagen" style="text-align:center; font-size:0.9rem; margin-top: 40px;">
+    &copy; 2025 Los Hollowheads. Todos los derechos reservados.
+    <img src="arte/angel_alberca.jpg" alt="Angel" />
+</footer>
+
+<script>
+  const toggleBtn = document.querySelector('.navbar-toggle');
+  const menu = document.querySelector('.navbar-menu');
+
+  toggleBtn.addEventListener('click', () => {
+    menu.classList.toggle('active');
+  });
+</script>
+
+</body>
+</html>

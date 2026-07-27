@@ -1,0 +1,25 @@
+/* Estilo para el contenedor que contiene la imagen y el texto */
+.contenedor {
+    display: flex; /* Utilizamos flexbox para alinear los elementos */
+    align-items: center; /* Alineamos verticalmente los elementos */
+}
+
+/* Estilo para la imagen */
+.contenedor img {
+    margin-right: 20px; /* Espacio entre la imagen y el texto */
+}
+
+body{
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-image: url(../images/back-geminis.jpeg);
+    color: rgb(230, 230, 222);
+}
+table{
+    background-color: rgb(6, 4, 16);
+
+}
+
+a{
+    color: rgb(52, 35, 67);
+}
+

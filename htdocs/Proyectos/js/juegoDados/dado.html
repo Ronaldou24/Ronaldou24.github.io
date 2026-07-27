@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="../juegoDados/js/juego.js"></script>
+    <link rel="stylesheet" href="../juegoDados/css/estilos.css">
+</head>
+<body>
+    <table align="center" border="5" height="10px" >
+        
+            <tr>
+                <td align="center"  id="titulo"><label for="nombre">Nombre:</label></td>
+                <td><input type="text" name="nombre" id="nombre"></td>
+            </tr>
+            <tr>
+                <td align="center" id="titulo"><label for="inicio">Cantidad inicial:</label></td>
+                <td><input type="text" name="inicio" id="inicio"></td>
+            </tr>
+            <tr>
+                <td align="center" id="titulo"><label for="apuesta">Cant de apuesta:</label></td>
+                <td><input type="text" name="apuesta" id="apuesta"></td>
+            </tr>
+            <tr>
+                <td align="center" id="titulo"><label for="numero">A que número:</label></td>
+                <td><input type="text" name="numero" id="numero"></td>
+            </tr>
+            <tr>
+                <td align="center" id="titulo">Presiona aqui</td>
+                <td align="center">
+                    <button onclick="seCorre()">Apostar</button>   
+                    
+                </td>
+            </tr>
+            <br>
+        
+        <tr>
+            <td id="titulo">Número de la casa:</td>
+            <td><strong id="resultado"></strong></td>
+        </tr>
+        <tr>
+            <td colspan="2"><strong id="mensaje"></strong></td>
+        </tr>
+    </table>
+</body>
+</html>

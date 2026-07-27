@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetos js</title>
+    <link rel="stylesheet" href="estilo.css">
+
+    <script>
+        let manolo = {
+            nombre: "Manolo",
+            edad: 17,
+            semestre: 4,
+            especialidad: "Programación"
+        };
+
+        let juan = {
+            nombre: "Juan",
+            edad: 15,
+            semestre: 2,
+            especialidad: "A y B"
+        };
+
+        function mostrarManolo() {
+            alert("Nombre: " + manolo.nombre + " Edad: " + manolo.edad + " Semestre: " + manolo.semestre + " Especialidad: " + manolo.especialidad);
+        }
+
+        function mostrarJuan() {
+            alert("Nombre: " + juan.nombre + " Edad: " + juan.edad + " Semestre: " + juan.semestre + " Especialidad: " + juan.especialidad);
+        }
+    </script>
+</head>
+<body>
+
+<header class="main-head">
+    <div class="container">
+        <h1 class="texto-main">Ejemplo de uso de objetos en JavaScript</h1>
+        <br>
+        <h2 class="texto-dos">Por Ruiz Urrutia y Solano Gutierrez</h2>
+    </div>
+</header>
+
+<div class="ejemplo">
+    <p>Ejemplo:</p>
+    <h2 class="texto-tres">Ficha de Alumnos</h2>
+    <button class="btn" id="btn-manolo" onclick="mostrarManolo();">Ficha de Manolo</button>
+    <button class="btn" id="btn-juan" onclick="mostrarJuan();">Ficha de Juan</button>
+</div>
+
+</body>
+</html>

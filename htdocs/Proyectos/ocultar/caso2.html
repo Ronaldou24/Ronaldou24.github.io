@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Caso 2 - Eventos y Métodos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column; /* Añadido para colocar los elementos en columna */
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        #modes_btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 20px 0;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .modes_menu {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            display: none; /* Ocultar el menú por defecto */
+        }
+
+        .modes_menu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .modes_menu label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .modes_menu li {
+            margin-bottom: 10px;
+            color: #666;
+        }
+        
+        .modes_menu--mostrar {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <h1>Eventos y Métodos</h1>
+    <nav class="modes_menu" id="modes_menu">
+        <label for="mode">Selecciona una opción</label>
+        <ul>
+            <li><input type="radio" name="item-menu" id="option1"> <label for="option1">Caso 1</label></li>
+            <li><input type="radio" name="item-menu" id="option2"> <label for="option2">Caso 2</label></li>
+            <li><input type="radio" name="item-menu" id="option3"> <label for="option3">Caso 3</label></li>
+            <li><input type="radio" name="item-menu" id="option4"> <label for="option4">Caso 4</label></li>
+        </ul>
+    </nav>
+    <button id="modes_btn">Click aquí</button> <!-- Movido aquí -->
+    <script>
+        let modes = document.querySelector('.modes_menu'); 
+        let modes_btn = document.querySelector('#modes_btn');
+
+        modes_btn.addEventListener('click', function(){
+            modes.classList.toggle('modes_menu--mostrar');
+        });
+    </script>
+</body>
+</html>

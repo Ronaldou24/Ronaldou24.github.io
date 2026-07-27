@@ -1,0 +1,54 @@
+/* Estilos generales para la tabla */
+.card {
+    width: 80%;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(8, 8, 8, 0.1);
+}
+
+.card-header {
+    background-color: #4c1b1b;
+    color: #fff;
+    padding: 10px 20px;
+
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-footer {
+    padding: 10px 20px;
+}
+
+/* Estilos para la tabla */
+.table {
+    width: 100%;
+}
+
+/* Estilos para las celdas de la tabla */
+.table th,
+.table td {
+    padding: 8px;
+    text-align: center;
+}
+
+/* Estilos para las filas impares */
+.table tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+/* Estilos para los botones de acción */
+.btn-primary {
+    background-color: #000000;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-primary:hover {
+    background-color: #323335;
+}

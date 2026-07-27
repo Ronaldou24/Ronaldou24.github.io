@@ -1,0 +1,167 @@
+/* Estilos para la página */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #121212;
+}
+
+.main-head {
+    background-color: #8b160c;
+    color: #fff;
+    padding: 15px 0;
+    text-align: center;
+}
+
+.texto-main {
+    color: #ffffff;
+    margin: 0;
+    text-align: center;
+    font-size: 60px;
+}
+
+.texto-dos {
+    color: #ffffff;
+    margin: 0;
+    text-align: center;
+    font-size: 20px;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.ejemplo {
+    color: #000000;
+    margin: 0 auto;
+    text-align: center;
+    font-family: Arial, sans-serif;
+    font-size: 30px;
+}
+
+.btnn {
+    display: block;
+    text-align: center;
+    text-decoration: none;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    width: 120px;
+    background: #d3da1d;
+    color: rgb(0, 0, 0);
+    padding: 10px;
+    margin: 20px auto;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.texto-tres {
+    color: #000000;
+    margin: 0;
+    text-align: center;
+    font-size: 30px;
+}
+
+p {
+    font-family: Arial, sans-serif;
+    font-size: 50px;
+}
+
+/* Estilos específicos para el contenido */
+.card {
+    margin-bottom: 20px;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 10px 10px 0 0;
+    padding: 10px;
+}
+
+.card-body {
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+
+.form-label {
+    font-weight: bold;
+}
+
+
+/* Estilos para la tabla */
+.table {
+    color: #000;
+}
+
+.table th, .table td {
+    border: 1px solid #000;
+    padding: 8px;
+}
+
+.table th {
+    background-color: #000;
+    color: #fff;
+}
+
+.table tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+/* Estilos para el contenedor de actividades */
+#tablaActividades {
+    background-color: #130c0c;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilos para los botones */
+.btn-agregar {
+    background-color: #28a745; /* Verde */
+    border-color: #28a745;
+    color: #fff;
+}
+
+.btn-agregar:hover {
+    background-color: #218838;
+    border-color: #218838;
+}
+
+.btn-mostrar {
+    background-color: #007bff; /* Azul */
+    border-color: #007bff;
+    color: #fff;
+}
+
+.btn-mostrar:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-eliminar {
+    background-color: #dc3545; /* Rojo */
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.btn-eliminar:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}
+
+.btn-editar {
+    background-color: #ffc107; /* Amarillo */
+    border-color: #ffc107;
+    color: #000;
+}
+
+.btn-editar:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+}

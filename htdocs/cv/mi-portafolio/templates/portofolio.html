@@ -1,0 +1,39 @@
+<div style="max-width:1100px;margin:0 auto">
+  <div class="hero">
+    <div class="hero-tag">Disponible para proyectos 2026</div>
+    <h1 class="hero-name">
+      {{ programador.nombre }}<br><span class="accent-line">{{ programador.apellidos }}</span>
+    </h1>
+    <p class="hero-sub">
+      <strong>Full Stack Developer</strong> & Estudiante de {{ programador.carrera }}.
+      Especializado en arquitecturas web modernas, bases de datos y desarrollo de interfaces interactivas.
+    </p>
+    <div class="hero-row">
+      <a href="mailto:{{ programador.email }}" class="btn-primary">✉ Enviar mensaje</a>
+      <a href="#stack" class="btn-outline">Ver stack técnico →</a>
+    </div>
+    </div>
+</div>
+
+<section id="contacto">
+  <div class="section-label">Conectemos</div>
+  <h2 class="section-title">Contacto & Tarjeta</h2>
+  <div class="contact-grid">
+    <div class="contact-info">
+      <div class="contact-row">
+        <div class="contact-icon">📞</div>
+        <div>
+          <div class="contact-label">Teléfono</div>
+          <div class="contact-val"><a href="tel:{{ programador.telefono }}">{{ programador.telefono }}</a></div>
+        </div>
+      </div>
+      <div class="contact-row">
+        <div class="contact-icon">✉</div>
+        <div>
+          <div class="contact-label">Email</div>
+          <div class="contact-val"><a href="mailto:{{ programador.email }}">{{ programador.email }}</a></div>
+        </div>
+      </div>
+      </div>
+  </div>
+</section>

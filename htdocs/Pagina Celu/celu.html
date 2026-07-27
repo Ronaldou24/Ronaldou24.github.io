@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>HospiCELL - Hospital del Celular</title>
+    <style>
+        body { font-family: Arial, sans-serif; background: #f5f5f5; margin: 0; }
+        header { background: #202020; color: #b6ff00; padding: 1rem; text-align: center; }
+        nav { background: #444; color: #fff; padding: .5rem; text-align: center;}
+        nav a { color: #b6ff00; margin: 0 10px; text-decoration: none; }
+
+        /* Contenedor flex para contenido + imágenes */
+        .main-flex {
+            display: flex;
+            max-width: 1100px;
+            margin: 2rem auto;
+            gap: 20px;
+            padding: 0 1rem;
+        }
+
+        /* Contenido principal ocupa la mayor parte */
+        .content {
+            flex: 1;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px #ccc;
+            padding: 1rem;
+        }
+
+        /* Panel lateral derecho para imágenes */
+        .side-images {
+            width: 320px; /* ancho fijo para las imágenes */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .side-images img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.15);
+            object-fit: cover;
+            height: 180px; /* altura fija para buen tamaño */
+        }
+
+        h2 { color: #373737; }
+        .gallery img { width: 300px; border-radius: 8px; margin: 1rem; }
+        .info-box { background: #eaffd0; border-left: 6px solid #b6ff00; padding: 1rem; margin-bottom: 1rem; }
+        .job { background: #fffed0; border-left: 6px solid orange; padding: 1rem; margin: 1rem 0; }
+        footer { background: #222; color: #fff; text-align: center; padding: 1rem; margin-top: 2rem; }
+
+        /* Responsive: en pantallas pequeñas apila verticalmente */
+        @media(max-width: 900px) {
+            .main-flex {
+                flex-direction: column;
+                max-width: 90%;
+                margin: 2rem auto;
+                padding: 0 1rem;
+            }
+            .side-images {
+                width: 100%;
+                flex-direction: row;
+                gap: 15px;
+            }
+            .side-images img {
+                height: 140px;
+                flex: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>HospiCELL</h1>
+        <p>¡El hospital del celular!</p>
+    </header>
+
+    <nav>
+        <a href="celu.html">Servicios</a>
+        <a href="galeria.html">Galería</a>
+        <a href="contacto.html">Contacto</a>
+    </nav>
+
+    <!-- Contenedor flex que incluye contenido y panel de imágenes -->
+    <div class="main-flex">
+        <!-- Contenido principal -->
+        <div class="content">
+            <section class="info-box">
+                <h2>¿Quiénes somos?</h2>
+                <p>HospiCELL es tu hospital de confianza para celulares, drones y dispositivos electrónicos. Ofrecemos reparación profesional, cambio de piezas y asesoría técnica.</p>
+            </section>
+
+            <section id="servicios">
+                <h2>Servicios</h2>
+                <ul>
+                    <li>Reparación de celulares de todas las marcas</li>
+                    <li>Reparación y mantenimiento de drones</li>
+                    <li>Cambio de micas y accesorios</li>
+                    <li>Venta de refacciones</li>
+                </ul>
+            </section>
+
+            <section class="info-box" id="horario">
+                <h2>Horarios de atención</h2>
+                <ul>
+                    <li>Lunes a viernes: 10:30 AM a 7:00 PM</li>
+                    <li>Sábado: 10:00 AM a 3:00 PM</li>
+                </ul>
+            </section>
+
+            <section class="job">
+                <h2>¡Únete a nuestro equipo!</h2>
+                <p>Se solicita empleada. Informes en el local.</p>
+            </section>
+
+            <section id="contacto">
+                <h2>Contacto</h2>
+                <p>Visítanos en Puerto Vallarta, Jalisco.<br>
+                Teléfono: <strong>312-124-7431</strong></p>
+            </section>
+        </div>
+
+        <!-- Panel lateral derecho con dos imágenes -->
+        <aside class="side-images">
+            <img src="fotos/12.jpg" alt="Imagen 1" />
+            <img src="fotos/13.jpg" alt="Imagen 2" />
+            <img src="fotos/20.jpg" alt="Imagen 3" />
+            <img src="fotos/26.jpg" alt="Imagen 4" />
+            <img src="fotos/16.jpg" alt="Imagen 2" />
+        </aside>
+    </div>
+
+    <footer>
+        &copy; 2025 HospiCELL · Hospital del Celular
+    </footer>
+</body>
+</html>

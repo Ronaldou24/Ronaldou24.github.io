@@ -1,0 +1,39 @@
+/** Set display to none to prevent element "jumping" in screen **/
+#taskbar a.button-cpwebmail {
+    display: none;
+}
+
+#taskbar a.button-cpwebmail span.button-inner {
+    display: inline-block;
+    font-weight: normal;
+    padding: 5px 0 0 34px;
+    height: 20px;
+    background: url(/cPanel_magic_revision_1727387141/3rdparty/roundcube/plugins/return_to_webmail/skins/larry/images/cp-logo-RGB-v42015.svg);
+    background-repeat: no-repeat;
+    background-size: 25%;
+    background-position-y: 2px;
+}
+
+.minimal #topnav {
+    height: 43px;
+}
+
+.minimal #taskbar a {
+    height: 25px;
+}
+
+.minimal #taskbar a.button-cpwebmail span.button-inner {
+    background-size: 60%;
+}
+
+#topnav {
+    background-color: #08193e;
+}
+
+#taskbar a.button-selected {
+    background-color: #0d2966;
+}
+
+a.button-cptrashempty {
+    display: none;
+}

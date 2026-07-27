@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estética Canina El Perro</title>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            margin: 20px; 
+            background-color: #f5f5f5;
+        }
+        .container { 
+            max-width: 900px; 
+            margin: 0 auto; 
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        h1 { 
+            text-align: center; 
+            color: #333; 
+            margin-bottom: 30px;
+        }
+        .form-group { 
+            margin-bottom: 15px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        input, select { 
+            width: 100%; 
+            padding: 10px; 
+            border: 1px solid #ddd; 
+            border-radius: 5px; 
+        }
+        button { 
+            background-color: #007bff; 
+            color: white; 
+            padding: 12px 25px; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+        }
+        button:hover { 
+            background-color: #0056b3; 
+        }
+        .btn-danger { 
+            background-color: #dc3545; 
+        }
+        .btn-danger:hover { 
+            background-color: #c82333; 
+        }
+        .btn-warning { 
+            background-color: #ffc107; 
+            color: black; 
+        }
+        .btn-warning:hover { 
+            background-color: #e0a800; 
+        }
+        table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 20px; 
+        }
+        th, td { 
+            border: 1px solid #ddd; 
+            padding: 10px; 
+            text-align: left; 
+        }
+        th { 
+            background-color: #f8f9fa; 
+        }
+        .servicios { 
+            background-color: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 5px; 
+            margin-bottom: 30px; 
+        }
+        .form-section { 
+            background-color: #f8f9fa; 
+            padding: 20px; 
+            border-radius: 5px; 
+            margin-bottom: 30px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Estética Canina El Perro Manu</h1>
+        
+        <p style="text-align: center; margin-bottom: 30px;">
+            Cuidamos a tu mascota con amor y profesionalismo
+        </p>
+
+    
+        <div class="servicios">
+            <h2>Nuestros Servicios</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Servicio</th>
+                        <th>Chico</th>
+                        <th>Mediano</th>
+                        <th>Grande</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Corte</td>
+                        <td>$80</td>
+                        <td>$100</td>
+                        <td>$120</td>
+                    </tr>
+                    <tr>
+                        <td>Baño</td>
+                        <td>$60</td>
+                        <td>$80</td>
+                        <td>$100</td>
+                    </tr>
+                    <tr>
+                        <td>Corte y Baño</td>
+                        <td>$120</td>
+                        <td>$150</td>
+                        <td>$180</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        
+    
+        <div class="form-section">
+            <h2>Agendar Cita</h2>
+            <form action="{{ url_for('agendar') }}" method="POST">
+                <div class="form-group">
+                    <label for="folio">Folio:</label>
+                    <input type="text" id="folio" name="folio" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="mascota">Nombre de la mascota:</label>
+                    <input type="text" id="mascota" name="mascota" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="fecha">Fecha:</label>
+                    <input type="date" id="fecha" name="fecha" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="hora">Hora:</label>
+                    <input type="time" id="hora" name="hora" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="servicio">Servicio:</label>
+                    <select id="servicio" name="servicio" required onchange="calcularCosto()">
+                        <option value="">Selecciona servicio</option>
+                        <option value="Corte">Corte</option>
+                        <option value="Baño">Baño</option>
+                        <option value="Corte y Baño">Corte y Baño</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="tamano">Tamaño:</label>
+                    <select id="tamano" name="tamano" required onchange="calcularCosto()">
+                        <option value="">Selecciona tamaño</option>
+                        <option value="Chico">Chico</option>
+                        <option value="Mediano">Mediano</option>
+                        <option value="Grande">Grande</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="costo">Costo:</label>
+                    <input type="number" id="costo" name="costo" step="0.01" readonly>
+                </div>
+                
+                <button type="submit">Agendar</button>
+            </form>
+        </div>
+
+        <script>
+            function calcularCosto() {
+                const servicio = document.getElementById('servicio').value;
+                const tamaño = document.getElementById('tamano').value;
+                const costoInput = document.getElementById('costo');
+                
+                const precios = {
+                    'Corte': { 'Chico': 80, 'Mediano': 100, 'Grande': 120 },
+                    'Baño': { 'Chico': 60, 'Mediano': 80, 'Grande': 100 },
+                    'Corte y Baño': { 'Chico': 120, 'Mediano': 150, 'Grande': 180 }
+                };
+                
+                if (servicio && tamaño && precios[servicio] && precios[servicio][tamaño]) {
+                    costoInput.value = precios[servicio][tamaño];
+                } else {
+                    costoInput.value = '';
+                }
+            }
+        </script>
+        
+      
+        <h2>Citas Programadas</h2>
+        {% if citas %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Folio</th>
+                        <th>Mascota</th>
+                        <th>Fecha</th>
+                        <th>Hora</th>
+                        <th>Servicio</th>
+                        <th>Tamaño</th>
+                        <th>Costo</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for cita in citas %}
+                    <tr>
+                        <td>{{ cita[0] }}</td>
+                        <td>{{ cita[1] }}</td>
+                        <td>{{ cita[2] }}</td>
+                        <td>{{ cita[3] }}</td>
+                        <td>{{ cita[4] }}</td>
+                        <td>{{ cita[5] }}</td>
+                        <td>${{ "%.2f"|format(cita[6]) }}</td>
+                        <td>
+                            <a href="{{ url_for('mostrar_editar', folio=cita[0]) }}">
+                                <button class="btn-warning">Editar</button>
+                            </a>
+                            <form style="display: inline;" action="{{ url_for('eliminar', folio=cita[0]) }}" method="POST" 
+                                  onsubmit="return confirm('¿Eliminar esta cita?')">
+                                <button type="submit" class="btn-danger">Eliminar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No hay citas.</p>
+        {% endif %}
+    </div>
+</body>
+</html>

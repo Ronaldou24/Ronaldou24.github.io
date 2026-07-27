@@ -1,0 +1,3 @@
+Capa 1 — NodoVuelo: es el bloque más pequeño, solo almacena los datos de un vuelo y un puntero siguiente para encadenarse con el próximo nodo en la cola.
+Capa 2 — ColaPista: es la estructura que gestiona una pista. Sus tres métodos trabajan juntos: encolar_con_ajuste() inserta un vuelo y lo retrasa si la pista todavía está ocupada (regla de los 30 minutos), desencolar() saca el vuelo del frente, y esta_vacia() revisa si ya no hay nada pendiente.
+Capa 3 — simulación principal: orquesta todo siguiendo 5 pasos en secuencia: crea las 4 colas → lee el archivo → ordena por hora → reparte los vuelos en round-robin → imprime el resultado. Si el archivo no existe, se detiene con un error en el paso B.
