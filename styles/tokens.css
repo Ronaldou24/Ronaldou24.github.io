@@ -1,0 +1,75 @@
+/*
+  RETRO PREMIUM Y2K x OLD WEB — design tokens
+  Base limpia (8BitDo-like) + acentos Y2K. La base es limpia, el Y2K es acento.
+*/
+
+:root {
+  /* base limpia (8bitdo-like) */
+  --bg:            #f7f9fc;
+  --surface:       #ffffff;
+  --ink:           #16181d;
+  --ink-soft:      #5c6470;
+  --line:          #e4e9f0;
+
+  /* acentos Y2K */
+  --y2k-blue:      #4a7fe0;
+  --y2k-pink:      #ff5c9e;
+  --y2k-cyan:      #3fd2ff;
+  --y2k-yellow:    #ffd94d;
+  --y2k-violet:    #8b6cff;
+
+  /* arcoíris pixel (solo decorativo: bordes, hovers, hairlines) */
+  --rainbow: repeating-linear-gradient(115deg,
+    #ff5c9e 0 16px, #ffb45c 16px 32px, #ffd94d 32px 48px,
+    #5ce08a 48px 64px, #3fd2ff 64px 80px, #8b6cff 80px 96px);
+
+  /* forma y sombra */
+  --radius:        18px;
+  --radius-big:    28px;
+  --shadow-soft:   0 4px 24px rgba(22, 24, 29, .08);
+  --shadow-hard:   0 4px 0 rgba(22, 24, 29, .16); /* botones glossy */
+
+  /* geocities / old web */
+  --geo-blue:      #2222dd;
+  --geo-blue-deep: #10108f;
+  --geo-yellow:    #ffe259;
+  --geo-link:      #99ccff;
+
+  /* cartucho retro (escritorio oscuro / ventanas / hero) */
+  --void:          #0a0a12;
+  --navy:          #1d2b53;
+  --navy-light:    #2a3d73;
+  --cream:         #fff1e8;
+  --gold:          #ffec27;
+  --flame:         #ff004d;
+  --sky:           #29adff;
+  --lime:          #00e436;
+  --grape:         #7e2553;
+  --frame:         #000000;
+
+  /* tipografía */
+  --font-display:  'Press Start 2P', monospace;
+  --font-ui:       'Rajdhani', sans-serif;
+  --font-old-web:  'Times New Roman', Georgia, serif;
+  --font-head:     'Michroma', sans-serif;
+  --font-body:     'Barlow', sans-serif;
+  --font-mono:     'JetBrains Mono', monospace;
+}
+
+:root[data-theme="dark"] {
+  --bg:            #0e1118;
+  --surface:       #171b24;
+  --ink:           #eef1f6;
+  --ink-soft:      #a7afbd;
+  --line:          #262c38;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg:            #0e1118;
+    --surface:       #171b24;
+    --ink:           #eef1f6;
+    --ink-soft:      #a7afbd;
+    --line:          #262c38;
+  }
+}
