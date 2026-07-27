@@ -1,0 +1,805 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Ronaldo Solano — Full-Stack Dev Cartridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Michroma&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --void: #0a0a12;
+    --navy: #1d2b53;
+    --navy-light: #2a3d73;
+    --cream: #fff1e8;
+    --gold: #ffec27;
+    --flame: #ff004d;
+    --sky: #29adff;
+    --lime: #00e436;
+    --grape: #7e2553;
+    --frame: #000000;
+
+    --font-display: 'Press Start 2P', monospace;
+    --font-head: 'Michroma', sans-serif;
+    --font-body: 'Barlow', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--void);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 { text-wrap: balance; }
+
+  a { color: var(--sky); }
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--lime);
+    outline-offset: 3px;
+  }
+
+  /* ---------- TASKBAR ---------- */
+  .taskbar {
+    position: sticky;
+    top: 0;
+    z-index: 500;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--frame);
+    border-bottom: 4px solid var(--gold);
+    padding: 0.6rem 1rem;
+  }
+  .tb-logo {
+    font-family: var(--font-head);
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--cream);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0.4rem 0.2rem;
+  }
+  .tb-logo:hover { color: var(--gold); }
+  .tb-right { display: flex; align-items: center; gap: 0.6rem; }
+  .tb-clock, .tb-copy {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--cream);
+    background: var(--navy);
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--sky) var(--frame) var(--frame) var(--sky);
+    padding: 0.35rem 0.6rem;
+    cursor: pointer;
+  }
+  .tb-clock:hover, .tb-copy:hover { background: var(--sky); color: var(--frame); }
+  .tb-clock:active, .tb-copy:active {
+    border-color: var(--frame) var(--sky) var(--sky) var(--frame);
+    transform: translate(1px, 1px);
+  }
+
+  /* ---------- PIXEL RULE (divider) ---------- */
+  .pixel-rule {
+    height: 12px;
+    background:
+      linear-gradient(var(--gold), var(--gold)) top / 100% 2px no-repeat,
+      linear-gradient(var(--flame), var(--flame)) bottom / 100% 2px no-repeat,
+      repeating-linear-gradient(90deg, var(--sky) 0 8px, var(--lime) 8px 16px) center / 100% 4px no-repeat,
+      var(--navy);
+  }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    position: relative;
+    min-height: 82vh;
+    margin: 10px;
+    padding: clamp(2rem, 6vw, 5rem);
+    border: 14px solid var(--frame);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background:
+      radial-gradient(ellipse 60% 50% at 18% 20%, rgba(255, 0, 77, 0.4), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 82% 28%, rgba(41, 173, 255, 0.38), transparent 60%),
+      radial-gradient(ellipse 70% 55% at 50% 95%, rgba(255, 236, 39, 0.22), transparent 65%),
+      var(--void);
+  }
+  .hero::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(1.5px 1.5px at 10% 20%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 30% 70%, #fff, transparent),
+      radial-gradient(2px 2px at 55% 35%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 75% 15%, #fff, transparent),
+      radial-gradient(2px 2px at 85% 60%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 95% 85%, #fff, transparent),
+      radial-gradient(1.5px 1.5px at 40% 90%, #fff, transparent),
+      radial-gradient(2px 2px at 15% 55%, #fff, transparent);
+    background-size: 260px 220px;
+    opacity: 0.55;
+    animation: drift 70s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes drift {
+    from { background-position: 0 0; }
+    to { background-position: -1200px 600px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero::before { animation: none; }
+  }
+
+  .corner-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    width: 78px;
+    height: 78px;
+    background: var(--gold);
+    border: 6px solid var(--frame);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-4deg);
+    font-family: var(--font-head);
+    color: var(--frame);
+    line-height: 1;
+    z-index: 2;
+  }
+  .corner-badge b { font-size: 1.25rem; }
+  .corner-badge span { font-size: 0.55rem; letter-spacing: 0.1em; margin-top: 2px; }
+
+  .cube-wrap {
+    position: absolute;
+    right: 9%;
+    bottom: 12%;
+    width: 110px;
+    height: 110px;
+    perspective: 600px;
+    opacity: 0.9;
+    z-index: 1;
+    display: none;
+  }
+  @media (min-width: 720px) { .cube-wrap { display: block; } }
+  .cube {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    animation: spin 14s linear infinite;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .cube { animation: none; transform: rotateX(-18deg) rotateY(28deg); }
+  }
+  @keyframes spin {
+    from { transform: rotateX(0deg) rotateY(0deg); }
+    to { transform: rotateX(360deg) rotateY(360deg); }
+  }
+  .cube .face {
+    position: absolute;
+    width: 110px;
+    height: 110px;
+    border: 3px solid var(--frame);
+    opacity: 0.92;
+  }
+  .face.front  { background: var(--flame); transform: translateZ(55px); }
+  .face.back   { background: var(--sky);   transform: rotateY(180deg) translateZ(55px); }
+  .face.right  { background: var(--gold);  transform: rotateY(90deg) translateZ(55px); }
+  .face.left   { background: var(--lime);  transform: rotateY(-90deg) translateZ(55px); }
+  .face.top    { background: var(--grape); transform: rotateX(90deg) translateZ(55px); }
+  .face.bottom { background: var(--navy-light); transform: rotateX(-90deg) translateZ(55px); }
+
+  .hero-inner { position: relative; z-index: 3; max-width: 62ch; }
+  .hero-eyebrow {
+    font-family: var(--font-head);
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: var(--sky);
+  }
+  .hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 4.6vw, 2.9rem);
+    color: var(--gold);
+    text-shadow: 4px 4px 0 var(--flame);
+    line-height: 1.35;
+    margin: 1.1rem 0;
+  }
+  .hero-lede { font-size: 1.15rem; color: var(--cream); opacity: 0.92; }
+  .hero-hint {
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: var(--sky);
+    margin-top: 1.5rem;
+  }
+
+  .btn-row { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1.5rem; }
+  .btn {
+    font-family: var(--font-head);
+    font-size: 0.78rem;
+    letter-spacing: 0.05em;
+    color: var(--frame);
+    background: var(--gold);
+    padding: 0.9rem 1.6rem;
+    border: 3px solid var(--frame);
+    box-shadow: 5px 5px 0 var(--frame);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease;
+    cursor: pointer;
+  }
+  .btn:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--frame); background: var(--sky); }
+
+  /* ---------- DESKTOP ---------- */
+  .desktop {
+    min-height: 60vh;
+    padding: clamp(2rem, 6vw, 3.5rem) clamp(1.25rem, 6vw, 3rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 96px);
+    gap: 1.75rem 1.25rem;
+    justify-content: start;
+  }
+  .desktop-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--cream);
+    cursor: pointer;
+    padding: 0.4rem;
+  }
+  .icon-glyph {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--navy);
+    border: 3px solid var(--frame);
+    box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.45);
+    font-family: var(--font-head);
+    font-size: 0.85rem;
+    color: var(--gold);
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+  }
+  .desktop-icon:hover .icon-glyph {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.5);
+    border-color: var(--sky);
+  }
+  .icon-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-align: center;
+    text-shadow: 1px 1px 0 #000;
+  }
+  .desktop-icon.shake { animation: shake 0.3s ease; }
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+
+  /* ---------- WINDOWS ---------- */
+  .window {
+    position: fixed;
+    width: min(380px, calc(100vw - 32px));
+    max-height: 70vh;
+    background: var(--navy);
+    border-width: 3px;
+    border-style: solid;
+    border-color: var(--sky) var(--frame) var(--frame) var(--sky);
+    box-shadow: 5px 5px 16px rgba(0, 0, 0, 0.55);
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+  }
+  .window.hidden { display: none; }
+  .window.popup { width: min(300px, calc(100vw - 32px)); }
+  .title-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--frame);
+    border-bottom: 3px solid var(--gold);
+    padding: 0.5rem 0.5rem 0.5rem 0.75rem;
+    cursor: move;
+    touch-action: none;
+  }
+  .title-bar .title {
+    font-family: var(--font-head);
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    color: var(--cream);
+  }
+  .btn-close {
+    width: 22px;
+    height: 22px;
+    background: var(--flame);
+    color: var(--frame);
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--gold) var(--frame) var(--frame) var(--gold);
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.7rem;
+    line-height: 1;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .btn-close:hover { background: var(--gold); }
+  .btn-close:active {
+    border-color: var(--frame) var(--gold) var(--gold) var(--frame);
+    transform: translate(1px, 1px);
+  }
+  .window-content {
+    padding: 1rem 1.1rem;
+    overflow-y: auto;
+  }
+  .window-content p { margin: 0 0 0.8rem; font-size: 0.92rem; }
+  .window-content p:last-child { margin-bottom: 0; }
+
+  /* status */
+  .status-grid { display: grid; gap: 0.75rem; }
+  .stat-tile {
+    background: var(--void);
+    border: 2px solid var(--frame);
+    padding: 0.7rem 0.9rem;
+  }
+  .stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    color: var(--sky);
+    text-transform: uppercase;
+  }
+  .stat-value {
+    font-family: var(--font-mono);
+    font-size: 0.88rem;
+    margin-top: 0.3rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* inventario */
+  .skill-group { margin-bottom: 1.1rem; }
+  .skill-group:last-child { margin-bottom: 0; }
+  .skill-group h3 {
+    font-family: var(--font-head);
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--flame);
+    margin: 0 0 0.5rem;
+  }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .chip {
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    padding: 0.3rem 0.65rem;
+    background: var(--void);
+    border: 2px solid var(--gold);
+    color: var(--gold);
+  }
+
+  /* misiones / roster */
+  .roster-grid { display: grid; gap: 1rem; }
+  .fighter-card {
+    position: relative;
+    border: 3px solid var(--frame);
+    background: var(--void);
+    padding: 1rem;
+  }
+  .status-tag {
+    position: absolute;
+    top: -10px;
+    right: -8px;
+    font-family: var(--font-mono);
+    font-size: 0.58rem;
+    padding: 0.25rem 0.5rem;
+    border: 2px solid var(--frame);
+    text-transform: uppercase;
+  }
+  .status-tag.done { background: var(--gold); color: var(--frame); }
+  .status-tag.progress { background: var(--sky); color: var(--frame); }
+  .status-tag.side { background: var(--lime); color: var(--frame); }
+  .fighter-card h3 { font-family: var(--font-head); font-size: 0.82rem; color: var(--cream); margin: 0 0 0.4rem; }
+  .fighter-card p { font-size: 0.85rem; opacity: 0.88; margin: 0; }
+  .fighter-card.empty {
+    border-style: dashed;
+    opacity: 0.55;
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.76rem;
+    padding: 1.3rem 1rem;
+  }
+
+  /* contacto */
+  .contact-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
+  .contact-row .btn { padding: 0.6rem 1rem; font-size: 0.7rem; box-shadow: 3px 3px 0 var(--frame); }
+  .connector { display: flex; gap: 5px; margin-bottom: 0.6rem; }
+  .connector span { width: 8px; height: 20px; background: var(--frame); }
+
+  /* ---------- FOOTER ---------- */
+  .page-footer { text-align: center; padding: 2.5rem 1rem; }
+  .page-footer small {
+    font-family: var(--font-mono);
+    color: rgba(255, 241, 232, 0.5);
+    font-size: 0.7rem;
+  }
+
+  /* ---------- BSOD ---------- */
+  .bsod-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background: #10009b;
+    color: var(--cream);
+    font-family: var(--font-mono);
+    padding: clamp(1.5rem, 6vw, 4rem);
+    cursor: pointer;
+    overflow-y: auto;
+  }
+  .bsod-overlay.hidden { display: none; }
+  .bsod-text { max-width: 60ch; margin: 3rem auto 0; }
+  .bsod-text p { margin: 0 0 1rem; font-size: 0.9rem; line-height: 1.6; }
+</style>
+</head>
+<body>
+
+<div class="taskbar">
+  <button class="tb-logo" id="logoBtn" type="button">RONALDOU24</button>
+  <div class="tb-right">
+    <button class="tb-clock" id="clockBtn" type="button"><span id="clockText">00:00</span></button>
+    <button class="tb-copy" id="copyBtn" type="button" title="Créditos">©</button>
+  </div>
+</div>
+
+<div class="hero">
+  <div class="corner-badge"><b>RS</b><span>·64</span></div>
+  <div class="cube-wrap">
+    <div class="cube">
+      <div class="face front"></div>
+      <div class="face back"></div>
+      <div class="face right"></div>
+      <div class="face left"></div>
+      <div class="face top"></div>
+      <div class="face bottom"></div>
+    </div>
+  </div>
+  <div class="hero-inner">
+    <p class="hero-eyebrow">Full-Stack Dev Cartridge</p>
+    <h1 class="hero-title">RONALDO<br />SOLANO</h1>
+    <p class="hero-lede">
+      Full-stack (PHP · JavaScript · MySQL) con acabado electrónico — si algo corre a 64 bits
+      o brilla como render de caja de N64, ya me ganó.
+    </p>
+    <div class="btn-row">
+      <button class="btn" id="openAllBtn" type="button">Abrir escritorio</button>
+    </div>
+    <p class="hero-hint">↓ o haz clic en los íconos de abajo</p>
+  </div>
+</div>
+
+<div class="pixel-rule"></div>
+
+<main class="desktop">
+  <button class="desktop-icon" data-window="sobreMiWindow" type="button">
+    <span class="icon-glyph">S</span>
+    <span class="icon-label">sobre-mi.txt</span>
+  </button>
+  <button class="desktop-icon" data-window="statusWindow" type="button">
+    <span class="icon-glyph">P1</span>
+    <span class="icon-label">status.exe</span>
+  </button>
+  <button class="desktop-icon" data-window="inventarioWindow" type="button">
+    <span class="icon-glyph">Zx</span>
+    <span class="icon-label">inventario.zip</span>
+  </button>
+  <button class="desktop-icon" data-window="misionesWindow" type="button">
+    <span class="icon-glyph">Mx</span>
+    <span class="icon-label">misiones.lnk</span>
+  </button>
+  <button class="desktop-icon" data-window="contactoWindow" type="button">
+    <span class="icon-glyph">@</span>
+    <span class="icon-label">contacto.txt</span>
+  </button>
+  <button class="desktop-icon" id="bugIcon" type="button">
+    <span class="icon-glyph">!!</span>
+    <span class="icon-label">not-a-bug.docx</span>
+  </button>
+</main>
+
+<div class="pixel-rule"></div>
+
+<footer class="page-footer">
+  <small>RONALDOU24 © 2026</small>
+</footer>
+
+<!-- Windows -->
+<div class="window hidden" id="sobreMiWindow" data-default-pos="60,110">
+  <header class="title-bar drag-handle">
+    <span class="title">SOBRE-MI.TXT</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <p>
+      Estudiante de <strong>ESIME Zacatenco (IPN)</strong>, cursando <strong>2° semestre</strong>.
+      Programo full-stack (PHP · JavaScript · MySQL) y soy afín a la electrónica — de ahí que
+      también arregle y modee consolas viejas (chips, flash carts, limpieza de contactos,
+      retrocompatibilidad) para que sigan corriendo juegos.
+    </p>
+    <p>
+      Crecí jugando lo suficiente como para que ahora se me note en el gusto por lo retro: si
+      algo se ve como render de caja de N64 o sprite de Smash, ya me ganó.
+    </p>
+  </div>
+</div>
+
+<div class="window hidden" id="statusWindow" data-default-pos="110,150">
+  <header class="title-bar drag-handle">
+    <span class="title">STATUS.EXE</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="status-grid">
+      <div class="stat-tile"><div class="stat-label">Player</div><div class="stat-value">Ronaldo Solano</div></div>
+      <div class="stat-tile"><div class="stat-label">Clase</div><div class="stat-value">Full-Stack Developer</div></div>
+      <div class="stat-tile"><div class="stat-label">Nivel</div><div class="stat-value">2 (2° semestre)</div></div>
+      <div class="stat-tile"><div class="stat-label">Gremio</div><div class="stat-value">ESIME Zacatenco · IPN</div></div>
+      <div class="stat-tile"><div class="stat-label">Habilidad especial</div><div class="stat-value">Modding y reparación de consolas retro</div></div>
+      <div class="stat-tile"><div class="stat-label">Debilidad</div><div class="stat-value">No poder dejar un bug sin resolver</div></div>
+    </div>
+  </div>
+</div>
+
+<div class="window hidden" id="inventarioWindow" data-default-pos="70,220">
+  <header class="title-bar drag-handle">
+    <span class="title">INVENTARIO.ZIP</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="skill-group">
+      <h3>Backend &amp; Datos</h3>
+      <div class="chip-row"><span class="chip">PHP</span><span class="chip">MySQL</span></div>
+    </div>
+    <div class="skill-group">
+      <h3>Frontend</h3>
+      <div class="chip-row"><span class="chip">JavaScript</span><span class="chip">HTML5</span><span class="chip">CSS3</span></div>
+    </div>
+    <div class="skill-group">
+      <h3>Electrónica &amp; Retro Hardware</h3>
+      <div class="chip-row"><span class="chip">Arduino</span><span class="chip">ESP32</span><span class="chip">Console Modding</span></div>
+    </div>
+    <div class="skill-group">
+      <h3>Herramientas</h3>
+      <div class="chip-row"><span class="chip">Git</span><span class="chip">GitHub</span><span class="chip">VS Code</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="window hidden" id="misionesWindow" data-default-pos="130,90">
+  <header class="title-bar drag-handle">
+    <span class="title">MISIONES.LNK</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="roster-grid">
+      <div class="fighter-card">
+        <span class="status-tag done">Completada</span>
+        <h3>nombre-del-proyecto</h3>
+        <p>Qué hace en una línea.</p>
+      </div>
+      <div class="fighter-card">
+        <span class="status-tag progress">En progreso</span>
+        <h3>otro-proyecto</h3>
+        <p>Qué hace en una línea.</p>
+      </div>
+      <div class="fighter-card">
+        <span class="status-tag side">Side quest</span>
+        <h3>proyecto-retro</h3>
+        <p>Ej. herramienta o mod para consolas.</p>
+      </div>
+      <div class="fighter-card empty">Slot vacío — agrega tu próximo proyecto</div>
+    </div>
+  </div>
+</div>
+
+<div class="window hidden" id="contactoWindow" data-default-pos="160,260">
+  <header class="title-bar drag-handle">
+    <span class="title">CONTACTO.TXT</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="contact-row">
+      <a class="btn" href="mailto:ronaldosolano56@gmail.com">Email</a>
+      <a class="btn" href="https://github.com/Ronaldou24" target="_blank" rel="noopener">GitHub</a>
+      <a class="btn" href="https://mx.pinterest.com/ronaldosolano56/" target="_blank" rel="noopener">Pinterest</a>
+    </div>
+    <div class="connector"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+    <p>Gracias por jugar.</p>
+  </div>
+</div>
+
+<div class="window hidden" id="copyrightWindow" data-default-pos="200,140">
+  <header class="title-bar drag-handle">
+    <span class="title">CRÉDITOS</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <p>Diseño y código: Ronaldo Solano.</p>
+    <p>Tipografías: Google Fonts (Press Start 2P, Michroma, Barlow, JetBrains Mono).</p>
+    <p>Inspirado en la estética de escritorios retro y cajas de N64.</p>
+    <p>© 2026</p>
+  </div>
+</div>
+
+<div class="bsod-overlay hidden" id="bsod">
+  <div class="bsod-text">
+    <p>SE HA DETECTADO UN PROBLEMA Y EL CARTUCHO SE HA APAGADO PARA EVITAR DAÑOS.</p>
+    <p>BUG_SIN_RESOLVER_0x00000042</p>
+    <p>Si esta es la primera vez que ves esta pantalla, sopla el cartucho y reinicia.</p>
+    <p>*** STOP: 0xDEBUG1 (0x52654E44,0x2073206F,0x00000000,0x00000000)</p>
+    <p>Volcado de memoria en progreso... volcado completo.</p>
+    <p>Haz clic para continuar.</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  function updateClock() {
+    var d = new Date();
+    var h = String(d.getHours()).padStart(2, '0');
+    var m = String(d.getMinutes()).padStart(2, '0');
+    document.getElementById('clockText').textContent = h + ':' + m;
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+
+  var zTop = 100;
+
+  function clampPos(x, y, w, h) {
+    var maxX = window.innerWidth - w - 8;
+    var maxY = window.innerHeight - h - 8;
+    return [
+      Math.min(Math.max(8, x), Math.max(8, maxX)),
+      Math.min(Math.max(56, y), Math.max(56, maxY))
+    ];
+  }
+
+  function bringToFront(win) {
+    zTop++;
+    win.style.zIndex = zTop;
+  }
+
+  function openWindow(id) {
+    var win = document.getElementById(id);
+    if (!win) return;
+    if (win.classList.contains('hidden')) {
+      var pos = (win.dataset.defaultPos || '60,110').split(',').map(Number);
+      var clamped = clampPos(pos[0], pos[1], 380, 300);
+      win.style.left = clamped[0] + 'px';
+      win.style.top = clamped[1] + 'px';
+    }
+    win.classList.remove('hidden');
+    bringToFront(win);
+  }
+
+  function makeDraggable(win) {
+    var handle = win.querySelector('.drag-handle');
+    if (!handle) return;
+    var startX = 0, startY = 0, activeId = null;
+    handle.addEventListener('pointerdown', function (e) {
+      if (e.target.closest('[data-close]')) return;
+      activeId = e.pointerId;
+      startX = e.clientX;
+      startY = e.clientY;
+      handle.setPointerCapture(e.pointerId);
+      bringToFront(win);
+    });
+    handle.addEventListener('pointermove', function (e) {
+      if (e.pointerId !== activeId) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      startX = e.clientX;
+      startY = e.clientY;
+      win.style.left = (win.offsetLeft + dx) + 'px';
+      win.style.top = (win.offsetTop + dy) + 'px';
+    });
+    function end(e) {
+      if (e.pointerId !== activeId) return;
+      if (handle.hasPointerCapture(e.pointerId)) handle.releasePointerCapture(e.pointerId);
+      activeId = null;
+    }
+    handle.addEventListener('pointerup', end);
+    handle.addEventListener('pointercancel', end);
+  }
+
+  document.querySelectorAll('.window').forEach(function (win) {
+    win.addEventListener('pointerdown', function () { bringToFront(win); });
+    var closeBtn = win.querySelector('[data-close]');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        win.classList.add('hidden');
+      });
+    }
+    makeDraggable(win);
+  });
+
+  document.querySelectorAll('.desktop-icon[data-window]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      openWindow(btn.getAttribute('data-window'));
+    });
+  });
+
+  document.getElementById('copyBtn').addEventListener('click', function () {
+    openWindow('copyrightWindow');
+  });
+
+  document.getElementById('openAllBtn').addEventListener('click', function () {
+    ['sobreMiWindow', 'statusWindow', 'misionesWindow', 'contactoWindow'].forEach(openWindow);
+  });
+
+  document.getElementById('logoBtn').addEventListener('click', function () {
+    var cube = document.querySelector('.cube');
+    if (!cube) return;
+    cube.style.animationDuration = '0.8s';
+    setTimeout(function () { cube.style.animationDuration = '14s'; }, 1600);
+  });
+
+  var bugClicks = 0;
+  document.getElementById('bugIcon').addEventListener('click', function () {
+    bugClicks++;
+    if (bugClicks >= 3) {
+      document.getElementById('bsod').classList.remove('hidden');
+      bugClicks = 0;
+      return;
+    }
+    this.classList.add('shake');
+    var self = this;
+    setTimeout(function () { self.classList.remove('shake'); }, 300);
+  });
+
+  document.getElementById('bsod').addEventListener('click', function () {
+    this.classList.add('hidden');
+  });
+
+  function spawnPopup(text, x, y) {
+    var p = document.createElement('div');
+    p.className = 'window popup';
+    var clamped = clampPos(x, y, 300, 140);
+    p.style.left = clamped[0] + 'px';
+    p.style.top = clamped[1] + 'px';
+    p.style.zIndex = ++zTop;
+    p.innerHTML =
+      '<header class="title-bar drag-handle"><span class="title">AVISO</span>' +
+      '<button class="btn-close" data-close type="button">X</button></header>' +
+      '<div class="window-content"><p>' + text + '</p></div>';
+    document.body.appendChild(p);
+    makeDraggable(p);
+    p.querySelector('[data-close]').addEventListener('click', function () { p.remove(); });
+    p.addEventListener('pointerdown', function () { bringToFront(p); });
+  }
+
+  window.addEventListener('load', function () {
+    setTimeout(function () {
+      spawnPopup('Este sitio corre a 64 bits y a base de café. Explora las ventanas del escritorio ↓', 40, 420);
+    }, 1400);
+  });
+})();
+</script>
+
+</body>
+</html>
