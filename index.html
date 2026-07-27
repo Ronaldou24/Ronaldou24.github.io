@@ -955,34 +955,6 @@
     box-shadow: 0 0 20px rgba(255,236,39,0.5), inset 0 1px 0 rgba(255,255,255,0.16);
     filter: brightness(1.12);
   }
-  .chip::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 8px);
-    transform: translateX(-28%) translateY(4px);
-    opacity: 0;
-    pointer-events: none;
-    white-space: normal;
-    width: max-content;
-    max-width: 115px;
-    text-align: center;
-    line-height: 1.4;
-    background: var(--frame);
-    color: var(--cream);
-    border: 2px solid var(--gold);
-    padding: 0.34rem 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.03em;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.28);
-    transition: opacity 0.14s ease, transform 0.14s ease;
-    z-index: 12;
-  }
-  .chip:hover::after {
-    opacity: 1;
-    transform: translateX(-28%) translateY(0);
-  }
   .mini-grid { display: grid; gap: 0.75rem; }
   .mini-card {
     background: linear-gradient(135deg, rgba(10, 10, 18, 0.92), rgba(42, 61, 115, 0.18));
@@ -1072,34 +1044,29 @@
     box-shadow: 0 0 20px rgba(41,173,255,0.5), inset 0 1px 0 rgba(255,255,255,0.18);
     filter: brightness(1.12) saturate(1.15);
   }
-  .tag::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 8px);
-    transform: translateX(-28%) translateY(4px);
-    opacity: 0;
+  .global-tooltip {
+    position: fixed;
+    z-index: 500;
     pointer-events: none;
-    white-space: normal;
-    width: max-content;
-    max-width: 115px;
-    text-align: center;
-    line-height: 1.4;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.12s ease, transform 0.12s ease;
     background: var(--frame);
     color: var(--cream);
     border: 2px solid var(--gold);
-    padding: 0.34rem 0.48rem;
+    padding: 0.34rem 0.55rem;
     font-family: var(--font-mono);
     font-size: 0.62rem;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.24);
-    transition: opacity 0.14s ease, transform 0.14s ease;
-    z-index: 12;
+    line-height: 1.4;
+    max-width: 190px;
+    text-align: center;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.28);
   }
-  .tag:hover::after {
+  .global-tooltip.visible {
     opacity: 1;
-    transform: translateX(-28%) translateY(0);
+    transform: translateY(0);
   }
 
   /* misiones / roster */
@@ -2055,6 +2022,35 @@
     setTimeout(function () {
       spawnPopup('Este sitio corre a 64 bits, con café, cartuchos y mucha vibra friqui. Explora el escritorio ↓', 40, 420);
     }, 1400);
+  });
+
+  // tooltip global: un solo elemento fixed que nunca se recorta con el overflow de las ventanas
+  var tip = document.createElement('div');
+  tip.className = 'global-tooltip';
+  document.body.appendChild(tip);
+
+  function positionTooltip(el) {
+    var r = el.getBoundingClientRect();
+    var tw = tip.offsetWidth, th = tip.offsetHeight;
+    var left = r.left + r.width / 2 - tw / 2;
+    left = Math.max(6, Math.min(left, window.innerWidth - tw - 6));
+    var top = r.top - th - 8;
+    if (top < 6) top = r.bottom + 8;
+    tip.style.left = left + 'px';
+    tip.style.top = top + 'px';
+  }
+
+  document.querySelectorAll('[data-tooltip]').forEach(function (el) {
+    el.addEventListener('mouseenter', function () {
+      var txt = el.getAttribute('data-tooltip');
+      if (!txt) return;
+      tip.textContent = txt;
+      tip.classList.add('visible');
+      positionTooltip(el);
+    });
+    el.addEventListener('mouseleave', function () {
+      tip.classList.remove('visible');
+    });
   });
 })();
 </script>
