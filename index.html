@@ -87,6 +87,10 @@
 
   /* ---------- HERO ---------- */
   .hero {
+    --glitch-cyan: var(--sky);
+    --glitch-magenta: var(--flame);
+    --glitch-yellow: var(--gold);
+    --glitch-green: var(--lime);
     position: relative;
     min-height: 82vh;
     margin: 10px;
@@ -97,10 +101,10 @@
     flex-direction: column;
     justify-content: center;
     background:
-      radial-gradient(ellipse 60% 50% at 18% 20%, rgba(255, 0, 77, 0.4), transparent 60%),
-      radial-gradient(ellipse 55% 45% at 82% 28%, rgba(41, 173, 255, 0.38), transparent 60%),
-      radial-gradient(ellipse 70% 55% at 50% 95%, rgba(255, 236, 39, 0.22), transparent 65%),
-      linear-gradient(135deg, #0e1020 0%, #1b1d3f 55%, #07080f 100%);
+      radial-gradient(ellipse 60% 50% at 18% 20%, rgba(255, 0, 77, 0.32), transparent 60%),
+      radial-gradient(ellipse 55% 45% at 82% 28%, rgba(63, 210, 255, 0.3), transparent 60%),
+      radial-gradient(ellipse 70% 55% at 50% 95%, rgba(255, 236, 39, 0.18), transparent 65%),
+      linear-gradient(160deg, var(--geo-blue-deep) 0%, var(--geo-blue) 55%, #0a0a2e 100%);
     box-shadow: inset 0 0 0 3px rgba(255,255,255,0.04), inset 0 0 80px rgba(0,0,0,0.3);
   }
   .hero .poly {
@@ -371,6 +375,18 @@
     text-shadow: 0 0 8px rgba(255,236,39,0.4);
   }
 
+  /* slit-scan / feedback glitch — overlay sobre el canvas 3D, puramente visual */
+  .glitchcam-canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    pointer-events: none;
+  }
+  .glitchcam-canvas.active { display: block; }
+  #papusGlitchToggle[aria-pressed="true"] { background: var(--flame); animation: none; }
+
   .hero-inner { position: relative; z-index: 3; max-width: 62ch; }
   .hero-eyebrow {
     font-family: var(--font-head);
@@ -394,7 +410,212 @@
     margin: 1.1rem 0;
     letter-spacing: 0.06em;
   }
-  .hero-lede { font-size: 1.15rem; color: var(--cream); opacity: 0.92; }
+  /* ============ GLITCH RGB-SPLIT + BURST (hero) ============ */
+  .hero-title { position: relative; }
+  .hero-title::before,
+  .hero-title::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    white-space: pre-line;
+    overflow: hidden;
+    color: transparent;
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  .hero-title::before {
+    color: var(--glitch-cyan);
+    clip-path: inset(0 0 55% 0);
+    animation: glitch-shift 2.2s infinite steps(8, end) alternate;
+    text-shadow: 2px 0 var(--glitch-yellow);
+  }
+  .hero-title::after {
+    color: var(--glitch-magenta);
+    clip-path: inset(55% 0 0 0);
+    animation: glitch-shift 1.6s infinite steps(8, end) alternate-reverse;
+    text-shadow: -2px 0 var(--glitch-green);
+  }
+  .hero-title:hover::before { animation-duration: 0.5s; }
+  .hero-title:hover::after  { animation-duration: 0.4s; }
+
+  .hero-subglitch {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--cream);
+    opacity: 0.75;
+    margin: 0.3rem 0 0;
+  }
+  .hero-subglitch::before {
+    content: attr(data-text);
+    position: absolute;
+    left: 2px;
+    top: 0;
+    white-space: nowrap;
+    color: var(--glitch-cyan);
+    opacity: 0.6;
+    animation: glitch-shift 2.6s infinite steps(6, end) alternate;
+    pointer-events: none;
+  }
+
+  /* retrato con emboss dinámico, marco poligonal a juego con corner-badge */
+  .img-frame {
+    position: relative;
+    float: left;
+    width: 128px;
+    height: 150px;
+    margin: 0.5rem 1.1rem 0.7rem 0;
+    border: 4px solid var(--frame);
+    clip-path: polygon(0 0, calc(100% - 14px) 0, 100% 14px, 100% 100%, 14px 100%, 0 calc(100% - 14px));
+    box-shadow: 5px 5px 0 rgba(0,0,0,0.3);
+  }
+  .glitch-img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    filter: contrast(1.2) saturate(1.4) grayscale(0.2);
+    animation: emboss-pulse 3s infinite steps(6, end) alternate;
+  }
+  .glitch-img:hover { animation-duration: 1.2s; }
+  .img-overlay {
+    position: absolute;
+    inset: 0;
+    background-image: repeating-linear-gradient(0deg, rgba(0,228,54,0.12) 0px, rgba(0,228,54,0.12) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode: screen;
+    pointer-events: none;
+  }
+  @keyframes emboss-pulse {
+    0%   { filter: contrast(1.2) saturate(1.4) grayscale(0.2) hue-rotate(0deg); }
+    50%  { filter: contrast(1.6) saturate(2) grayscale(0.5) hue-rotate(25deg); }
+    100% { filter: contrast(1.2) saturate(1.4) grayscale(0.2) hue-rotate(0deg); }
+  }
+
+  /* halo de color + ruido + scanlines, detrás de los polígonos existentes */
+  .color-halo {
+    position: absolute;
+    inset: -20%;
+    z-index: 0;
+    background:
+      radial-gradient(circle at 30% 30%, rgba(41,173,255,0.16), transparent 60%),
+      radial-gradient(circle at 70% 70%, rgba(255,0,77,0.16), transparent 60%),
+      radial-gradient(circle at 50% 50%, rgba(255,236,39,0.08), transparent 70%);
+    animation: halo-drift 8s ease-in-out infinite alternate;
+    pointer-events: none;
+  }
+  .noise-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0px, rgba(255,255,255,0.02) 2px, transparent 2px, transparent 4px);
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .scanlines {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    background-image: repeating-linear-gradient(0deg, rgba(0,228,54,0.06) 0px, rgba(0,228,54,0.06) 1px, transparent 1px, transparent 3px);
+    mix-blend-mode: screen;
+    animation: scan-shift 6s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes halo-drift {
+    0%   { transform: scale(1) rotate(0deg); }
+    50%  { transform: scale(1.15) rotate(8deg); }
+    100% { transform: scale(1) rotate(-8deg); }
+  }
+  @keyframes scan-shift {
+    from { background-position: 0 0; }
+    to   { background-position: 0 40px; }
+  }
+
+  /* captions estilo meme, guiño a cartucho/N64 */
+  .meme-caption {
+    position: absolute;
+    z-index: 4;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--font-head);
+    font-size: clamp(0.7rem, 2vw, 1.05rem);
+    letter-spacing: 0.08em;
+    color: #fff;
+    -webkit-text-stroke: 1.5px #000;
+    text-transform: uppercase;
+    pointer-events: none;
+  }
+  .meme-caption.top { top: 1.2rem; }
+  .meme-caption.bottom { bottom: 1.2rem; }
+
+  /* flechas + chips poligonales flotando — sin perdón el N64 style */
+  .spin-arrow {
+    position: absolute;
+    z-index: 1;
+    font-size: 1.8rem;
+    color: rgba(255,255,255,0.45);
+    display: none;
+    pointer-events: none;
+  }
+  @media (min-width: 720px) { .spin-arrow { display: block; } }
+  .spin-arrow.cw  { left: 3%; bottom: 8%; animation: spin-cw 5s linear infinite; }
+  .spin-arrow.ccw { right: 3%; top: 42%; animation: spin-ccw 6s linear infinite; }
+  @keyframes spin-cw  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes spin-ccw { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+
+  .color-chip {
+    position: absolute;
+    z-index: 1;
+    width: 16px; height: 16px;
+    opacity: 0.85;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    animation: chip-drift 4s ease-in-out infinite alternate;
+    display: none;
+    pointer-events: none;
+  }
+  @media (min-width: 720px) { .color-chip { display: block; } }
+  .color-chip.c1 { background: var(--glitch-cyan);    top: 42%; left: 4%; animation-duration: 4s; }
+  .color-chip.c2 { background: var(--glitch-magenta); bottom: 30%; left: 46%; animation-duration: 5s; }
+  .color-chip.c3 { background: var(--glitch-yellow);  top: 8%; left: 40%; animation-duration: 3.5s; }
+  @keyframes chip-drift {
+    0%   { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-14px) rotate(45deg); }
+  }
+
+  @keyframes glitch-shift {
+    0%   { transform: translate(0, 0); }
+    20%  { transform: translate(-3px, 2px); }
+    40%  { transform: translate(3px, -2px); }
+    60%  { transform: translate(-2px, 3px); }
+    80%  { transform: translate(2px, -3px); }
+    100% { transform: translate(0, 0); }
+  }
+
+  /* burst aleatorio (script al final del body): intensifica sin bajar de ~0.3s — WCAG 2.3.1 */
+  .glitch-wrap.burst .hero-title::before { animation-duration: 0.35s; text-shadow: 3px 0 var(--glitch-yellow); }
+  .glitch-wrap.burst .hero-title::after  { animation-duration: 0.3s; text-shadow: -3px 0 var(--glitch-green); }
+  .glitch-wrap.burst .glitch-img { filter: contrast(1.8) saturate(2.5) hue-rotate(40deg); transition: filter 0.15s ease-out; }
+  .glitch-wrap.burst .color-halo { transform: scale(1.25) rotate(15deg); transition: transform 0.3s ease-out; }
+  .glitch-wrap.burst .spin-arrow.cw  { animation-duration: 1.5s; }
+  .glitch-wrap.burst .spin-arrow.ccw { animation-duration: 1.8s; }
+  .glitch-wrap.burst .color-chip { animation-duration: 1s; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-title::before, .hero-title::after,
+    .hero-subglitch::before,
+    .glitch-img, .color-halo, .scanlines,
+    .spin-arrow, .color-chip,
+    .icon-glyph, .icon-glyph::before, .icon-glyph::after,
+    .mini-card {
+      animation: none;
+    }
+  }
+  .hero-lede { font-size: 1.15rem; color: var(--cream); opacity: 0.92; clear: none; }
   .hero-badges {
     display: flex;
     flex-wrap: wrap;
@@ -591,6 +812,7 @@
     box-shadow: inset 0 0 0 1px rgba(255,255,255,0.12), 4px 4px 0 rgba(0,0,0,0.28);
     border-color: rgba(255,255,255,0.24);
   }
+  a.desktop-icon { color: inherit; text-decoration: none; }
   .icon-glyph.pixel-hex {
     clip-path: polygon(0 25%, 25% 0, 75% 0, 100% 25%, 100% 75%, 75% 100%, 25% 100%, 0 75%);
   }
@@ -660,8 +882,32 @@
     overflow: hidden;
     transform-style: preserve-3d;
     filter: saturate(1.15) contrast(1.04);
+    animation: iconAura 3.2s ease-in-out infinite;
+  }
+  .desktop-icon:nth-child(3n+1) .icon-glyph { animation-duration: 2.8s; }
+  .desktop-icon:nth-child(3n+2) .icon-glyph { animation-duration: 3.6s; animation-delay: -0.6s; }
+  .desktop-icon:nth-child(3n)   .icon-glyph { animation-duration: 4s; animation-delay: -1.3s; }
+  @keyframes iconAura {
+    0%, 100% {
+      box-shadow:
+        4px 4px 0 rgba(0, 0, 0, 0.45),
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        inset 0 -4px 8px rgba(0,0,0,0.28),
+        inset 3px 0 0 rgba(255,255,255,0.12),
+        0 0 16px color-mix(in srgb, var(--icon-a) 48%, transparent);
+    }
+    50% {
+      box-shadow:
+        4px 4px 0 rgba(0, 0, 0, 0.45),
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        inset 0 -4px 8px rgba(0,0,0,0.28),
+        inset 3px 0 0 rgba(255,255,255,0.12),
+        0 0 30px color-mix(in srgb, var(--icon-a) 85%, transparent),
+        0 0 46px color-mix(in srgb, var(--icon-a) 35%, transparent);
+    }
   }
   .desktop-icon:hover .icon-glyph {
+    animation: none;
     transform: translate(-2px, -2px) rotate(-1deg) scale(1.08);
     background-position: 140% 140%, 0 0, 0 0, 0 0;
     box-shadow:
@@ -948,6 +1194,13 @@
     box-shadow: 4px 4px 0 rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,236,39,0.1);
     position: relative;
     overflow: hidden;
+    animation: cardAura 4.5s ease-in-out infinite;
+  }
+  .mini-card:nth-child(2) { animation-delay: -1.5s; }
+  .mini-card:nth-child(3) { animation-delay: -3s; }
+  @keyframes cardAura {
+    0%, 100% { box-shadow: 4px 4px 0 rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,236,39,0.1), 0 0 0 rgba(41,173,255,0); }
+    50% { box-shadow: 4px 4px 0 rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,236,39,0.24), 0 0 20px rgba(41,173,255,0.4); }
   }
   .mini-card::before {
     content: "\u25aa";
@@ -1198,7 +1451,19 @@
   </div>
 </div>
 
-<div class="hero">
+<div class="hero glitch-wrap" id="glitchHero">
+  <div class="color-halo"></div>
+  <div class="noise-layer"></div>
+  <div class="scanlines"></div>
+
+  <div class="meme-caption top">Load Cartridge</div>
+  <div class="meme-caption bottom">Press Start</div>
+  <div class="spin-arrow cw">↻</div>
+  <div class="spin-arrow ccw">↺</div>
+  <div class="color-chip c1"></div>
+  <div class="color-chip c2"></div>
+  <div class="color-chip c3"></div>
+
   <div class="poly a"></div>
   <div class="poly b"></div>
   <div class="poly c"></div>
@@ -1233,14 +1498,26 @@
   </div>
   <div class="hero-inner">
     <p class="hero-eyebrow">Full-Stack Dev Cartridge</p>
-    <h1 class="hero-title">RONALDO<br />SOLANO</h1>
+    <h1 class="hero-title" data-text="RONALDO
+SOLANO">RONALDO<br />SOLANO</h1>
+    <p class="hero-subglitch" data-text="digital chaos // build 64-bit">digital chaos // build 64-bit</p>
+    <div class="img-frame">
+      <img class="glitch-img" src="ki.png" alt="Portada estilo caja de videojuego N64, arte 'Digital Future'">
+      <div class="img-overlay"></div>
+    </div>
     <p class="hero-lede">
       Full-stack (PHP · JavaScript · MySQL) con acabado electrónico — si algo corre a 64 bits,
       tiene vibe de caja de N64 o se ve demasiado cute para ser normal, ya me ganó.
     </p>
+    <p class="hero-lede">
+      Estudiante de Ing. en Comunicaciones y Electrónica en el IPN, con un pie en el código y
+      otro desarmando consolas viejas: chips, flash carts y limpieza de contactos para que
+      sigan corriendo juegos.
+    </p>
     <div class="hero-badges">
       <span class="hero-badge">🎮 Pixel</span>
       <span class="hero-badge">🛠️ Modding</span>
+      <span class="hero-badge">🕹️ Retro repair</span>
       <span class="hero-badge">☕ Café + bugs</span>
     </div>
     <div class="btn-row">
@@ -1273,10 +1550,10 @@
     <span class="icon-glyph pixel-slice" style="--icon-a: #ff8f1f; --icon-b: #7e2553; color: #fff;"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2h9l4 4v16H6z"/><path d="M15 2v4h4"/><circle cx="10.5" cy="12.5" r="2"/><path d="M9 20l1.5-2.5L12 19l1.5-2 1.5 2"/></svg></span>
     <span class="icon-label">curriculum.pdf</span>
   </button>
-  <button class="desktop-icon" type="button">
+  <a class="desktop-icon" href="https://www.instagram.com/ronaldou_/" target="_blank" rel="noopener">
     <span class="icon-glyph pixel-oct" style="--icon-a: #ff7ec7; --icon-b: #7e2553; color: #fff;"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor" stroke="none"/></svg></span>
     <span class="icon-label">insta</span>
-  </button>
+  </a>
   <button class="desktop-icon" data-window="statusWindow" type="button">
     <span class="icon-glyph pixel-box" style="--icon-a: #29adff; --icon-b: #1d2b53; color: #fff;"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="20" height="9" rx="4"/><path d="M7 11v5M4.5 13.5h5"/><circle cx="15.5" cy="12.2" r="1" fill="currentColor" stroke="none"/><circle cx="18.5" cy="15" r="1" fill="currentColor" stroke="none"/></svg></span>
     <span class="icon-label">status.exe</span>
@@ -1491,7 +1768,7 @@
       <div class="fighter-card">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="htdocs/flujodeviajes/uploads/usuarios/Ronaldo45_1751582895.png" alt="Preview del proyecto Flujodeviajes" loading="lazy" />
+          <img src="cat.png" alt="Preview del proyecto Flujodeviajes" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>flujodeviajes</h3>
@@ -1632,6 +1909,16 @@
       <div class="mini-card">
         <p>La escena visual se siente mejor cuando la imagen vive en el fondo del escritorio, como un cartel de la consola.</p>
       </div>
+      <div class="mini-card">
+        <h3>🎨 Paleta que no falla</h3>
+        <div class="tag-row">
+          <span class="tag" style="background:linear-gradient(145deg, var(--sky), #1e8ac8);" data-tooltip="#29adff">Sky</span>
+          <span class="tag" style="background:linear-gradient(145deg, var(--gold), #ffd23f);" data-tooltip="#ffec27">Gold</span>
+          <span class="tag" style="background:linear-gradient(145deg, var(--flame), #cc0033);" data-tooltip="#ff004d">Flame</span>
+          <span class="tag" style="background:linear-gradient(145deg, var(--lime), #00b82b);" data-tooltip="#00e436">Lime</span>
+          <span class="tag" style="background:linear-gradient(145deg, var(--grape), #5a1a3d);" data-tooltip="#7e2553">Grape</span>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -1653,6 +1940,10 @@
       </div>
       <div class="mini-card">
         <p>Si se ve raro, bonito y un poco “de otro mundo”, ya me enamoré.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🖼️ Formatos que persigo</h3>
+        <p>Portadas de juegos, screenshots de CRT, sprites de baja resolución, GIFs con glitch y fotos de hardware desarmado sobre el escritorio.</p>
       </div>
     </div>
   </div>
@@ -1676,6 +1967,10 @@
       <div class="mini-card">
         <p>El mismo espíritu de reparar cosas viejas, pero ahora con código y estética.</p>
       </div>
+      <div class="mini-card">
+        <h3>🏆 Bitácora de taller</h3>
+        <p>🔧 Cartucho limpiado y corriendo de nuevo ✅<br>🎛️ Consola rescatada de segunda mano ✅<br>🧪 Próxima misión: banco de pruebas con ESP32</p>
+      </div>
     </div>
   </div>
 </div>
@@ -1694,6 +1989,10 @@
       <div class="mini-card">
         <p>Una mezcla de proyectos, referencias y recursos que van desde la web hasta las consolas.</p>
       </div>
+      <div class="mini-card">
+        <h3>✨ Curiosidad</h3>
+        <p>Si algo tiene loading screen falso, pantalla de error con estética o sonidito de consola vieja, ya se ganó un lugar en la colección.</p>
+      </div>
     </div>
   </div>
 </div>
@@ -1707,12 +2006,14 @@
     <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--sky);margin:0 0 0.6rem;">entidades amistosas, blindadas y listas para rodar ↓<br><span style="color:var(--gold);white-space:nowrap;">usa ◀ ▶ o las flechas del teclado para cambiar</span></p>
     <div class="cat-viewer-box" id="papusCatContainer">
       <canvas id="papusCatCanvas" class="monito3d-canvas" aria-label="Personaje 3D — arrastra para rotarlo, clic derecho para agarrarlo y aventarlo"></canvas>
+      <canvas id="papusGlitchCanvas" class="glitchcam-canvas" aria-hidden="true"></canvas>
       <p class="monito3d-hint">arrastra→rotar · clic der.→agarrar · rueda→zoom</p>
     </div>
     <div class="critter-switch">
       <button type="button" class="btn-close-like critter-prev" id="papusCritterPrev" aria-label="Personaje anterior">◀</button>
       <span class="critter-name" id="papusCritterName">gatito</span>
       <button type="button" class="btn-close-like critter-next" id="papusCritterNext" aria-label="Siguiente personaje">▶</button>
+      <button type="button" class="btn-close-like glitchcam-toggle" id="papusGlitchToggle" aria-pressed="false" aria-label="Cámara glitch slit-scan" title="Cámara glitch (slit-scan RGB)">📼</button>
     </div>
   </div>
 </div>
@@ -1795,7 +2096,7 @@
     </div>
     <div class="connector"><span></span><span></span><span></span><span></span><span></span><span></span></div>
     <div class="social-list">
-      <a class="social-pill ig" href="https://www.instagram.com/" target="_blank" rel="noopener"><span class="social-ico">I</span>Instagram</a>
+      <a class="social-pill ig" href="https://www.instagram.com/ronaldou_/" target="_blank" rel="noopener"><span class="social-ico"><svg viewBox="0 0 24 24" width="12" height="12" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="6" fill="none" stroke="#fff1e8" stroke-width="2.2"/><circle cx="12" cy="12" r="4.5" fill="none" stroke="#fff1e8" stroke-width="2.2"/><circle cx="17.6" cy="6.4" r="1.4" fill="#fff1e8"/></svg></span>Instagram</a>
       <a class="social-pill gh" href="https://github.com/Ronaldou24" target="_blank" rel="noopener"><span class="social-ico">G</span>GitHub</a>
       <a class="social-pill tg" href="https://t.me/" target="_blank" rel="noopener"><span class="social-ico">T</span>Telegram</a>
       <a class="social-pill x" href="https://www.tiktok.com/" target="_blank" rel="noopener"><span class="social-ico">X</span>TikTok</a>
@@ -1888,6 +2189,72 @@
         if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
         else if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
       });
+
+      // camara glitch / slit-scan: rastro RGB-shift tomado en vivo del canvas 3D
+      var glitchOut = document.getElementById('papusGlitchCanvas');
+      var glitchBtn = document.getElementById('papusGlitchToggle');
+      if (glitchOut && glitchBtn && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        var octx = glitchOut.getContext('2d');
+        var feedback = document.createElement('canvas');
+        var fctx = feedback.getContext('2d');
+        var DECAY = 0.85, SHIFT_R = 3, SHIFT_B = -3;
+        var rafId = null;
+
+        function glitchRender() {
+          var w = glitchOut.width, h = glitchOut.height;
+          if (!w || !h) { rafId = requestAnimationFrame(glitchRender); return; }
+
+          octx.globalAlpha = DECAY;
+          octx.drawImage(feedback, 0, 0, w, h);
+          octx.globalAlpha = 1;
+
+          octx.globalCompositeOperation = 'lighten';
+          octx.drawImage(c, 0, 0, w, h);
+          octx.globalCompositeOperation = 'source-over';
+
+          var frame = octx.getImageData(0, 0, w, h);
+          var shifted = octx.createImageData(w, h);
+          var src = frame.data, dst = shifted.data;
+          for (var y = 0; y < h; y++) {
+            for (var x = 0; x < w; x++) {
+              var i = (y * w + x) * 4;
+              var rx = Math.min(w - 1, Math.max(0, x + SHIFT_R));
+              var bx = Math.min(w - 1, Math.max(0, x + SHIFT_B));
+              var ri = (y * w + rx) * 4;
+              var bi = (y * w + bx) * 4;
+              dst[i]     = src[ri];
+              dst[i + 1] = src[i + 1];
+              dst[i + 2] = src[bi + 2];
+              dst[i + 3] = 255;
+            }
+          }
+          octx.putImageData(shifted, 0, 0);
+
+          fctx.clearRect(0, 0, w, h);
+          fctx.drawImage(glitchOut, 0, 0, w, h);
+
+          rafId = requestAnimationFrame(glitchRender);
+        }
+
+        glitchBtn.addEventListener('click', function () {
+          var on = glitchBtn.getAttribute('aria-pressed') === 'true';
+          if (on) {
+            if (rafId) cancelAnimationFrame(rafId);
+            rafId = null;
+            glitchOut.classList.remove('active');
+            glitchBtn.setAttribute('aria-pressed', 'false');
+          } else {
+            glitchOut.width = feedback.width = c.width;
+            glitchOut.height = feedback.height = c.height;
+            fctx.clearRect(0, 0, feedback.width, feedback.height);
+            glitchOut.classList.add('active');
+            glitchBtn.setAttribute('aria-pressed', 'true');
+            rafId = requestAnimationFrame(glitchRender);
+          }
+        });
+      } else if (glitchBtn) {
+        glitchBtn.style.display = 'none';
+      }
     }
   };
 
@@ -2398,7 +2765,7 @@ window.initCritterViewer = function(canvas, container, builderKey){
   'use strict';
   if (!container || !canvas || !window.THREE) return null;
 
-  var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true});
+  var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true, preserveDrawingBuffer:true});
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
   var scene = new THREE.Scene();
@@ -2634,6 +3001,40 @@ window.initCritterViewer = function(canvas, container, builderKey){
 
   return { setCharacter: setCharacter };
 };
+</script>
+
+<script>
+(function () {
+  var hero = document.getElementById('glitchHero');
+  if (!hero) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var MIN_DELAY = 4000;
+  var MAX_DELAY = 9000;
+  var BURST_DURATION = 500;
+
+  function triggerBurst() {
+    hero.classList.add('burst');
+    setTimeout(function () { hero.classList.remove('burst'); }, BURST_DURATION);
+    scheduleNextBurst();
+  }
+
+  function scheduleNextBurst() {
+    var delay = MIN_DELAY + Math.random() * (MAX_DELAY - MIN_DELAY);
+    setTimeout(triggerBurst, delay);
+  }
+
+  scheduleNextBurst();
+
+  var lastScrollBurst = 0;
+  window.addEventListener('scroll', function () {
+    var now = Date.now();
+    if (now - lastScrollBurst > 2000) {
+      lastScrollBurst = now;
+      triggerBurst();
+    }
+  }, { passive: true });
+})();
 </script>
 
 </body>
