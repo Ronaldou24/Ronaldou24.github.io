@@ -791,6 +791,20 @@
     transform: rotate(9deg);
     animation-duration: 14s;
   }
+  .ambient-photo.top-right {
+    width: min(15vw, 130px);
+    right: clamp(1rem, 4vw, 3.4rem);
+    top: clamp(3.6rem, 6vw, 5rem);
+    transform: rotate(7deg);
+    animation-duration: 15s;
+  }
+  .ambient-photo.bottom-left {
+    width: min(15vw, 130px);
+    left: clamp(1rem, 4vw, 3.4rem);
+    bottom: clamp(3.6rem, 6vw, 5rem);
+    transform: rotate(-9deg);
+    animation-duration: 17s;
+  }
   @keyframes driftAmbient {
     from { transform: translateY(0) rotate(-6deg); }
     to { transform: translateY(-8px) rotate(6deg); }
@@ -1183,6 +1197,43 @@
     text-transform: uppercase;
     color: var(--flame);
     margin: 0 0 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .skill-icon {
+    width: 22px;
+    height: auto;
+    image-rendering: pixelated;
+    border: 2px solid var(--frame);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.4);
+    flex-shrink: 0;
+  }
+  .mini-card-img {
+    display: block;
+    width: 100%;
+    max-width: 180px;
+    margin: 0.6rem auto 0;
+    image-rendering: pixelated;
+    border: 3px solid var(--frame);
+    box-shadow: 4px 4px 0 rgba(0,0,0,0.35);
+  }
+  .stats-fallback {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--sky);
+    border: 2px dashed var(--sky);
+    padding: 0.7rem;
+    margin: 0 0 0.6rem;
+  }
+  .y2k-sticker {
+    display: block;
+    width: 100%;
+    max-width: 170px;
+    margin: 0.6rem auto 0;
+    border: 3px solid var(--y2k-blue);
+    box-shadow: 4px 4px 0 var(--y2k-pink);
+    transform: rotate(-2deg);
   }
   .chip-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
   .chip {
@@ -1636,16 +1687,19 @@
     </div>
   </div>
   <div class="hero-inner">
-    <p class="hero-eyebrow">Full-Stack Dev Cartridge</p>
+    <p class="hero-eyebrow">Full-Stack Developer</p>
     <h1 class="hero-title" data-text="RONALDO
 SOLANO">RONALDO<br />SOLANO</h1>
     <p class="hero-subglitch" data-text="digital chaos // build 64-bit">digital chaos // build 64-bit</p>
     <div class="img-frame">
-      <img class="glitch-img" src="ki.png" alt="Portada estilo caja de videojuego N64, arte 'Digital Future'">
+      <picture>
+        <source srcset="assets/img/ki.webp" type="image/webp">
+        <img class="glitch-img" src="ki.png" alt="Portada estilo caja de videojuego N64, arte 'Digital Future'" width="735" height="802" fetchpriority="high" decoding="async">
+      </picture>
       <div class="img-overlay"></div>
     </div>
     <p class="hero-lede">
-      Full-stack (PHP · JavaScript · MySQL) con acabado electrónico — si algo corre a 64 bits,
+      Full-stack (PHP · JavaScript · MySQL) con acabado electrónico chingon — si algo corre a 64 bits,
       tiene vibe de caja de N64 o se ve demasiado cute para ser normal, ya me ganó.
     </p>
     <p class="hero-lede">
@@ -1670,10 +1724,22 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <main class="desktop">
   <div class="ambient-photo left">
-    <img src="cat.png" alt="Imagen decorativa del escritorio" />
+    <picture>
+      <source srcset="assets/img/cat.webp" type="image/webp">
+      <img src="cat.png" alt="" aria-hidden="true" width="350" height="350" loading="lazy" decoding="async" />
+    </picture>
   </div>
   <div class="ambient-photo right">
-    <img src="gods.png" alt="Imagen decorativa del escritorio" />
+    <picture>
+      <source srcset="assets/img/gods.webp" type="image/webp">
+      <img src="gods.png" alt="" aria-hidden="true" width="236" height="233" loading="lazy" decoding="async" />
+    </picture>
+  </div>
+  <div class="ambient-photo top-right">
+    <img src="assets/img/bombita.webp" alt="" aria-hidden="true" width="429" height="476" loading="lazy" decoding="async" />
+  </div>
+  <div class="ambient-photo bottom-left">
+    <img src="assets/img/shy-guy.webp" alt="" aria-hidden="true" width="308" height="399" loading="lazy" decoding="async" />
   </div>
   <div class="spin-shape one"></div>
   <div class="spin-shape two"></div>
@@ -1831,14 +1897,14 @@ SOLANO">RONALDO<br />SOLANO</h1>
   </header>
   <div class="window-content">
     <div class="skill-group">
-      <h3>Backend &amp; Datos</h3>
+      <h3><img class="skill-icon" src="assets/icons/kirby/hammer.webp" alt="" aria-hidden="true" width="22" height="27" loading="lazy" decoding="async" />Backend &amp; Datos</h3>
       <div class="chip-row">
         <span class="chip" data-tooltip="Backend del sitio: formularios y logica de servidor">PHP</span>
         <span class="chip" data-tooltip="Base de datos relacional donde vive todo">MySQL</span>
       </div>
     </div>
     <div class="skill-group">
-      <h3>Frontend</h3>
+      <h3><img class="skill-icon" src="assets/icons/kirby/paint.webp" alt="" aria-hidden="true" width="22" height="27" loading="lazy" decoding="async" />Frontend</h3>
       <div class="chip-row">
         <span class="chip" data-tooltip="Interactividad y logica del lado del cliente">JavaScript</span>
         <span class="chip" data-tooltip="Estructura y contenido de las paginas">HTML5</span>
@@ -1855,7 +1921,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
       </div>
     </div>
     <div class="skill-group">
-      <h3>Electrónica &amp; Retro Hardware</h3>
+      <h3><img class="skill-icon" src="assets/icons/kirby/plasma.webp" alt="" aria-hidden="true" width="22" height="27" loading="lazy" decoding="async" />Electrónica &amp; Retro Hardware</h3>
       <div class="chip-row">
         <span class="chip" data-tooltip="Microcontrolador para prototipos y circuitos">Arduino</span>
         <span class="chip" data-tooltip="Microcontrolador con WiFi/Bluetooth para hardware">ESP32</span>
@@ -1887,7 +1953,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
       <button class="fighter-card" type="button" data-window="projDogfatherWindow">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="assets/proyectos/dogfather.jpg" alt="Preview del proyecto Dogfather" loading="lazy" />
+          <picture>
+            <source srcset="assets/img/dogfather.webp" type="image/webp">
+            <img src="assets/proyectos/dogfather.jpg" alt="Preview del proyecto Dogfather" width="1200" height="541" loading="lazy" decoding="async" />
+          </picture>
         </div>
         <div class="card-body">
           <h3>dogfather</h3>
@@ -1898,7 +1967,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
       <button class="fighter-card" type="button" data-window="projHollowheadsWindow">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="assets/proyectos/los-hollowheads.jpg" alt="Preview del proyecto Los Hollowheads" loading="lazy" />
+          <picture>
+            <source srcset="assets/img/los-hollowheads.webp" type="image/webp">
+            <img src="assets/proyectos/los-hollowheads.jpg" alt="Preview del proyecto Los Hollowheads" width="1200" height="541" loading="lazy" decoding="async" />
+          </picture>
         </div>
         <div class="card-body">
           <h3>Los_Hollowheads</h3>
@@ -1909,7 +1981,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
       <button class="fighter-card" type="button" data-window="projFlujoWindow">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="assets/proyectos/flujodeviajes-panel.jpg" alt="Preview del proyecto flujodeviajes / MarTransport" loading="lazy" />
+          <picture>
+            <source srcset="assets/img/flujodeviajes-panel.webp" type="image/webp">
+            <img src="assets/proyectos/flujodeviajes-panel.jpg" alt="Preview del proyecto flujodeviajes / MarTransport" width="1200" height="541" loading="lazy" decoding="async" />
+          </picture>
         </div>
         <div class="card-body">
           <h3>flujodeviajes</h3>
@@ -1920,7 +1995,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
       <button class="fighter-card" type="button" data-window="projEsteticaWindow">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="assets/proyectos/estetica-canina.jpg" alt="Preview del proyecto Estetica Canina" loading="lazy" />
+          <picture>
+            <source srcset="assets/img/estetica-canina.webp" type="image/webp">
+            <img src="assets/proyectos/estetica-canina.jpg" alt="Preview del proyecto Estetica Canina" width="1200" height="541" loading="lazy" decoding="async" />
+          </picture>
         </div>
         <div class="card-body">
           <h3>Estetica_Canina</h3>
@@ -2011,7 +2089,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
   </header>
   <div class="window-content">
     <div class="proj-gallery">
-      <img class="proj-shot" src="assets/proyectos/dogfather.jpg" alt="Galería de dogfather: grid de fotos de perros" loading="lazy" />
+      <picture>
+        <source srcset="assets/img/dogfather.webp" type="image/webp">
+        <img class="proj-shot" src="assets/proyectos/dogfather.jpg" alt="Galería de dogfather: grid de fotos de perros" width="1200" height="541" loading="lazy" decoding="async" />
+      </picture>
     </div>
     <div class="proj-section">
       <h4>Qué es</h4>
@@ -2040,7 +2121,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
   </header>
   <div class="window-content">
     <div class="proj-gallery">
-      <img class="proj-shot" src="assets/proyectos/los-hollowheads.jpg" alt="Home del sitio de Los Hollowheads" loading="lazy" />
+      <picture>
+        <source srcset="assets/img/los-hollowheads.webp" type="image/webp">
+        <img class="proj-shot" src="assets/proyectos/los-hollowheads.jpg" alt="Home del sitio de Los Hollowheads" width="1200" height="541" loading="lazy" decoding="async" />
+      </picture>
     </div>
     <div class="proj-section">
       <h4>Qué es</h4>
@@ -2069,9 +2153,15 @@ SOLANO">RONALDO<br />SOLANO</h1>
   </header>
   <div class="window-content">
     <div class="proj-gallery">
-      <img class="proj-shot" src="assets/proyectos/flujodeviajes-panel.jpg" alt="Panel de control de MarTransport, vista rol transporte" loading="lazy" />
+      <picture>
+        <source srcset="assets/img/flujodeviajes-panel.webp" type="image/webp">
+        <img class="proj-shot" src="assets/proyectos/flujodeviajes-panel.jpg" alt="Panel de control de MarTransport, vista rol transporte" width="1200" height="541" loading="lazy" decoding="async" />
+      </picture>
       <p class="proj-shot-cap">Vista rol "transporte"</p>
-      <img class="proj-shot" src="assets/proyectos/flujodeviajes-admin.jpg" alt="Panel de administración de MarTransport, vista rol admin" loading="lazy" />
+      <picture>
+        <source srcset="assets/img/flujodeviajes-admin.webp" type="image/webp">
+        <img class="proj-shot" src="assets/proyectos/flujodeviajes-admin.jpg" alt="Panel de administración de MarTransport, vista rol admin" width="1200" height="541" loading="lazy" decoding="async" />
+      </picture>
       <p class="proj-shot-cap">Vista rol "administrador"</p>
     </div>
     <div class="proj-section">
@@ -2102,7 +2192,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
   </header>
   <div class="window-content">
     <div class="proj-gallery">
-      <img class="proj-shot" src="assets/proyectos/estetica-canina.jpg" alt="Tabla de servicios y precios de Estetica Canina" loading="lazy" />
+      <picture>
+        <source srcset="assets/img/estetica-canina.webp" type="image/webp">
+        <img class="proj-shot" src="assets/proyectos/estetica-canina.jpg" alt="Tabla de servicios y precios de Estetica Canina" width="1200" height="541" loading="lazy" decoding="async" />
+      </picture>
     </div>
     <div class="proj-section">
       <h4>Qué es</h4>
@@ -2135,9 +2228,11 @@ SOLANO">RONALDO<br />SOLANO</h1>
         <h3>Mi estética favorita</h3>
         <p>Weirdcore de madrugada, dreamcore de consola, café, cartuchos, luces de modding y 0% paciencia para los bugs.</p>
         <div class="tag-row"><span class="tag" data-tooltip="Consola clásica de 32 bits">PS1</span><span class="tag" data-tooltip="Consola de Nintendo de 64 bits">N64</span><span class="tag" data-tooltip="Microcontrolador para hardware y prototipos">ESP32</span><span class="tag" data-tooltip="Mi energía principal">Café</span></div>
+        <img class="mini-card-img" src="assets/img/pajarito.webp" alt="Pajarito low-poly estilo PS1, referencia visual weirdcore" width="450" height="450" loading="lazy" decoding="async" />
       </div>
       <div class="mini-card">
         <p>La escena visual se siente mejor cuando la imagen vive en el fondo del escritorio, como un cartel de la consola.</p>
+        <img class="y2k-sticker" src="assets/img/love-my-computer.webp" alt="Sticker Y2K nostálgico: 'I love my computer, all my friends are inside it'" width="736" height="736" loading="lazy" decoding="async" />
       </div>
       <div class="mini-card">
         <h3>🎨 Paleta que no falla</h3>
@@ -2193,9 +2288,11 @@ SOLANO">RONALDO<br />SOLANO</h1>
       <div class="mini-card">
         <h3>Hardware</h3>
         <div class="tag-row"><span class="tag" data-tooltip="Soporte físico y modding">Cartuchos</span><span class="tag" data-tooltip="Conexiones y prototipos">Cableado</span><span class="tag" data-tooltip="Microcontrolador para hardware y prototipos">ESP32</span><span class="tag" data-tooltip="Hardware, circuitos y pruebas">Electrónica</span></div>
+        <img class="mini-card-img" src="assets/img/gameboy.webp" alt="Game Boy clásica, frente y atrás" width="256" height="256" loading="lazy" decoding="async" />
       </div>
       <div class="mini-card">
         <p>El mismo espíritu de reparar cosas viejas, pero ahora con código y estética.</p>
+        <img class="mini-card-img" src="assets/img/consolas-retro.webp" alt="Animación de controles y consolas retro flotando" width="180" height="180" loading="lazy" decoding="async" />
       </div>
       <div class="mini-card">
         <h3>🏆 Bitácora de taller</h3>
@@ -2222,6 +2319,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
       <div class="mini-card">
         <h3>✨ Curiosidad</h3>
         <p>Si algo tiene loading screen falso, pantalla de error con estética o sonidito de consola vieja, ya se ganó un lugar en la colección.</p>
+        <img class="mini-card-img" src="assets/img/creeper-cuadro.webp" alt="Cuadro pixelado estilo wallpaper retro, con un Creeper" width="736" height="414" loading="lazy" decoding="async" />
       </div>
     </div>
   </div>
@@ -2254,8 +2352,8 @@ SOLANO">RONALDO<br />SOLANO</h1>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
-    <img src="https://github-readme-stats.vercel.app/api?username=Ronaldou24&show_icons=true&hide_border=true&bg_color=1d2b53&title_color=ffec27&text_color=fff1e8&icon_color=29adff&ring_color=ff77a8" alt="GitHub stats" style="max-width:100%;display:block;margin-bottom:0.6rem;">
-    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Ronaldou24&layout=compact&hide_border=true&bg_color=1d2b53&title_color=ffec27&text_color=fff1e8" alt="Top langs" style="max-width:100%;display:block;">
+    <img src="https://github-readme-stats.vercel.app/api?username=Ronaldou24&show_icons=true&hide_border=true&bg_color=1d2b53&title_color=ffec27&text_color=fff1e8&icon_color=29adff&ring_color=ff77a8" alt="GitHub stats" width="495" height="195" loading="lazy" decoding="async" style="max-width:100%;display:block;margin-bottom:0.6rem;background:rgba(255,255,255,0.04);" onerror="this.replaceWith(Object.assign(document.createElement('p'),{className:'stats-fallback',textContent:'📊 GitHub stats no disponibles ahora mismo — mira github.com/Ronaldou24 directo.'}))">
+    <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=Ronaldou24&layout=compact&hide_border=true&bg_color=1d2b53&title_color=ffec27&text_color=fff1e8" alt="Top langs" width="300" height="195" loading="lazy" decoding="async" style="max-width:100%;display:block;background:rgba(255,255,255,0.04);" onerror="this.replaceWith(Object.assign(document.createElement('p'),{className:'stats-fallback',textContent:'📊 Top langs no disponible ahora mismo — mira github.com/Ronaldou24 directo.'}))">
   </div>
 </div>
 
@@ -2293,6 +2391,11 @@ SOLANO">RONALDO<br />SOLANO</h1>
       <div class="mini-card">
         <h3>🐛 Triple clic</h3>
         <p>not-a-bug.docx no es lo que aparenta si le insistes tres veces seguidas.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🚧 Detrás de cámaras</h3>
+        <p>Así se ve cuando le entras a optimizar un monolito de 133 KB. Se cae todo primero para que quede mejor después.</p>
+        <img class="mini-card-img" src="assets/img/tirar.webp" alt="Foto de un edificio siendo demolido, metáfora de refactorizar código viejo" width="735" height="415" loading="lazy" decoding="async" />
       </div>
     </div>
   </div>
