@@ -285,6 +285,7 @@
   .hero-float-gif.kirby-gif-float { width: 58px; right: 1%; top: 46%; animation-duration: 8.4s; }
   .hero-float-gif.sonic-gif-float { width: 74px; right: 19%; top: 64%; animation-duration: 7.2s; }
   .hero-float-gif.sonic-gif-float img { mix-blend-mode: lighten; }
+  .hero-float-gif.bolita-float { width: 64px; left: 7%; bottom: 13%; animation-duration: 9s; }
   @keyframes heroFloat {
     from { transform: translateY(0); }
     to { transform: translateY(-12px); }
@@ -1248,6 +1249,18 @@
     padding: 0.7rem;
     margin: 0 0 0.6rem;
   }
+  .mini-card-img-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-top: 0.6rem;
+  }
+  .mini-card-img-row .mini-card-img {
+    width: auto;
+    max-width: 46%;
+    margin: 0;
+  }
   .y2k-sticker {
     display: block;
     width: 100%;
@@ -1586,6 +1599,7 @@
   .bsod-overlay.hidden { display: none; }
   .bsod-text { max-width: 60ch; margin: 3rem auto 0; }
   .bsod-text p { margin: 0 0 1rem; font-size: 0.9rem; line-height: 1.6; }
+  .bsod-snail { display: block; margin: 0 auto 1.4rem; image-rendering: pixelated; box-shadow: 6px 6px 0 rgba(0,0,0,0.4); }
 
   /* ================= MÓVIL / TABLET CHICA ================= */
   @media (max-width: 640px) {
@@ -1716,6 +1730,9 @@
   </div>
   <div class="hero-float-gif sonic-gif-float" aria-hidden="true">
     <img src="assets/img/sonic-gif.webp" alt="" width="160" height="160" loading="lazy" decoding="async" />
+  </div>
+  <div class="hero-float-gif bolita-float" aria-hidden="true">
+    <img src="assets/img/bolita-gif.webp" alt="" width="110" height="110" loading="lazy" decoding="async" />
   </div>
   <div class="hero-inner">
     <p class="hero-eyebrow">Full-Stack Developer</p>
@@ -2329,6 +2346,13 @@ SOLANO">RONALDO<br />SOLANO</h1>
         <h3>🏆 Bitácora de taller</h3>
         <p>🔧 Cartucho limpiado y corriendo de nuevo ✅<br>🎛️ Consola rescatada de segunda mano ✅<br>🧪 Próxima misión: banco de pruebas con ESP32</p>
       </div>
+      <div class="mini-card">
+        <h3>Consolas por las que he pasado</h3>
+        <div class="mini-card-img-row">
+          <img class="mini-card-img" src="assets/img/n64-gif.webp" alt="Nintendo 64 con control girando en 3D" width="190" height="190" loading="lazy" decoding="async" />
+          <img class="mini-card-img" src="assets/img/gamecube-gif.webp" alt="GameCube girando en 3D" width="150" height="150" loading="lazy" decoding="async" />
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -2346,6 +2370,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
       </div>
       <div class="mini-card">
         <p>Una mezcla de proyectos, referencias y recursos que van desde la web hasta las consolas.</p>
+        <img class="mini-card-img" src="assets/img/disco-gif.webp" alt="Disco compacto girando en 3D" width="110" height="110" loading="lazy" decoding="async" />
       </div>
       <div class="mini-card">
         <h3>✨ Curiosidad</h3>
@@ -2511,6 +2536,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="bsod-overlay hidden" id="bsod">
   <div class="bsod-text">
+    <img class="bsod-snail" src="assets/img/caracolito-gif.webp" alt="" aria-hidden="true" width="220" height="204" loading="lazy" decoding="async" />
     <p>SE HA DETECTADO UN PROBLEMA Y EL CARTUCHO SE HA APAGADO PARA EVITAR DAÑOS.</p>
     <p>BUG_SIN_RESOLVER_0x00000042</p>
     <p>Si esta es la primera vez que ves esta pantalla, sopla el cartucho y reinicia.</p>
