@@ -1,0 +1,115 @@
+/* Todas las @keyframes del sitio. Se cargan diferido (media=print trick) porque una animacion
+   que tarda unos ms en estar disponible no causa salto de layout: el elemento ya tiene su
+   position/tamano definidos en components.css, solo la animacion empieza un poco despues. */
+
+@keyframes floatPoly {
+    from { transform: translateY(0) rotate(0deg) scale(1); }
+    to { transform: translateY(-10px) rotate(8deg) scale(1.04); }
+  }
+@keyframes drift {
+    from { background-position: 0 0; }
+    to { background-position: -1200px 600px; }
+  }
+@keyframes spin {
+    from { transform: rotateX(0deg) rotateY(0deg); }
+    to { transform: rotateX(360deg) rotateY(360deg); }
+  }
+@keyframes heroFloat {
+    from { transform: translateY(0); }
+    to { transform: translateY(-12px); }
+  }
+@keyframes spinReverse {
+    from { transform: rotateX(360deg) rotateY(0deg); }
+    to   { transform: rotateX(0deg) rotateY(360deg); }
+  }
+@keyframes critterNudge {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(0); }
+  }
+@keyframes critterNudgeLeft {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(-3px); }
+  }
+@keyframes critterNudgeRight {
+    0%, 100% { transform: translateX(0); }
+    50% { transform: translateX(3px); }
+  }
+@keyframes emboss-pulse {
+    0%   { filter: contrast(1.2) saturate(1.4) grayscale(0.2) hue-rotate(0deg); }
+    50%  { filter: contrast(1.6) saturate(2) grayscale(0.5) hue-rotate(25deg); }
+    100% { filter: contrast(1.2) saturate(1.4) grayscale(0.2) hue-rotate(0deg); }
+  }
+@keyframes halo-drift {
+    0%   { transform: scale(1) rotate(0deg); }
+    50%  { transform: scale(1.15) rotate(8deg); }
+    100% { transform: scale(1) rotate(-8deg); }
+  }
+@keyframes scan-shift {
+    from { background-position: 0 0; }
+    to   { background-position: 0 40px; }
+  }
+@keyframes spin-cw  { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+@keyframes spin-ccw { from { transform: rotate(0deg); } to { transform: rotate(-360deg); } }
+@keyframes chip-drift {
+    0%   { transform: translateY(0) rotate(0deg); }
+    100% { transform: translateY(-14px) rotate(45deg); }
+  }
+@keyframes glitch-shift {
+    0%   { transform: translate(0, 0); }
+    20%  { transform: translate(-3px, 2px); }
+    40%  { transform: translate(3px, -2px); }
+    60%  { transform: translate(-2px, 3px); }
+    80%  { transform: translate(2px, -3px); }
+    100% { transform: translate(0, 0); }
+  }
+@keyframes spinShape {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+  }
+@keyframes driftAmbient {
+    from { transform: translateY(0) rotate(-6deg); }
+    to { transform: translateY(-8px) rotate(6deg); }
+  }
+@keyframes iconAura {
+    0%, 100% {
+      box-shadow:
+        4px 4px 0 rgba(0, 0, 0, 0.45),
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        inset 0 -4px 8px rgba(0,0,0,0.28),
+        inset 3px 0 0 rgba(255,255,255,0.12),
+        0 0 16px color-mix(in srgb, var(--icon-a) 48%, transparent);
+    }
+    50% {
+      box-shadow:
+        4px 4px 0 rgba(0, 0, 0, 0.45),
+        inset 0 2px 0 rgba(255,255,255,0.5),
+        inset 0 -4px 8px rgba(0,0,0,0.28),
+        inset 3px 0 0 rgba(255,255,255,0.12),
+        0 0 30px color-mix(in srgb, var(--icon-a) 85%, transparent),
+        0 0 46px color-mix(in srgb, var(--icon-a) 35%, transparent);
+    }
+  }
+@keyframes floatChip {
+    0%, 100% { transform: perspective(140px) rotateX(16deg) rotateY(-16deg) translateY(0); }
+    50% { transform: perspective(140px) rotateX(24deg) rotateY(-8deg) translateY(-2px); }
+  }
+@keyframes pulsePixel {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+  }
+@keyframes konamiFlash {
+    0%, 100% { filter: none; }
+    20% { filter: hue-rotate(90deg) saturate(1.8); }
+    40% { filter: hue-rotate(-90deg) saturate(1.8); }
+    60% { filter: hue-rotate(180deg) saturate(2); }
+    80% { filter: hue-rotate(-45deg) saturate(1.5); }
+  }
+@keyframes cardAura {
+    0%, 100% { box-shadow: 4px 4px 0 rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,236,39,0.1), 0 0 0 rgba(41,173,255,0); }
+    50% { box-shadow: 4px 4px 0 rgba(0,0,0,0.28), inset 0 0 0 1px rgba(255,236,39,0.24), 0 0 20px rgba(41,173,255,0.4); }
+  }

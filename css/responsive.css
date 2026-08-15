@@ -1,0 +1,66 @@
+/* Media queries de responsive, en el mismo orden que tenian en el monolito original.
+   Debe cargarse DESPUES de components.css para que estos overrides ganen el cascade. */
+/* ================= MÓVIL / TABLET CHICA ================= */
+  @media (max-width: 640px) {
+    .taskbar {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.55rem 0.7rem;
+    }
+    .tb-logo { font-size: 0.62rem; padding: 0.4rem 0.55rem; }
+    .tb-right { gap: 0.45rem; }
+    .tb-clock, .tb-copy { font-size: 0.62rem; padding: 0.32rem 0.5rem; }
+
+    .hero { min-height: auto; padding-top: 1.8rem; padding-bottom: 2.2rem; }
+    .corner-badge { width: 56px; height: 56px; top: 10px; right: 10px; }
+    .corner-badge b { font-size: 0.95rem; }
+    .corner-badge span { font-size: 0.46rem; }
+
+    .img-frame {
+      float: none;
+      display: block;
+      width: 112px;
+      height: 132px;
+      margin: 0 auto 1rem;
+    }
+    .hero-lede { clear: both; }
+    .hero-inner { max-width: 100%; }
+
+    .ambient-photo { display: none; }
+
+    .desktop {
+      grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+      gap: 1.3rem 0.7rem;
+      padding: 1.6rem 1rem 2rem;
+    }
+    .icon-glyph { width: 48px; height: 48px; }
+    .icon-label { font-size: 0.6rem; }
+
+    .window {
+      width: calc(100vw - 20px);
+      max-width: calc(100vw - 20px);
+      max-height: 82vh;
+    }
+    .window.popup, .window.cute {
+      width: calc(100vw - 20px);
+      max-width: calc(100vw - 20px);
+    }
+    .title-bar::before { display: none; }
+    .title-bar .title { font-size: 0.66rem; }
+    .btn-close {
+      width: 28px;
+      height: 28px;
+      font-size: 0.78rem;
+    }
+    .window-content { padding: 0.9rem 1rem; }
+
+    .cat-viewer-box { max-width: 100%; height: 240px; }
+
+    .fighter-thumb { aspect-ratio: 4 / 3; }
+  }
+
+  /* ================= TABLET (retoques intermedios) ================= */
+  @media (min-width: 641px) and (max-width: 900px) {
+    .ambient-photo { width: min(18vw, 170px); }
+    .desktop { grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); }
+  }

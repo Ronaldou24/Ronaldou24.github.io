@@ -1,0 +1,23 @@
+/* Reset y tipografia base. El bloque critico inline en index.html (head) duplica esto para el primer render sin esperar a este archivo. */
+
+* { box-sizing: border-box; }
+
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--void);
+    color: var(--cream);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3 { text-wrap: balance; }
+
+  a { color: var(--sky); }
+  a:focus-visible, button:focus-visible {
+    outline: 3px solid var(--lime);
+    outline-offset: 3px;
+  }
