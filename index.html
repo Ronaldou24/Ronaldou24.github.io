@@ -270,6 +270,28 @@
     display: none;
   }
   @media (min-width: 720px) { .cube-wrap-mini { display: block; } }
+  .hero-float-gif {
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.94;
+    filter: drop-shadow(0 10px 14px rgba(0,0,0,0.4));
+    animation: heroFloat 7s ease-in-out infinite alternate;
+    display: none;
+  }
+  @media (min-width: 720px) { .hero-float-gif { display: block; } }
+  .hero-float-gif img { display: block; width: 100%; height: auto; image-rendering: pixelated; }
+  .hero-float-gif.estrella-float { width: 68px; right: 15%; top: 27%; animation-duration: 6s; }
+  .hero-float-gif.kirby-gif-float { width: 58px; right: 1%; top: 46%; animation-duration: 8.4s; }
+  .hero-float-gif.sonic-gif-float { width: 74px; right: 19%; top: 64%; animation-duration: 7.2s; }
+  .hero-float-gif.sonic-gif-float img { mix-blend-mode: lighten; }
+  @keyframes heroFloat {
+    from { transform: translateY(0); }
+    to { transform: translateY(-12px); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-float-gif { animation: none; }
+  }
   .cube-mini {
     width: 100%;
     height: 100%;
@@ -1685,6 +1707,15 @@
       <div class="face top"></div>
       <div class="face bottom"></div>
     </div>
+  </div>
+  <div class="hero-float-gif estrella-float" aria-hidden="true">
+    <img src="assets/img/estrellita-gif.webp" alt="" width="160" height="155" loading="lazy" decoding="async" />
+  </div>
+  <div class="hero-float-gif kirby-gif-float" aria-hidden="true">
+    <img src="assets/img/kirby-gif.webp" alt="" width="140" height="170" loading="lazy" decoding="async" />
+  </div>
+  <div class="hero-float-gif sonic-gif-float" aria-hidden="true">
+    <img src="assets/img/sonic-gif.webp" alt="" width="160" height="160" loading="lazy" decoding="async" />
   </div>
   <div class="hero-inner">
     <p class="hero-eyebrow">Full-Stack Developer</p>
