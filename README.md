@@ -26,7 +26,7 @@ La estética combina:
 
 | Icono | Contenido |
 |---|---|
-| `sobre-mi.txt` | Quién soy, qué estudio y por qué me gusta la electrónica retro |
+| `sobre-mi.txt` | Quién soy, qué estudio (INES en CUCEI, UDG) y por qué me gusta la electrónica retro |
 | `curriculum.pdf` | Datos de contacto, educación, experiencia y descarga del CV |
 | `status.exe` | Ficha de personaje estilo RPG (clase, nivel, habilidad especial) |
 | `inventario.zip` | Stack técnico agrupado por backend, frontend, lenguajes, electrónica y herramientas |
@@ -76,7 +76,7 @@ Y visita `http://localhost:8000`.
 
 ## Sobre mí
 
-Estudiante de **Ingeniería en Comunicaciones y Electrónica** en ESIME Zacatenco (IPN). Desarrollo full-stack con PHP, JavaScript y MySQL, y en mis ratos libres reparo y modeo consolas retro (flash carts, limpieza de contactos, chips).
+Tengo 19 años y estudio **Ingeniería en Electrónica y Sistemas Inteligentes (INES)** en **CUCEI, Universidad de Guadalajara**. Desarrollo full-stack con PHP, JavaScript y MySQL, y en mis ratos libres reparo y modeo consolas retro (flash carts, limpieza de contactos, chips).
 
 ## Contacto
 

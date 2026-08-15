@@ -1,8 +1,8 @@
 <?php
 // Conexión a la base de datos
 $servername = "localhost";
-$username = "root";
-$password = "programacion";
+$username = getenv('DB_USER') ?: "root";
+$password = getenv('DB_PASSWORD') ?: ""; // no hardcodees credenciales: define DB_PASSWORD como variable de entorno local
 $dbname = "flujoviajes";
 
 $conn = new mysqli($servername, $username, $password, $dbname);

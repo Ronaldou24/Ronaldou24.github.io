@@ -11,6 +11,8 @@
 <style>
   * { box-sizing: border-box; }
 
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
   body {
     margin: 0;
     background: var(--void);
@@ -18,6 +20,7 @@
     font-family: var(--font-body);
     font-size: 16px;
     line-height: 1.6;
+    overflow-x: hidden;
   }
 
   h1, h2, h3 { text-wrap: balance; }
@@ -972,6 +975,23 @@
     75% { transform: translateX(4px); }
   }
 
+  /* ---------- easter eggs ---------- */
+  .desktop-icon.ghost-icon { opacity: 0.14; transition: opacity 0.3s ease; }
+  .desktop-icon.ghost-icon:hover,
+  .desktop-icon.ghost-icon:focus-visible { opacity: 1; }
+
+  body.konami-flash { animation: konamiFlash 1.2s ease; }
+  @keyframes konamiFlash {
+    0%, 100% { filter: none; }
+    20% { filter: hue-rotate(90deg) saturate(1.8); }
+    40% { filter: hue-rotate(-90deg) saturate(1.8); }
+    60% { filter: hue-rotate(180deg) saturate(2); }
+    80% { filter: hue-rotate(-45deg) saturate(1.5); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body.konami-flash { animation: none; }
+  }
+
   /* ---------- WINDOWS ---------- */
   .window {
     position: fixed;
@@ -1382,6 +1402,60 @@
     font-size: 0.76rem;
     padding: 1.3rem 1rem;
   }
+  a.fighter-card { color: inherit; text-decoration: none; }
+  a.fighter-card.empty { display: block; }
+  .fighter-link-hint {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
+    letter-spacing: 0.04em;
+    color: var(--sky);
+    margin-top: 0.5rem;
+    text-transform: uppercase;
+  }
+  .fighter-card:hover .fighter-link-hint { color: var(--gold); }
+  button.fighter-card {
+    appearance: none;
+    -webkit-appearance: none;
+    font: inherit;
+    text-align: left;
+    color: inherit;
+    text-decoration: none;
+    margin: 0;
+  }
+
+  /* ---------- PROJECT DETAIL WINDOWS ---------- */
+  .window.project { width: min(480px, calc(100vw - 32px)); }
+  .proj-shot { width: 100%; display: block; border: 3px solid var(--frame); }
+  .proj-shot + .proj-shot { margin-top: 0.5rem; }
+  .proj-shot-cap {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--sky);
+    margin: 0.3rem 0 0;
+  }
+  .proj-gallery { margin-bottom: 0.9rem; }
+  .proj-section { margin: 1rem 0; }
+  .proj-section h4 {
+    font-family: var(--font-head);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--flame);
+    margin: 0 0 0.4rem;
+  }
+  .proj-section p { margin: 0; font-size: 0.85rem; line-height: 1.55; opacity: 0.92; }
+  .proj-actions { display: flex; gap: 0.6rem; flex-wrap: wrap; margin-top: 1.1rem; }
+  .proj-actions .btn { padding: 0.55rem 0.9rem; font-size: 0.68rem; box-shadow: 3px 3px 0 var(--frame); }
+  .proj-note {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--lime);
+    opacity: 0.85;
+    margin: 0.6rem 0 0;
+  }
 
   /* contacto */
   .contact-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.2rem; }
@@ -1439,6 +1513,71 @@
   .bsod-overlay.hidden { display: none; }
   .bsod-text { max-width: 60ch; margin: 3rem auto 0; }
   .bsod-text p { margin: 0 0 1rem; font-size: 0.9rem; line-height: 1.6; }
+
+  /* ================= MÓVIL / TABLET CHICA ================= */
+  @media (max-width: 640px) {
+    .taskbar {
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      padding: 0.55rem 0.7rem;
+    }
+    .tb-logo { font-size: 0.62rem; padding: 0.4rem 0.55rem; }
+    .tb-right { gap: 0.45rem; }
+    .tb-clock, .tb-copy { font-size: 0.62rem; padding: 0.32rem 0.5rem; }
+
+    .hero { min-height: auto; padding-top: 1.8rem; padding-bottom: 2.2rem; }
+    .corner-badge { width: 56px; height: 56px; top: 10px; right: 10px; }
+    .corner-badge b { font-size: 0.95rem; }
+    .corner-badge span { font-size: 0.46rem; }
+
+    .img-frame {
+      float: none;
+      display: block;
+      width: 112px;
+      height: 132px;
+      margin: 0 auto 1rem;
+    }
+    .hero-lede { clear: both; }
+    .hero-inner { max-width: 100%; }
+
+    .ambient-photo { display: none; }
+
+    .desktop {
+      grid-template-columns: repeat(auto-fill, minmax(76px, 1fr));
+      gap: 1.3rem 0.7rem;
+      padding: 1.6rem 1rem 2rem;
+    }
+    .icon-glyph { width: 48px; height: 48px; }
+    .icon-label { font-size: 0.6rem; }
+
+    .window {
+      width: calc(100vw - 20px);
+      max-width: calc(100vw - 20px);
+      max-height: 82vh;
+    }
+    .window.popup, .window.cute {
+      width: calc(100vw - 20px);
+      max-width: calc(100vw - 20px);
+    }
+    .title-bar::before { display: none; }
+    .title-bar .title { font-size: 0.66rem; }
+    .btn-close {
+      width: 28px;
+      height: 28px;
+      font-size: 0.78rem;
+    }
+    .window-content { padding: 0.9rem 1rem; }
+
+    .cat-viewer-box { max-width: 100%; height: 240px; }
+
+    .fighter-thumb { aspect-ratio: 4 / 3; }
+  }
+
+  /* ================= TABLET (retoques intermedios) ================= */
+  @media (min-width: 641px) and (max-width: 900px) {
+    .ambient-photo { width: min(18vw, 170px); }
+    .desktop { grid-template-columns: repeat(auto-fill, minmax(88px, 1fr)); }
+  }
 </style>
 </head>
 <body>
@@ -1510,9 +1649,9 @@ SOLANO">RONALDO<br />SOLANO</h1>
       tiene vibe de caja de N64 o se ve demasiado cute para ser normal, ya me ganó.
     </p>
     <p class="hero-lede">
-      Estudiante de Ing. en Comunicaciones y Electrónica en el IPN, con un pie en el código y
-      otro desarmando consolas viejas: chips, flash carts y limpieza de contactos para que
-      sigan corriendo juegos.
+      Estudiante de Ingeniería en Electrónica y Sistemas Inteligentes en CUCEI (Universidad de
+      Guadalajara), con un pie en el código y otro desarmando consolas viejas: chips, flash carts
+      y limpieza de contactos para que sigan corriendo juegos.
     </p>
     <div class="hero-badges">
       <span class="hero-badge">🎮 Pixel</span>
@@ -1602,6 +1741,14 @@ SOLANO">RONALDO<br />SOLANO</h1>
     <span class="icon-glyph pixel-bug" style="--icon-a: #111; --icon-b: #ff004d; color: #fff;"><svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="13" r="4.5"/><path d="M12 8.5V6M9 9l-2-2.5M15 9l2-2.5M6.5 13H3M21 13h-3.5M9 17l-2 2.5M15 17l2 2.5"/></svg></span>
     <span class="icon-label">not-a-bug.docx</span>
   </button>
+  <button class="desktop-icon" data-window="cheatsWindow" type="button">
+    <span class="icon-glyph pixel-diamond" style="--icon-a: #ffd95c; --icon-b: #7e2553; color: #fff; font-size: 22px;">🕹️</span>
+    <span class="icon-label">cheats.ini</span>
+  </button>
+  <button class="desktop-icon ghost-icon" id="ghostIcon" type="button" aria-label="Ícono secreto">
+    <span class="icon-glyph pixel-hex2" style="--icon-a: #cfd8ff; --icon-b: #1d2b53; color: #fff; font-size: 22px;">👻</span>
+    <span class="icon-label">???</span>
+  </button>
 </main>
 
 <div class="pixel-rule"></div>
@@ -1618,7 +1765,9 @@ SOLANO">RONALDO<br />SOLANO</h1>
   </header>
   <div class="window-content">
     <p>
-      Estudiante de <strong>ESIME Zacatenco (IPN)</strong>, cursando <strong>2° semestre</strong>.
+      Tengo <strong>19 años</strong> y estudio <strong>Ingeniería en Electrónica y Sistemas
+      Inteligentes (INES)</strong> en <strong>CUCEI, Universidad de Guadalajara</strong>,
+      cursando <strong>1er semestre</strong>.
       Programo full-stack (PHP · JavaScript · MySQL) y soy afín a la electrónica — de ahí que
       también arregle y modee consolas viejas (chips, flash carts, limpieza de contactos,
       retrocompatibilidad) para que sigan corriendo juegos.
@@ -1639,10 +1788,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
     <div class="status-grid">
       <div class="stat-tile"><div class="stat-label">Nombre</div><div class="stat-value">Ronaldo Gael Solano Gutiérrez</div></div>
       <div class="stat-tile"><div class="stat-label">Origen</div><div class="stat-value">Puerto Vallarta, Jalisco</div></div>
-      <div class="stat-tile"><div class="stat-label">Edad</div><div class="stat-value">18 años</div></div>
+      <div class="stat-tile"><div class="stat-label">Edad</div><div class="stat-value">19 años</div></div>
       <div class="stat-tile"><div class="stat-label">Correo</div><div class="stat-value">ronaldosolano56@gmail.com</div></div>
       <div class="stat-tile"><div class="stat-label">Bachillerato</div><div class="stat-value">Técnico en Programación · CBTIS68 · Promedio 8.8</div></div>
-      <div class="stat-tile"><div class="stat-label">Actual</div><div class="stat-value">IPN · Ing. en Comunicaciones y Electrónica · 2° semestre</div></div>
+      <div class="stat-tile"><div class="stat-label">Actual</div><div class="stat-value">CUCEI · UDG · Ing. en Electrónica y Sistemas Inteligentes · 1er semestre</div></div>
     </div>
     <p style="margin-top:1rem;">
       <strong>Experiencia:</strong> 3 meses en Guadalajara apoyando la parte administrativa de
@@ -1667,8 +1816,8 @@ SOLANO">RONALDO<br />SOLANO</h1>
     <div class="status-grid">
       <div class="stat-tile"><div class="stat-label">Player</div><div class="stat-value">Ronaldo Solano</div></div>
       <div class="stat-tile"><div class="stat-label">Clase</div><div class="stat-value">Full-Stack Developer</div></div>
-      <div class="stat-tile"><div class="stat-label">Nivel</div><div class="stat-value">2 (2° semestre)</div></div>
-      <div class="stat-tile"><div class="stat-label">Gremio</div><div class="stat-value">ESIME Zacatenco · IPN</div></div>
+      <div class="stat-tile"><div class="stat-label">Nivel</div><div class="stat-value">New Game+ · 1er semestre (INES)</div></div>
+      <div class="stat-tile"><div class="stat-label">Gremio</div><div class="stat-value">CUCEI · Universidad de Guadalajara</div></div>
       <div class="stat-tile"><div class="stat-label">Habilidad especial</div><div class="stat-value">Modding y reparación de consolas retro</div></div>
       <div class="stat-tile"><div class="stat-label">Debilidad</div><div class="stat-value">No poder dejar un bug sin resolver</div></div>
     </div>
@@ -1731,105 +1880,60 @@ SOLANO">RONALDO<br />SOLANO</h1>
   </header>
   <div class="window-content">
     <div class="missions-hero">
-      <p class="missions-eyebrow">🌐 Proyectos web — C:\xampp\htdocs</p>
-      <p class="missions-caption">Una galería de builds, sitios y scripts con identidad visual propia.</p>
+      <p class="missions-eyebrow">🌐 Proyectos destacados</p>
+      <p class="missions-caption">Los 4 builds que mejor muestran mi nivel — clic en cada uno para ver capturas, stack y links.</p>
     </div>
     <div class="roster-grid">
-      <div class="fighter-card">
+      <button class="fighter-card" type="button" data-window="projDogfatherWindow">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="htdocs/Proyectos/dogfather/images/banner.jpg" alt="Preview del proyecto Dogfather" loading="lazy" />
+          <img src="assets/proyectos/dogfather.jpg" alt="Preview del proyecto Dogfather" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>dogfather</h3>
-          <p>Proyecto visual con estética de mascota y galería de imágenes.</p>
+          <p>Sitio de galería con PHP modular (includes) y grid de imágenes.</p>
+          <span class="fighter-link-hint">Ver detalle →</span>
         </div>
-      </div>
-      <div class="fighter-card">
+      </button>
+      <button class="fighter-card" type="button" data-window="projHollowheadsWindow">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="htdocs/Los_Hollowheads/arte/arte_principalw.jpg" alt="Preview del proyecto Los Hollowheads" loading="lazy" />
+          <img src="assets/proyectos/los-hollowheads.jpg" alt="Preview del proyecto Los Hollowheads" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>Los_Hollowheads</h3>
-          <p>Sitio tipo colectivo con contenidos, eventos y piezas visuales.</p>
+          <p>Sitio multi-página para una banda, con identidad visual propia.</p>
+          <span class="fighter-link-hint">Ver detalle →</span>
         </div>
-      </div>
-      <div class="fighter-card">
+      </button>
+      <button class="fighter-card" type="button" data-window="projFlujoWindow">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="htdocs/Pagina%20Celu/fotos/1.jpg" alt="Preview del proyecto Pagina Celu" loading="lazy" />
-        </div>
-        <div class="card-body">
-          <h3>Pagina Celu</h3>
-          <p>Proyecto web de presentación con un enfoque visual muy cargado.</p>
-        </div>
-      </div>
-      <div class="fighter-card">
-        <span class="status-tag done">Completada</span>
-        <div class="fighter-thumb">
-          <img src="cat.png" alt="Preview del proyecto Flujodeviajes" loading="lazy" />
+          <img src="assets/proyectos/flujodeviajes-panel.jpg" alt="Preview del proyecto flujodeviajes / MarTransport" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>flujodeviajes</h3>
-          <p>Gestión de rutas de viaje con login, panel admin y operaciones.</p>
+          <p>Gestión de rutas con login por rol y CRUD contra MySQL.</p>
+          <span class="fighter-link-hint">Ver detalle →</span>
         </div>
-      </div>
-      <div class="fighter-card">
+      </button>
+      <button class="fighter-card" type="button" data-window="projEsteticaWindow">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="htdocs/Proyectos/web/blog/images/ronaldinhoc.jpg" alt="Preview del proyecto web blog" loading="lazy" />
-        </div>
-        <div class="card-body">
-          <h3>web2 / blog</h3>
-          <p>Proyecto web con contenido editorial y recursos visuales.</p>
-        </div>
-      </div>
-      <div class="fighter-card">
-        <span class="status-tag done">Completada</span>
-        <div class="fighter-thumb">
-          <img src="htdocs/Estetica_Canina%20-%20Monuu/image.png" alt="Preview del proyecto Estetica Canina" loading="lazy" />
+          <img src="assets/proyectos/estetica-canina.jpg" alt="Preview del proyecto Estetica Canina" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>Estetica_Canina</h3>
-          <p>Proyecto de estética canina con variantes y estructura de negocio.</p>
+          <p>Sitio de servicios con tabla de precios y flujo de citas.</p>
+          <span class="fighter-link-hint">Ver detalle →</span>
         </div>
-      </div>
-      <div class="fighter-card">
-        <span class="status-tag done">Completada</span>
-        <div class="fighter-thumb">
-          <img src="htdocs/dashboard/images/xampp-cloud.png" alt="Preview del proyecto dashboard" loading="lazy" />
-        </div>
-        <div class="card-body">
-          <h3>dashboard</h3>
-          <p>Panel de control y vistas del proyecto con enfoque de interfaz.</p>
-        </div>
-      </div>
-      <div class="fighter-card">
-        <span class="status-tag done">Completada</span>
-        <div class="fighter-thumb">
-          <img src="htdocs/Proyectos/venta_solano/fonts/cbtis68.svg" alt="Preview de proyecto de venta" loading="lazy" />
-        </div>
-        <div class="card-body">
-          <h3>Proyectos / venta</h3>
-          <p>Prácticas y mini proyectos en desarrollo con identidad visual.</p>
-        </div>
-      </div>
-      <div class="fighter-card">
-        <span class="status-tag done">Completada</span>
-        <div class="fighter-thumb">
-          <img src="htdocs/Proyectos/web/blog/images/hacker1.jpeg" alt="Preview de práctica web" loading="lazy" />
-        </div>
-        <div class="card-body">
-          <h3>amsterdam</h3>
-          <p>Proyecto web almacenado directamente en la carpeta raíz de htdocs.</p>
-        </div>
-      </div>
+      </button>
+      <a class="fighter-card empty" href="https://github.com/Ronaldou24/Ronaldou24.github.io" target="_blank" rel="noopener">+ más código y prácticas — ver todo en GitHub →</a>
     </div>
 
     <p style="font-family:var(--font-mono);font-size:0.7rem;color:var(--lime);letter-spacing:0.06em;text-transform:uppercase;margin:1.2rem 0 0.6rem;">🐍 Python — scripts y apps</p>
     <div class="roster-grid">
-      <div class="fighter-card">
+      <a class="fighter-card" href="https://github.com/Ronaldou24/Ronaldou24.github.io/tree/main/htdocs/Los_Hollowheads" target="_blank" rel="noopener">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
           <img src="htdocs/Los_Hollowheads/arte/roni.jpg" alt="Preview de scripts de Los Hollowheads" loading="lazy" />
@@ -1837,9 +1941,10 @@ SOLANO">RONALDO<br />SOLANO</h1>
         <div class="card-body">
           <h3>Los_Hollowheads</h3>
           <p>Scripts: lol.py, trabajos/Estructura.py, Nodos.py y Principal.py.</p>
+          <span class="fighter-link-hint">Script Python · Ver código en GitHub →</span>
         </div>
-      </div>
-      <div class="fighter-card">
+      </a>
+      <a class="fighter-card" href="https://github.com/Ronaldou24/Ronaldou24.github.io/tree/main/htdocs/web2" target="_blank" rel="noopener">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
           <img src="htdocs/web2/uploads/2025124304_Captura%20de%20pantalla%202025-05-04%20173322.png" alt="Preview del proyecto web2" loading="lazy" />
@@ -1847,39 +1952,43 @@ SOLANO">RONALDO<br />SOLANO</h1>
         <div class="card-body">
           <h3>web2/app.py</h3>
           <p>Script Python vinculado al proyecto web web2.</p>
+          <span class="fighter-link-hint">Script Python · Ver código en GitHub →</span>
         </div>
-      </div>
-      <div class="fighter-card">
+      </a>
+      <a class="fighter-card" href="https://github.com/Ronaldou24/Ronaldou24.github.io/tree/main/htdocs/cv/mi-portafolio" target="_blank" rel="noopener">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="htdocs/cv/mi-portafolio/app.py" alt="Preview del portafolio Python" loading="lazy" />
+          <img src="cat.png" alt="Preview del portafolio Python" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>cv/mi-portafolio/app.py</h3>
           <p>Script Python del portafolio personal.</p>
+          <span class="fighter-link-hint">Script Python · Ver código en GitHub →</span>
         </div>
-      </div>
-      <div class="fighter-card">
+      </a>
+      <a class="fighter-card" href="https://github.com/Ronaldou24/Ronaldou24.github.io/tree/main/htdocs/Estetica_Canina/app" target="_blank" rel="noopener">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="htdocs/Estetica_Canina/app/app.py" alt="Preview del script de estética canina" loading="lazy" />
+          <img src="htdocs/Estetica_Canina%20-%20Monuu/image.png" alt="Preview del script de estética canina" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>Estetica_Canina/app/app.py</h3>
           <p>Aplicación Python del sistema de estética canina.</p>
+          <span class="fighter-link-hint">Script Python · Ver código en GitHub →</span>
         </div>
-      </div>
-      <div class="fighter-card">
+      </a>
+      <a class="fighter-card" href="https://github.com/Ronaldou24/Ronaldou24.github.io/tree/main/htdocs/python" target="_blank" rel="noopener">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
-          <img src="htdocs/python/app.py" alt="Preview de práctica Python" loading="lazy" />
+          <img src="gods.png" alt="Preview de práctica Python" loading="lazy" />
         </div>
         <div class="card-body">
           <h3>python/app.py</h3>
           <p>Aplicación Python dentro de la carpeta de prácticas.</p>
+          <span class="fighter-link-hint">Script Python · Ver código en GitHub →</span>
         </div>
-      </div>
-      <div class="fighter-card">
+      </a>
+      <a class="fighter-card" href="https://github.com/Ronaldou24/Ronaldou24.github.io/tree/main/RonaldoSolanoProgra2" target="_blank" rel="noopener">
         <span class="status-tag done">Completada</span>
         <div class="fighter-thumb">
           <img src="htdocs/Proyectos/dogfather/images/banner.jpg" alt="Preview de RonaldoSolanoProgra2" loading="lazy" />
@@ -1887,9 +1996,130 @@ SOLANO">RONALDO<br />SOLANO</h1>
         <div class="card-body">
           <h3>RonaldoSolanoProgra2</h3>
           <p>Carpeta con ejercicios y programas Python: biblioteca, clínica, parkour, red social, nodos y más.</p>
+          <span class="fighter-link-hint">Script Python · Ver código en GitHub →</span>
         </div>
-      </div>
-      <div class="fighter-card empty">+ varias prácticas más en carpetas de Python y proyectos web</div>
+      </a>
+      <a class="fighter-card empty" href="https://github.com/Ronaldou24/Ronaldou24.github.io" target="_blank" rel="noopener">+ varias prácticas más — ver todo el código en GitHub →</a>
+    </div>
+  </div>
+</div>
+
+<div class="window hidden project" id="projDogfatherWindow" data-default-pos="100,80">
+  <header class="title-bar drag-handle">
+    <span class="title">DOGFATHER.EXE</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="proj-gallery">
+      <img class="proj-shot" src="assets/proyectos/dogfather.jpg" alt="Galería de dogfather: grid de fotos de perros" loading="lazy" />
+    </div>
+    <div class="proj-section">
+      <h4>Qué es</h4>
+      <p>Sitio de galería para un negocio de fotografía/estética de mascotas: landing con banner, sección de contacto y una galería de imágenes en grid.</p>
+    </div>
+    <div class="proj-section">
+      <h4>Cómo está hecho</h4>
+      <p>PHP con includes reutilizables (header/footer) por página, y layout de galería en CSS Grid con tamaños alternados tipo masonry.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">PHP</span>
+      <span class="chip">Bootstrap</span>
+      <span class="chip">CSS Grid</span>
+    </div>
+    <div class="proj-actions">
+      <a class="btn" href="https://github.com/Ronaldou24/dogfather" target="_blank" rel="noopener">Ver código en GitHub</a>
+    </div>
+    <p class="proj-note">Es PHP puro — no corre como demo en vivo sobre GitHub Pages (hosting estático).</p>
+  </div>
+</div>
+
+<div class="window hidden project" id="projHollowheadsWindow" data-default-pos="130,110">
+  <header class="title-bar drag-handle">
+    <span class="title">LOS_HOLLOWHEADS.SITE</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="proj-gallery">
+      <img class="proj-shot" src="assets/proyectos/los-hollowheads.jpg" alt="Home del sitio de Los Hollowheads" loading="lazy" />
+    </div>
+    <div class="proj-section">
+      <h4>Qué es</h4>
+      <p>Sitio multi-página para una banda/colectivo de Puerto Vallarta: inicio, galería, eventos, merch, blog y contacto.</p>
+    </div>
+    <div class="proj-section">
+      <h4>Cómo está hecho</h4>
+      <p>HTML y CSS puro, sin frameworks — con tipografía e identidad visual propia, distinta al resto del portafolio.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">HTML5</span>
+      <span class="chip">CSS3</span>
+      <span class="chip">Diseño editorial</span>
+    </div>
+    <div class="proj-actions">
+      <a class="btn" href="https://ronaldou24.github.io/los-hollowheads/" target="_blank" rel="noopener">Ver demo en vivo</a>
+      <a class="btn" href="https://github.com/Ronaldou24/los-hollowheads" target="_blank" rel="noopener">Ver código</a>
+    </div>
+  </div>
+</div>
+
+<div class="window hidden project" id="projFlujoWindow" data-default-pos="160,140">
+  <header class="title-bar drag-handle">
+    <span class="title">MARTRANSPORT.SYS</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="proj-gallery">
+      <img class="proj-shot" src="assets/proyectos/flujodeviajes-panel.jpg" alt="Panel de control de MarTransport, vista rol transporte" loading="lazy" />
+      <p class="proj-shot-cap">Vista rol "transporte"</p>
+      <img class="proj-shot" src="assets/proyectos/flujodeviajes-admin.jpg" alt="Panel de administración de MarTransport, vista rol admin" loading="lazy" />
+      <p class="proj-shot-cap">Vista rol "administrador"</p>
+    </div>
+    <div class="proj-section">
+      <h4>Qué es</h4>
+      <p>Sistema de gestión de rutas de transporte marítimo ("MarTransport") con login y dos roles: transporte y administrador, cada uno con su propio panel.</p>
+    </div>
+    <div class="proj-section">
+      <h4>Cómo está hecho</h4>
+      <p>CRUD completo de rutas (alta, consulta, edición y baja) contra MySQL, con sesiones en PHP y consultas preparadas (prepared statements) contra inyección SQL.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">PHP</span>
+      <span class="chip">MySQL</span>
+      <span class="chip">Sesiones</span>
+      <span class="chip">CRUD</span>
+    </div>
+    <div class="proj-actions">
+      <a class="btn" href="https://github.com/Ronaldou24/flujodeviajes" target="_blank" rel="noopener">Ver código en GitHub</a>
+    </div>
+    <p class="proj-note">Backend en PHP + MySQL — no corre como demo en vivo sobre GitHub Pages (hosting estático).</p>
+  </div>
+</div>
+
+<div class="window hidden project" id="projEsteticaWindow" data-default-pos="190,170">
+  <header class="title-bar drag-handle">
+    <span class="title">ESTETICA_CANINA.HTML</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="proj-gallery">
+      <img class="proj-shot" src="assets/proyectos/estetica-canina.jpg" alt="Tabla de servicios y precios de Estetica Canina" loading="lazy" />
+    </div>
+    <div class="proj-section">
+      <h4>Qué es</h4>
+      <p>Sitio para una estética canina: tabla de servicios y precios por tamaño de mascota, y páginas para agendar, cancelar y consultar citas.</p>
+    </div>
+    <div class="proj-section">
+      <h4>Cómo está hecho</h4>
+      <p>Frontend en HTML/CSS, con el esquema SQL ya diseñado (agenda_servicios.sql) para conectarlo a una base de datos de citas.</p>
+    </div>
+    <div class="chip-row">
+      <span class="chip">HTML5</span>
+      <span class="chip">CSS3</span>
+      <span class="chip">MySQL (esquema)</span>
+    </div>
+    <div class="proj-actions">
+      <a class="btn" href="https://ronaldou24.github.io/estetica-canina/" target="_blank" rel="noopener">Ver demo en vivo</a>
+      <a class="btn" href="https://github.com/Ronaldou24/estetica-canina" target="_blank" rel="noopener">Ver código</a>
     </div>
   </div>
 </div>
@@ -2041,6 +2271,33 @@ SOLANO">RONALDO<br />SOLANO</h1>
   </div>
 </div>
 
+<div class="window hidden cute" id="cheatsWindow" data-default-pos="120,140">
+  <header class="title-bar drag-handle">
+    <span class="title">CHEATS.INI</span>
+    <button class="btn-close" data-close type="button">X</button>
+  </header>
+  <div class="window-content">
+    <div class="mini-grid">
+      <div class="mini-card">
+        <h3>🕹️ Este escritorio esconde cosas</h3>
+        <p>Algunas pistas, sin spoilear todo:</p>
+      </div>
+      <div class="mini-card">
+        <h3>👻 Ícono fantasma</h3>
+        <p>Hay un ícono casi invisible perdido entre los demás. Pasa el cursor por el escritorio con calma.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🎮 Código clásico</h3>
+        <p>El código de videojuego de toda la vida — arriba, arriba, abajo, abajo, izquierda, derecha, izquierda, derecha, B, A — tecleado en cualquier parte de la página desbloquea algo.</p>
+      </div>
+      <div class="mini-card">
+        <h3>🐛 Triple clic</h3>
+        <p>not-a-bug.docx no es lo que aparenta si le insistes tres veces seguidas.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="window hidden" id="certificadosWindow" data-default-pos="140,190">
   <header class="title-bar drag-handle">
     <span class="title">CERTIFICADOS.FOL</span>
@@ -2158,9 +2415,15 @@ SOLANO">RONALDO<br />SOLANO</h1>
     win.style.zIndex = zTop;
   }
 
+  function estimateWindowSize(win) {
+    var base = win.classList.contains('cute') ? 440 : (win.classList.contains('popup') ? 300 : 380);
+    var w = Math.min(base, window.innerWidth - 32);
+    var h = Math.min(300, window.innerHeight * 0.7);
+    return [w, h];
+  }
+
   var lazyWindowInit = {
     papusBlindajeWindow: function () {
-      if (window.matchMedia('(max-width: 768px)').matches) return;
       var c = document.getElementById('papusCatCanvas');
       var cont = document.getElementById('papusCatContainer');
       if (!c || !cont || !window.initCritterViewer) return;
@@ -2258,15 +2521,28 @@ SOLANO">RONALDO<br />SOLANO</h1>
     }
   };
 
+  var openedWindows = {};
+  var achievementUnlocked = false;
+  var ACHIEVEMENT_THRESHOLD = 12;
+
   function openWindow(id) {
     var win = document.getElementById(id);
     if (!win) return;
     if (win.classList.contains('hidden')) {
       var pos = (win.dataset.defaultPos || '60,110').split(',').map(Number);
-      var clamped = clampPos(pos[0], pos[1], 380, 300);
+      var size = estimateWindowSize(win);
+      var clamped = clampPos(pos[0], pos[1], size[0], size[1]);
       win.style.left = clamped[0] + 'px';
       win.style.top = clamped[1] + 'px';
       if (lazyWindowInit[id]) { lazyWindowInit[id](); lazyWindowInit[id] = null; }
+
+      openedWindows[id] = true;
+      if (!achievementUnlocked && Object.keys(openedWindows).length >= ACHIEVEMENT_THRESHOLD) {
+        achievementUnlocked = true;
+        setTimeout(function () {
+          spawnPopup('🏆 ¡Explorador de cartucho completo! Ya viste casi todo el escritorio — gracias por curiosear tanto.', 40, Math.max(80, window.innerHeight - 200));
+        }, 500);
+      }
     }
     win.classList.remove('hidden');
     bringToFront(win);
@@ -2289,8 +2565,9 @@ SOLANO">RONALDO<br />SOLANO</h1>
       var dx = e.clientX - startX, dy = e.clientY - startY;
       startX = e.clientX;
       startY = e.clientY;
-      win.style.left = (win.offsetLeft + dx) + 'px';
-      win.style.top = (win.offsetTop + dy) + 'px';
+      var clamped = clampPos(win.offsetLeft + dx, win.offsetTop + dy, win.offsetWidth, win.offsetHeight);
+      win.style.left = clamped[0] + 'px';
+      win.style.top = clamped[1] + 'px';
     });
     function end(e) {
       if (e.pointerId !== activeId) return;
@@ -2314,6 +2591,12 @@ SOLANO">RONALDO<br />SOLANO</h1>
   });
 
   document.querySelectorAll('.desktop-icon[data-window]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      openWindow(btn.getAttribute('data-window'));
+    });
+  });
+
+  document.querySelectorAll('.fighter-card[data-window]').forEach(function (btn) {
     btn.addEventListener('click', function () {
       openWindow(btn.getAttribute('data-window'));
     });
@@ -2351,10 +2634,36 @@ SOLANO">RONALDO<br />SOLANO</h1>
     this.classList.add('hidden');
   });
 
+  var ghostIcon = document.getElementById('ghostIcon');
+  if (ghostIcon) {
+    ghostIcon.addEventListener('click', function () {
+      spawnPopup('👻 Boo. Encontraste el ícono fantasma — casi nadie lo nota a la primera.', Math.max(20, window.innerWidth / 2 - 150), Math.max(80, window.innerHeight / 2 - 90));
+    });
+  }
+
+  // código clásico de videojuego: arriba arriba abajo abajo izq der izq der B A
+  var konamiSeq = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+  var konamiPos = 0;
+  document.addEventListener('keydown', function (e) {
+    var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
+    if (key === konamiSeq[konamiPos]) {
+      konamiPos++;
+      if (konamiPos === konamiSeq.length) {
+        konamiPos = 0;
+        document.body.classList.add('konami-flash');
+        setTimeout(function () { document.body.classList.remove('konami-flash'); }, 1200);
+        openWindow('secretWindow');
+      }
+    } else {
+      konamiPos = (key === konamiSeq[0]) ? 1 : 0;
+    }
+  });
+
   function spawnPopup(text, x, y) {
     var p = document.createElement('div');
     p.className = 'window popup';
-    var clamped = clampPos(x, y, 300, 140);
+    var popupW = Math.min(300, window.innerWidth - 32);
+    var clamped = clampPos(x, y, popupW, 140);
     p.style.left = clamped[0] + 'px';
     p.style.top = clamped[1] + 'px';
     p.style.zIndex = ++zTop;

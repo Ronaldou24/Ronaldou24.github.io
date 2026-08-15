@@ -2,8 +2,8 @@
 
     $host = "localhost";
     $bd =   "dogfather";
-    $user = "root";
-    $pwd =  "programacion";
+    $user = getenv('DB_USER') ?: "root";
+    $pwd =  getenv('DB_PASSWORD') ?: ""; // no hardcodees credenciales: define DB_PASSWORD como variable de entorno local
 
 try{
     $conexion = new PDO("mysql:host=$host;dbname=$bd",$user,$pwd);
