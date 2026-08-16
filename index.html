@@ -78,6 +78,52 @@
     transform: translate(1px, 1px);
   }
 
+  /* ---------- accesibilidad: skip link ---------- */
+  .skip-link {
+    position: absolute;
+    left: 8px;
+    top: -60px;
+    z-index: 1000;
+    background: var(--gold);
+    color: var(--frame);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    padding: 0.6rem 1rem;
+    border: 2px solid var(--frame);
+    text-decoration: none;
+    transition: top 0.15s ease;
+  }
+  .skip-link:focus { top: 8px; }
+
+  /* ---------- taskbar: switcher de ventanas abiertas ---------- */
+  .tb-windows {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex: 1;
+    margin: 0 0.6rem;
+  }
+  .tb-windows::-webkit-scrollbar { display: none; }
+  .tb-win-btn {
+    flex-shrink: 0;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--cream);
+    background: var(--navy);
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--frame) var(--sky) var(--sky) var(--frame);
+    padding: 0.3rem 0.55rem;
+    cursor: pointer;
+    max-width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .tb-win-btn.active { border-color: var(--gold); color: var(--gold); }
+
   /* ---------- PIXEL RULE (divider) ---------- */
   .pixel-rule {
     height: 12px;
@@ -119,8 +165,11 @@
 </head>
 <body>
 
+<a class="skip-link" href="#escritorio">Saltar al escritorio</a>
+
 <div class="taskbar">
   <button class="tb-logo" id="logoBtn" type="button">RONALDOU24</button>
+  <div class="tb-windows" id="tbWindows" role="group" aria-label="Ventanas abiertas"></div>
   <div class="tb-right">
     <button class="tb-clock" id="clockBtn" type="button"><span id="clockText">00:00</span></button>
     <button class="tb-copy" id="copyBtn" type="button" title="Créditos">©</button>
@@ -220,7 +269,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="pixel-rule"></div>
 
-<main class="desktop">
+<main class="desktop" id="escritorio">
   <div class="ambient-photo left">
     <picture>
       <source srcset="assets/img/cat.webp" type="image/webp">

@@ -1,5 +1,63 @@
 /* Media queries de responsive, en el mismo orden que tenian en el monolito original.
    Debe cargarse DESPUES de components.css para que estos overrides ganen el cascade. */
+
+/* ================= FASE 4: bugs de movil (ver OPTIMIZACION.md §2) ================= */
+/* Punto de quiebre unico entre modo ventana-flotante y modo sheet, coordinado con
+   MOBILE_Q en js/window-manager.js -- debe ser el mismo valor en los dos lados. */
+@media (max-width: 900px) {
+  /* BUG-5: el scroll dentro de la ventana ya no arrastra la pagina de atras */
+  .window-content {
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* BUG-6: en movil no hay drag de ventanas, asi que el titulo no necesita
+     secuestrar el gesto de touch -- se lo devolvemos al scroll normal */
+  .title-bar {
+    cursor: default;
+    touch-action: auto;
+  }
+  /* BUG-7: objetivos tactiles a minimo 44x44 (WCAG 2.5.5 / Apple HIG) */
+  .btn-close, .btn-close-like {
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+  }
+  .tb-copy, .tb-clock { min-height: 44px; }
+  .critter-switch .btn-close-like { width: 44px; height: 44px; }
+  .desktop-icon { min-height: 44px; }
+  .chip { min-height: 32px; padding: 0.5rem 0.8rem; }
+  .index-list .index-item { min-height: 44px; padding: 0.6rem 0.9rem; }
+  .tb-win-btn { min-height: 32px; }
+
+  /* BUG-1/2/3: modo sheet -- hoja a pantalla completa en vez de ventana flotante,
+     posicion real medida con visualViewport (ver window-manager.js), nada de
+     estimateWindowSize adivinando */
+  .window.as-sheet {
+    position: fixed;
+    inset: auto 0 0 0;
+    left: 0 !important;
+    top: auto !important;
+    right: 0;
+    width: 100%;
+    max-width: 100%;
+    height: 88dvh;
+    max-height: 88dvh;
+    border-width: 3px 0 0 0;
+    animation: sheetUp 0.22s steps(6) both;
+  }
+  .window.as-sheet .window-content {
+    flex: 1;
+    padding-bottom: max(1.5rem, env(safe-area-inset-bottom));
+  }
+  @keyframes sheetUp {
+    from { transform: translateY(100%); }
+    to { transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .window.as-sheet { animation: none; }
+  }
+}
+
 /* ================= MÓVIL / TABLET CHICA ================= */
   @media (max-width: 640px) {
     .taskbar {
@@ -47,11 +105,9 @@
     }
     .title-bar::before { display: none; }
     .title-bar .title { font-size: 0.66rem; }
-    .btn-close {
-      width: 28px;
-      height: 28px;
-      font-size: 0.78rem;
-    }
+    /* BUG-7: el .btn-close ya quedo en 44x44 en el bloque de max-width:900px de
+       arriba -- aqui NO se vuelve a achicar, solo se ajusta el tipo de letra. */
+    .btn-close { font-size: 0.9rem; }
     .window-content { padding: 0.9rem 1rem; }
 
     .cat-viewer-box { max-width: 100%; height: 240px; }
