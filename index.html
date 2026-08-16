@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
+<script>
+  // Fase 5.4: aplica "MODO RENDIMIENTO" ANTES del primer pintado, para que no haya
+  // flashazo de efectos al recargar con la preferencia ya guardada. js/perf.js
+  // sincroniza el resto (boton de la taskbar, listeners) despues.
+  try {
+    if (localStorage.getItem('perfMode') === '1') document.documentElement.classList.add('perf-mode');
+  } catch (_) { /* noop: localStorage bloqueado (modo privado, cuota, etc.) */ }
+</script>
 <title>Ronaldo Solano — Full-Stack Dev Cartridge</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -77,6 +85,9 @@
     border-color: var(--frame) var(--sky) var(--sky) var(--frame);
     transform: translate(1px, 1px);
   }
+  /* Fase 5.4: toggle "MODO RENDIMIENTO" -- reusa .tb-clock, solo cambia el color cuando esta activo */
+  #perfModeBtn[aria-pressed="true"] { background: var(--flame); color: var(--cream); }
+  #perfModeBtn[aria-pressed="true"]:hover { background: var(--gold); color: var(--frame); }
 
   /* ---------- accesibilidad: skip link ---------- */
   .skip-link {
@@ -171,12 +182,13 @@
   <button class="tb-logo" id="logoBtn" type="button">RONALDOU24</button>
   <div class="tb-windows" id="tbWindows" role="group" aria-label="Ventanas abiertas"></div>
   <div class="tb-right">
+    <button class="tb-clock" id="perfModeBtn" type="button" aria-pressed="false" title="Modo rendimiento: apaga scanlines, glitch, bloom y el visor 3D">⚡</button>
     <button class="tb-clock" id="clockBtn" type="button"><span id="clockText">00:00</span></button>
     <button class="tb-copy" id="copyBtn" type="button" title="Créditos">©</button>
   </div>
 </div>
 
-<div class="hero glitch-wrap" id="glitchHero">
+<div class="hero glitch-wrap" id="glitchHero" data-animated>
   <div class="color-halo"></div>
   <div class="noise-layer"></div>
   <div class="scanlines"></div>
@@ -269,7 +281,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="pixel-rule"></div>
 
-<main class="desktop" id="escritorio">
+<main class="desktop" id="escritorio" data-animated>
   <div class="ambient-photo left">
     <picture>
       <source srcset="assets/img/cat.webp" type="image/webp">

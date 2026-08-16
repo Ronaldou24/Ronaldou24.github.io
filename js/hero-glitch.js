@@ -1,4 +1,6 @@
 // Extraido del monolito original (Fase 3): burst de glitch aleatorio en el hero.
+import { isPerfMode } from './perf.js';
+
 export function initHeroGlitch() {
   var hero = document.getElementById('glitchHero');
   if (!hero) return;
@@ -9,8 +11,12 @@ export function initHeroGlitch() {
   var BURST_DURATION = 500;
 
   function triggerBurst() {
-    hero.classList.add('burst');
-    setTimeout(function () { hero.classList.remove('burst'); }, BURST_DURATION);
+    // Fase 5.4: con "MODO RENDIMIENTO" activo no se dispara el burst, pero se sigue
+    // agendando el siguiente para reaccionar en vivo si el usuario lo desactiva.
+    if (!isPerfMode()) {
+      hero.classList.add('burst');
+      setTimeout(function () { hero.classList.remove('burst'); }, BURST_DURATION);
+    }
     scheduleNextBurst();
   }
 

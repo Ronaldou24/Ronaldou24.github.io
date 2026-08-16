@@ -1,10 +1,13 @@
 // Extraido del monolito original (Fase 3) y ampliado en la Fase 4 con los fixes de
-// movil de OPTIMIZACION.md §2. Window manager + taskbar + tooltip global + easter
-// eggs (BSOD, icono fantasma, konami code) se mantienen juntos a proposito -- todas
-// estas piezas comparten estado interno (zTop, openedWindows, la funcion
-// openWindow/spawnPopup/makeDraggable). La unica dependencia externa real
-// (window.initCritterViewer) es un import real de ES modules.
+// movil de OPTIMIZACION.md §2. Window manager + taskbar se mantienen juntos a
+// proposito -- comparten estado interno (zTop, openedWindows, la funcion
+// openWindow/spawnPopup/makeDraggable). La camara glitch (js/critters/glitch-cam.js),
+// los easter eggs (js/easter-eggs.js) y el tooltip global (js/tooltip.js) se
+// separaron en la Fase 5.4 y se piden con import() diferido -- ver startPapusViewer()
+// y loadDeferred() mas abajo -- para que ese codigo no cuente en el JS ejecutado al
+// arrancar la pagina.
 import { initCritterViewer } from './critters/viewer.js';
+import { isPerfMode, onPerfModeChange } from './perf.js';
 
 export function initWindowManager() {
   'use strict';
@@ -68,6 +71,58 @@ export function initWindowManager() {
     if (nameEl) nameEl.textContent = papusNames[papusState.idx];
   }
 
+  // Fase 5.4: con "MODO RENDIMIENTO" activo, el visor 3D ni siquiera pide three.js --
+  // se pinta un aviso estatico con un boton para forzarlo si el usuario de verdad lo
+  // quiere ver. startPapusViewer() queda aparte para poder llamarla tanto desde el
+  // flujo normal como desde ese boton de "activar de todos modos".
+  //
+  // glitchCam guarda la referencia al modulo js/critters/glitch-cam.js una vez que
+  // se pide con import() diferido (ver mas abajo) -- null si el visor nunca llego a
+  // arrancar, asi que stopGlitchCamIfLoaded() no revienta si se cierra la ventana
+  // antes de que ese import termine.
+  var glitchCam = null;
+  function stopGlitchCamIfLoaded() {
+    if (glitchCam) glitchCam.stopGlitchCam();
+  }
+
+  function startPapusViewer(c, cont) {
+    // Fase 5.1: three.js (~580 KB) se pide bajo demanda desde initCritterViewer,
+    // recien ahora que se abrio esta ventana. Mientras carga, se ve el spinner
+    // pixel-art de .cat-viewer-box.loading (ver css/components.css).
+    initCritterViewer(c, cont, papusNames[papusState.idx]).then(function (api) {
+      if (!api) return;
+      papusState.api = api;
+      windowCloseHandlers.papusBlindajeWindow = function () {
+        stopGlitchCamIfLoaded();
+        api.dispose();
+        papusState.api = null;
+      };
+      // Fase 5.4: la camara glitch (js/critters/glitch-cam.js) tambien se pide con
+      // import() diferido -- se necesita en cuanto el visor 3D arranca (no solo
+      // cuando se le da clic al boton de camara), pero eso ya es bastante mas tarde
+      // que el arranque de la pagina.
+      import('./critters/glitch-cam.js').then(function (m) {
+        glitchCam = m;
+        m.initGlitchCam(c);
+      });
+    });
+  }
+
+  function showPerfFallback(c, cont) {
+    var switchRow = document.querySelector('#papusBlindajeWindow .critter-switch');
+    if (switchRow) switchRow.style.display = 'none';
+    var msg = document.createElement('div');
+    msg.className = 'perf-fallback';
+    msg.innerHTML = '<p>Visor 3D desactivado en <strong>MODO RENDIMIENTO</strong>.</p>' +
+      '<button type="button" class="btn" id="papusForce3D">Activar de todos modos</button>';
+    cont.appendChild(msg);
+    msg.querySelector('#papusForce3D').addEventListener('click', function () {
+      msg.remove();
+      if (switchRow) switchRow.style.display = '';
+      startPapusViewer(c, cont);
+    });
+  }
+
   var lazyWindowInit = {
     // se llama en CADA apertura de la ventana (ver openWindow) -- por eso es
     // idempotente: si el visor ya esta vivo (no se cerro desde la ultima vez), no
@@ -77,22 +132,22 @@ export function initWindowManager() {
       var c = document.getElementById('papusCatCanvas');
       var cont = document.getElementById('papusCatContainer');
       if (!c || !cont) return;
-
-      // Fase 5.1: three.js (~580 KB) se pide bajo demanda desde initCritterViewer,
-      // recien ahora que se abrio esta ventana. Mientras carga, se ve el spinner
-      // pixel-art de .cat-viewer-box.loading (ver css/components.css).
-      initCritterViewer(c, cont, papusNames[papusState.idx]).then(function (api) {
-        if (!api) return;
-        papusState.api = api;
-        windowCloseHandlers.papusBlindajeWindow = function () {
-          stopGlitchCam();
-          api.dispose();
-          papusState.api = null;
-        };
-        initGlitchCam(c);
-      });
+      if (isPerfMode()) { showPerfFallback(c, cont); return; }
+      startPapusViewer(c, cont);
     }
   };
+
+  // si el usuario prende "MODO RENDIMIENTO" con el visor ya corriendo, se apaga en
+  // el acto -- no hace falta cerrar y reabrir la ventana para que surta efecto.
+  onPerfModeChange(function (active) {
+    if (!active || !papusState.api) return;
+    var handler = windowCloseHandlers.papusBlindajeWindow;
+    if (handler) { handler(); windowCloseHandlers.papusBlindajeWindow = null; }
+    var win = document.getElementById('papusBlindajeWindow');
+    var cont = document.getElementById('papusCatContainer');
+    var c = document.getElementById('papusCatCanvas');
+    if (win && cont && c && !win.classList.contains('hidden')) showPerfFallback(c, cont);
+  });
 
   var papusPrevBtn = document.getElementById('papusCritterPrev');
   var papusNextBtn = document.getElementById('papusCritterNext');
@@ -122,117 +177,6 @@ export function initWindowManager() {
       if (Math.abs(dx) < 40) return; // swipe corto: probablemente fue un drag de rotacion
       if (dx < 0) papusShow(papusState.idx + 1); else papusShow(papusState.idx - 1);
     }, { passive: true });
-  }
-
-  // ---------- Fase 5.3: camara glitch / slit-scan sin getImageData ----------
-  // Antes: getImageData() + doble for por pixel en cada frame (~250,000 operaciones de
-  // JS puro en el hilo principal, a 60 fps). Ahora: composicion de canales con
-  // globalCompositeOperation, que corre en GPU -- unas pocas llamadas de canvas por
-  // frame en vez de un millon de operaciones de JS.
-  // rafId y el listener del boton viven aqui afuera (no dentro de initGlitchCam) porque
-  // initGlitchCam se vuelve a llamar cada vez que el visor 3D se re-crea (ver
-  // lazyWindowInit.papusBlindajeWindow) -- sin esto se acumularian listeners duplicados
-  // en el boton cada vez que el usuario cierra y reabre la ventana.
-  var glitchRafId = null;
-  var glitchClickHandler = null;
-
-  function stopGlitchCam() {
-    if (glitchRafId) cancelAnimationFrame(glitchRafId);
-    glitchRafId = null;
-    var glitchOut = document.getElementById('papusGlitchCanvas');
-    var glitchBtn = document.getElementById('papusGlitchToggle');
-    if (glitchOut) glitchOut.classList.remove('active');
-    if (glitchBtn) glitchBtn.setAttribute('aria-pressed', 'false');
-  }
-
-  function initGlitchCam(sourceCanvas) {
-    var glitchOut = document.getElementById('papusGlitchCanvas');
-    var glitchBtn = document.getElementById('papusGlitchToggle');
-    if (!glitchOut || !glitchBtn) return;
-
-    if (glitchClickHandler) glitchBtn.removeEventListener('click', glitchClickHandler);
-    stopGlitchCam();
-
-    // desactivada del todo con prefers-reduced-motion o en pantallas chicas (<640px):
-    // es puramente decorativa y cara, no vale la pena en un celular
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
-        window.matchMedia('(max-width: 640px)').matches) {
-      glitchBtn.style.display = 'none';
-      return;
-    }
-
-    var MAX_W = 480;         // resolucion capada del canvas de la camara glitch
-    var FPS = 30;            // no hace falta a 60fps, es un efecto de rastro
-    var FRAME_MS = 1000 / FPS;
-    var DECAY = 0.85, SHIFT_R = 3, SHIFT_B = -3;
-
-    var octx = glitchOut.getContext('2d');
-    var feedback = document.createElement('canvas');
-    var fctx = feedback.getContext('2d');
-    var rCanvas = document.createElement('canvas');
-    var gCanvas = document.createElement('canvas');
-    var bCanvas = document.createElement('canvas');
-    var rCtx = rCanvas.getContext('2d');
-    var gCtx = gCanvas.getContext('2d');
-    var bCtx = bCanvas.getContext('2d');
-
-    var lastFrameTime = 0;
-
-    function channelPass(ctx, color) {
-      var w = ctx.canvas.width, h = ctx.canvas.height;
-      ctx.globalCompositeOperation = 'source-over';
-      ctx.drawImage(sourceCanvas, 0, 0, w, h);
-      ctx.globalCompositeOperation = 'multiply';
-      ctx.fillStyle = color;
-      ctx.fillRect(0, 0, w, h);
-      ctx.globalCompositeOperation = 'source-over';
-    }
-
-    function glitchRender(now) {
-      glitchRafId = requestAnimationFrame(glitchRender);
-      if (now - lastFrameTime < FRAME_MS) return; // cap a 30fps
-      lastFrameTime = now;
-
-      var w = glitchOut.width, h = glitchOut.height;
-      if (!w || !h) return;
-
-      octx.globalAlpha = DECAY;
-      octx.drawImage(feedback, 0, 0, w, h);
-      octx.globalAlpha = 1;
-
-      channelPass(rCtx, '#f00');
-      channelPass(gCtx, '#0f0');
-      channelPass(bCtx, '#00f');
-
-      octx.globalCompositeOperation = 'lighter';
-      octx.drawImage(rCanvas, SHIFT_R, 0);
-      octx.drawImage(gCanvas, 0, 0);
-      octx.drawImage(bCanvas, SHIFT_B, 0);
-      octx.globalCompositeOperation = 'source-over';
-
-      fctx.clearRect(0, 0, w, h);
-      fctx.drawImage(glitchOut, 0, 0, w, h);
-    }
-
-    glitchClickHandler = function () {
-      var on = glitchBtn.getAttribute('aria-pressed') === 'true';
-      if (on) {
-        stopGlitchCam();
-      } else {
-        var ratio = Math.min(1, MAX_W / (sourceCanvas.width || MAX_W));
-        var w = Math.round((sourceCanvas.width || MAX_W) * ratio);
-        var h = Math.round((sourceCanvas.height || MAX_W) * ratio);
-        [glitchOut, feedback, rCanvas, gCanvas, bCanvas].forEach(function (cv) {
-          cv.width = w; cv.height = h;
-        });
-        fctx.clearRect(0, 0, w, h);
-        glitchOut.classList.add('active');
-        glitchBtn.setAttribute('aria-pressed', 'true');
-        lastFrameTime = 0;
-        glitchRafId = requestAnimationFrame(glitchRender);
-      }
-    };
-    glitchBtn.addEventListener('click', glitchClickHandler);
   }
 
   var openedWindows = {};
@@ -510,66 +454,26 @@ export function initWindowManager() {
     setTimeout(function () { cube.style.animationDuration = '14s'; }, 1600);
   });
 
-  var bugClicks = 0;
-  document.getElementById('bugIcon').addEventListener('click', function () {
-    bugClicks++;
-    if (bugClicks >= 3) {
-      document.getElementById('bsod').classList.remove('hidden');
-      bugClicks = 0;
-      return;
-    }
-    this.classList.add('shake');
-    var self = this;
-    setTimeout(function () { self.classList.remove('shake'); }, 300);
-  });
-
-  document.getElementById('bsod').addEventListener('click', function () {
-    this.classList.add('hidden');
-  });
-
-  var ghostIcon = document.getElementById('ghostIcon');
-  if (ghostIcon) {
-    ghostIcon.addEventListener('click', function () {
-      var vp = viewportSize();
-      spawnPopup('👻 Boo. Encontraste el ícono fantasma — casi nadie lo nota a la primera.', Math.max(20, vp.w / 2 - 150), Math.max(80, vp.h / 2 - 90));
-    });
+  // Fase 5.4: BSOD, icono fantasma, Konami code (js/easter-eggs.js) y el tooltip
+  // global (js/tooltip.js) se piden con import() diferido -- no hace falta que
+  // cuenten en el JS ejecutado al arrancar. openWindow/spawnPopup se le pasan al
+  // modulo de easter eggs porque viven en este closure y no se exportan.
+  //
+  // requestIdleCallback pide el hueco libre mas cercano en el hilo principal -- no
+  // bloquea el arranque ni cuenta para TBT. Se probo primero disparar esto en la
+  // primera interaccion (pointerdown/click/keydown/touchstart), pero eso SIEMPRE
+  // perdia el primer intento si esa interaccion ES uno de los propios easter eggs (el
+  // listener del modulo llega demasiado tarde para el evento que lo disparo). Con
+  // requestIdleCallback la ventana de riesgo baja a ~1-2s tras el load -- en teoria
+  // alguien podria hacer clic en el icono fantasma (opacity 0.14, "casi invisible")
+  // en ese margen y que su primer clic no haga nada, pero es un escenario remoto y de
+  // bajo costo (el segundo clic ya funciona) frente a cargar este codigo siempre.
+  function loadDeferred() {
+    import('./easter-eggs.js').then(function (m) { m.initEasterEggs(openWindow, spawnPopup); });
+    import('./tooltip.js').then(function (m) { m.initTooltip(); });
   }
-
-  // código clásico de videojuego: arriba arriba abajo abajo izq der izq der B A
-  var konamiSeq = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
-  var konamiPos = 0;
-
-  function triggerKonami() {
-    document.body.classList.add('konami-flash');
-    setTimeout(function () { document.body.classList.remove('konami-flash'); }, 1200);
-    openWindow('secretWindow');
-  }
-
-  document.addEventListener('keydown', function (e) {
-    var key = e.key.length === 1 ? e.key.toLowerCase() : e.key;
-    if (key === konamiSeq[konamiPos]) {
-      konamiPos++;
-      if (konamiPos === konamiSeq.length) {
-        konamiPos = 0;
-        triggerKonami();
-      }
-    } else {
-      konamiPos = (key === konamiSeq[0]) ? 1 : 0;
-    }
-  });
-
-  // BUG-8: equivalente tactil del konami code -- 5 toques seguidos en el logo, <3s
-  var logoTapCount = 0, logoTapTimer = null;
-  document.getElementById('logoBtn').addEventListener('click', function () {
-    logoTapCount++;
-    if (logoTapTimer) clearTimeout(logoTapTimer);
-    logoTapTimer = setTimeout(function () { logoTapCount = 0; }, 3000);
-    if (logoTapCount >= 5) {
-      logoTapCount = 0;
-      clearTimeout(logoTapTimer);
-      triggerKonami();
-    }
-  });
+  if (window.requestIdleCallback) requestIdleCallback(loadDeferred, { timeout: 3000 });
+  else setTimeout(loadDeferred, 1500);
 
   function spawnPopup(text, x, y) {
     var p = document.createElement('div');
@@ -604,55 +508,4 @@ export function initWindowManager() {
       spawnPopup('Este sitio corre a 64 bits, con café, cartuchos y mucha vibra friqui. Explora el escritorio ↓', 40, 420);
     }, 1400);
   });
-
-  // tooltip global: un solo elemento fixed que nunca se recorta con el overflow de las ventanas
-  var tip = document.createElement('div');
-  tip.className = 'global-tooltip';
-  document.body.appendChild(tip);
-
-  function positionTooltip(el) {
-    var r = el.getBoundingClientRect();
-    var tw = tip.offsetWidth, th = tip.offsetHeight;
-    var vp = viewportSize();
-    var left = r.left + r.width / 2 - tw / 2;
-    left = Math.max(6, Math.min(left, vp.w - tw - 6));
-    var top = r.top - th - 8;
-    if (top < 6) top = r.bottom + 8;
-    tip.style.left = left + 'px';
-    tip.style.top = top + 'px';
-  }
-
-  function showTooltip(el) {
-    var txt = el.getAttribute('data-tooltip');
-    if (!txt) return;
-    tip.textContent = txt;
-    tip.classList.add('visible');
-    positionTooltip(el);
-  }
-  function hideTooltip() {
-    tip.classList.remove('visible');
-  }
-
-  // BUG-4: los tooltips solo existian con mouseenter/mouseleave, invisibles en tactil.
-  // hover:hover detecta si el dispositivo realmente puede "pasar el mouse por encima".
-  var canHover = window.matchMedia('(hover: hover)').matches;
-  document.querySelectorAll('[data-tooltip]').forEach(function (el) {
-    if (canHover) {
-      el.addEventListener('mouseenter', function () { showTooltip(el); });
-      el.addEventListener('mouseleave', hideTooltip);
-    } else {
-      el.addEventListener('click', function (e) {
-        var wasVisible = tip.classList.contains('visible') && tip.textContent === el.getAttribute('data-tooltip');
-        hideTooltip();
-        if (!wasVisible) { e.stopPropagation(); showTooltip(el); }
-      });
-    }
-    el.addEventListener('focus', function () { showTooltip(el); });
-    el.addEventListener('blur', hideTooltip);
-  });
-  if (!canHover) {
-    document.addEventListener('click', function (e) {
-      if (!e.target.closest('[data-tooltip]')) hideTooltip();
-    });
-  }
 }

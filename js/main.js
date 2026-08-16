@@ -3,6 +3,8 @@
 // DOMContentLoaded a mano como hacia el script original.
 import { initWindowManager } from './window-manager.js';
 import { initHeroGlitch } from './hero-glitch.js';
+import { initPerf } from './perf.js';
 
+initPerf();
 initWindowManager();
 initHeroGlitch();

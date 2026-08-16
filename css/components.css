@@ -1,5 +1,41 @@
 /* Ventanas, escritorio, iconos, chips, tarjetas -- toda la UI que no es critica para el primer paint. */
 
+  /* ---------- FASE 5.4: pausar animaciones fuera de viewport + will-change acotado ----------
+     js/perf.js observa cada [data-animated] (hoy: .hero y .desktop) y les alterna esta
+     clase segun IntersectionObserver. El "*" es a proposito -- asi se apaga TODO lo que
+     anima adentro (iconAura, cardAura, glitch-shift, etc.) sin tener que listar cada uno. */
+  .anim-paused, .anim-paused * { animation-play-state: paused !important; }
+
+  /* will-change solo mientras el contenedor esta realmente animando (visible, no pausado) --
+     se "quita al terminar" gratis, en vez de quedar reservando memoria de GPU para siempre. */
+  .hero:not(.anim-paused) .poly,
+  .hero:not(.anim-paused) .cube,
+  .hero:not(.anim-paused) .cube-mini,
+  .hero:not(.anim-paused) .pyramid,
+  .desktop:not(.anim-paused) .spin-shape {
+    will-change: transform;
+  }
+
+  /* ---------- FASE 5.4: toggle "MODO RENDIMIENTO" (js/perf.js) ----------
+     Mismo grupo de selectores que ya se apagaba con prefers-reduced-motion (ver mas abajo)
+     -- son exactamente las piezas que la taskbar describe como "scanlines, glitch, bloom". */
+  .perf-mode .hero-title::before, .perf-mode .hero-title::after,
+  .perf-mode .hero-subglitch::before,
+  .perf-mode .glitch-img, .perf-mode .color-halo, .perf-mode .scanlines,
+  .perf-mode .spin-arrow, .perf-mode .color-chip,
+  .perf-mode .icon-glyph, .perf-mode .icon-glyph::before, .perf-mode .icon-glyph::after,
+  .perf-mode .mini-card {
+    animation: none;
+  }
+  .perf-fallback {
+    text-align: center;
+    font-family: var(--font-mono);
+    font-size: 0.74rem;
+    color: var(--sky);
+    padding: 2rem 0.5rem;
+  }
+  .perf-fallback .btn { margin-top: 0.8rem; padding: 0.5rem 0.9rem; font-size: 0.68rem; box-shadow: 3px 3px 0 var(--frame); }
+
   .hero .poly {
     position: absolute;
     opacity: 0.9;
@@ -536,6 +572,12 @@
     justify-content: start;
     position: relative;
     isolation: isolate;
+    /* Fase 5.4: es la seccion mas pesada del sitio (22 iconos animados + 4 fotos
+       ambiente + 3 figuras girando) y vive debajo del fold -- el navegador se salta
+       layout/paint mientras no se ve. El alto estimado evita salto de layout grande
+       cuando entra al viewport (no hace falta ser exacto, solo parecido). */
+    content-visibility: auto;
+    contain-intrinsic-size: auto 1200px;
     background:
       linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 24px 24px,
       linear-gradient(0deg, rgba(255,255,255,0.03) 1px, transparent 1px) 0 0 / 24px 24px,
