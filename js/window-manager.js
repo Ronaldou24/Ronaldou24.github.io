@@ -47,118 +47,193 @@ export function initWindowManager() {
     win.style.zIndex = zTop;
   }
 
+  // Fase 5: dispose() de cada ventana lazy, para llamar al cerrarla (ver closeWindow).
+  var windowCloseHandlers = {};
+
+  // Fase 5.1/5.2: el visor 3D de papusBlindajeWindow se crea la primera vez que se
+  // abre esa ventana y se DESTRUYE (dispose) cada vez que se cierra -- asi que a
+  // diferencia del resto de lazyWindowInit (que corre una sola vez en toda la vida
+  // de la pagina), este necesita poder re-crearse cada vez que la ventana se vuelve
+  // a abrir. Para eso: los listeners de los controles (botones ◀▶, teclado, swipe)
+  // se registran UNA sola vez aqui abajo, por fuera del ciclo de vida del visor, y
+  // llaman siempre a traves de papusState.api (que se reasigna en cada apertura).
+  var papusState = { api: null, idx: 0 };
+  var papusNames = ['gatito', 'momo', 'tvbot'];
+
+  function papusShow(i) {
+    if (!papusState.api) return;
+    papusState.idx = (i + papusNames.length) % papusNames.length;
+    papusState.api.setCharacter(papusNames[papusState.idx]);
+    var nameEl = document.getElementById('papusCritterName');
+    if (nameEl) nameEl.textContent = papusNames[papusState.idx];
+  }
+
   var lazyWindowInit = {
+    // se llama en CADA apertura de la ventana (ver openWindow) -- por eso es
+    // idempotente: si el visor ya esta vivo (no se cerro desde la ultima vez), no
+    // hace nada.
     papusBlindajeWindow: function () {
+      if (papusState.api) return;
       var c = document.getElementById('papusCatCanvas');
       var cont = document.getElementById('papusCatContainer');
       if (!c || !cont) return;
 
-      var names = ['gatito', 'momo', 'tvbot'];
-      var idx = 0;
-      var api = initCritterViewer(c, cont, names[idx]);
-      if (!api) return;
-
-      var nameEl = document.getElementById('papusCritterName');
-      var prevBtn = document.getElementById('papusCritterPrev');
-      var nextBtn = document.getElementById('papusCritterNext');
-
-      function show(i) {
-        idx = (i + names.length) % names.length;
-        api.setCharacter(names[idx]);
-        if (nameEl) nameEl.textContent = names[idx];
-      }
-      if (prevBtn) prevBtn.addEventListener('click', function () { show(idx - 1); });
-      if (nextBtn) nextBtn.addEventListener('click', function () { show(idx + 1); });
-
-      // flechas del teclado tambien cambian de personaje, mientras la ventana este abierta
-      var win = document.getElementById('papusBlindajeWindow');
-      document.addEventListener('keydown', function (e) {
-        if (!win || win.classList.contains('hidden')) return;
-        if (e.key === 'ArrowLeft') { e.preventDefault(); show(idx - 1); }
-        else if (e.key === 'ArrowRight') { e.preventDefault(); show(idx + 1); }
+      // Fase 5.1: three.js (~580 KB) se pide bajo demanda desde initCritterViewer,
+      // recien ahora que se abrio esta ventana. Mientras carga, se ve el spinner
+      // pixel-art de .cat-viewer-box.loading (ver css/components.css).
+      initCritterViewer(c, cont, papusNames[papusState.idx]).then(function (api) {
+        if (!api) return;
+        papusState.api = api;
+        windowCloseHandlers.papusBlindajeWindow = function () {
+          stopGlitchCam();
+          api.dispose();
+          papusState.api = null;
+        };
+        initGlitchCam(c);
       });
-
-      // BUG-8: equivalente tactil de las flechas -- swipe horizontal sobre el canvas
-      var touchStartX = null;
-      c.addEventListener('touchstart', function (e) {
-        if (e.touches.length === 1) touchStartX = e.touches[0].clientX;
-      }, { passive: true });
-      c.addEventListener('touchend', function (e) {
-        if (touchStartX === null) return;
-        var endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : touchStartX;
-        var dx = endX - touchStartX;
-        touchStartX = null;
-        if (Math.abs(dx) < 40) return; // swipe corto: probablemente fue un drag de rotacion
-        if (dx < 0) show(idx + 1); else show(idx - 1);
-      }, { passive: true });
-
-      // camara glitch / slit-scan: rastro RGB-shift tomado en vivo del canvas 3D
-      var glitchOut = document.getElementById('papusGlitchCanvas');
-      var glitchBtn = document.getElementById('papusGlitchToggle');
-      if (glitchOut && glitchBtn && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-        var octx = glitchOut.getContext('2d');
-        var feedback = document.createElement('canvas');
-        var fctx = feedback.getContext('2d');
-        var DECAY = 0.85, SHIFT_R = 3, SHIFT_B = -3;
-        var rafId = null;
-
-        function glitchRender() {
-          var w = glitchOut.width, h = glitchOut.height;
-          if (!w || !h) { rafId = requestAnimationFrame(glitchRender); return; }
-
-          octx.globalAlpha = DECAY;
-          octx.drawImage(feedback, 0, 0, w, h);
-          octx.globalAlpha = 1;
-
-          octx.globalCompositeOperation = 'lighten';
-          octx.drawImage(c, 0, 0, w, h);
-          octx.globalCompositeOperation = 'source-over';
-
-          var frame = octx.getImageData(0, 0, w, h);
-          var shifted = octx.createImageData(w, h);
-          var src = frame.data, dst = shifted.data;
-          for (var y = 0; y < h; y++) {
-            for (var x = 0; x < w; x++) {
-              var i = (y * w + x) * 4;
-              var rx = Math.min(w - 1, Math.max(0, x + SHIFT_R));
-              var bx = Math.min(w - 1, Math.max(0, x + SHIFT_B));
-              var ri = (y * w + rx) * 4;
-              var bi = (y * w + bx) * 4;
-              dst[i]     = src[ri];
-              dst[i + 1] = src[i + 1];
-              dst[i + 2] = src[bi + 2];
-              dst[i + 3] = 255;
-            }
-          }
-          octx.putImageData(shifted, 0, 0);
-
-          fctx.clearRect(0, 0, w, h);
-          fctx.drawImage(glitchOut, 0, 0, w, h);
-
-          rafId = requestAnimationFrame(glitchRender);
-        }
-
-        glitchBtn.addEventListener('click', function () {
-          var on = glitchBtn.getAttribute('aria-pressed') === 'true';
-          if (on) {
-            if (rafId) cancelAnimationFrame(rafId);
-            rafId = null;
-            glitchOut.classList.remove('active');
-            glitchBtn.setAttribute('aria-pressed', 'false');
-          } else {
-            glitchOut.width = feedback.width = c.width;
-            glitchOut.height = feedback.height = c.height;
-            fctx.clearRect(0, 0, feedback.width, feedback.height);
-            glitchOut.classList.add('active');
-            glitchBtn.setAttribute('aria-pressed', 'true');
-            rafId = requestAnimationFrame(glitchRender);
-          }
-        });
-      } else if (glitchBtn) {
-        glitchBtn.style.display = 'none';
-      }
     }
   };
+
+  var papusPrevBtn = document.getElementById('papusCritterPrev');
+  var papusNextBtn = document.getElementById('papusCritterNext');
+  if (papusPrevBtn) papusPrevBtn.addEventListener('click', function () { papusShow(papusState.idx - 1); });
+  if (papusNextBtn) papusNextBtn.addEventListener('click', function () { papusShow(papusState.idx + 1); });
+
+  // flechas del teclado tambien cambian de personaje, mientras la ventana este abierta
+  document.addEventListener('keydown', function (e) {
+    var win = document.getElementById('papusBlindajeWindow');
+    if (!win || win.classList.contains('hidden')) return;
+    if (e.key === 'ArrowLeft') { e.preventDefault(); papusShow(papusState.idx - 1); }
+    else if (e.key === 'ArrowRight') { e.preventDefault(); papusShow(papusState.idx + 1); }
+  });
+
+  // BUG-8: equivalente tactil de las flechas -- swipe horizontal sobre el canvas
+  var papusCanvasEl = document.getElementById('papusCatCanvas');
+  if (papusCanvasEl) {
+    var papusTouchStartX = null;
+    papusCanvasEl.addEventListener('touchstart', function (e) {
+      if (e.touches.length === 1) papusTouchStartX = e.touches[0].clientX;
+    }, { passive: true });
+    papusCanvasEl.addEventListener('touchend', function (e) {
+      if (papusTouchStartX === null) return;
+      var endX = (e.changedTouches && e.changedTouches[0]) ? e.changedTouches[0].clientX : papusTouchStartX;
+      var dx = endX - papusTouchStartX;
+      papusTouchStartX = null;
+      if (Math.abs(dx) < 40) return; // swipe corto: probablemente fue un drag de rotacion
+      if (dx < 0) papusShow(papusState.idx + 1); else papusShow(papusState.idx - 1);
+    }, { passive: true });
+  }
+
+  // ---------- Fase 5.3: camara glitch / slit-scan sin getImageData ----------
+  // Antes: getImageData() + doble for por pixel en cada frame (~250,000 operaciones de
+  // JS puro en el hilo principal, a 60 fps). Ahora: composicion de canales con
+  // globalCompositeOperation, que corre en GPU -- unas pocas llamadas de canvas por
+  // frame en vez de un millon de operaciones de JS.
+  // rafId y el listener del boton viven aqui afuera (no dentro de initGlitchCam) porque
+  // initGlitchCam se vuelve a llamar cada vez que el visor 3D se re-crea (ver
+  // lazyWindowInit.papusBlindajeWindow) -- sin esto se acumularian listeners duplicados
+  // en el boton cada vez que el usuario cierra y reabre la ventana.
+  var glitchRafId = null;
+  var glitchClickHandler = null;
+
+  function stopGlitchCam() {
+    if (glitchRafId) cancelAnimationFrame(glitchRafId);
+    glitchRafId = null;
+    var glitchOut = document.getElementById('papusGlitchCanvas');
+    var glitchBtn = document.getElementById('papusGlitchToggle');
+    if (glitchOut) glitchOut.classList.remove('active');
+    if (glitchBtn) glitchBtn.setAttribute('aria-pressed', 'false');
+  }
+
+  function initGlitchCam(sourceCanvas) {
+    var glitchOut = document.getElementById('papusGlitchCanvas');
+    var glitchBtn = document.getElementById('papusGlitchToggle');
+    if (!glitchOut || !glitchBtn) return;
+
+    if (glitchClickHandler) glitchBtn.removeEventListener('click', glitchClickHandler);
+    stopGlitchCam();
+
+    // desactivada del todo con prefers-reduced-motion o en pantallas chicas (<640px):
+    // es puramente decorativa y cara, no vale la pena en un celular
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+        window.matchMedia('(max-width: 640px)').matches) {
+      glitchBtn.style.display = 'none';
+      return;
+    }
+
+    var MAX_W = 480;         // resolucion capada del canvas de la camara glitch
+    var FPS = 30;            // no hace falta a 60fps, es un efecto de rastro
+    var FRAME_MS = 1000 / FPS;
+    var DECAY = 0.85, SHIFT_R = 3, SHIFT_B = -3;
+
+    var octx = glitchOut.getContext('2d');
+    var feedback = document.createElement('canvas');
+    var fctx = feedback.getContext('2d');
+    var rCanvas = document.createElement('canvas');
+    var gCanvas = document.createElement('canvas');
+    var bCanvas = document.createElement('canvas');
+    var rCtx = rCanvas.getContext('2d');
+    var gCtx = gCanvas.getContext('2d');
+    var bCtx = bCanvas.getContext('2d');
+
+    var lastFrameTime = 0;
+
+    function channelPass(ctx, color) {
+      var w = ctx.canvas.width, h = ctx.canvas.height;
+      ctx.globalCompositeOperation = 'source-over';
+      ctx.drawImage(sourceCanvas, 0, 0, w, h);
+      ctx.globalCompositeOperation = 'multiply';
+      ctx.fillStyle = color;
+      ctx.fillRect(0, 0, w, h);
+      ctx.globalCompositeOperation = 'source-over';
+    }
+
+    function glitchRender(now) {
+      glitchRafId = requestAnimationFrame(glitchRender);
+      if (now - lastFrameTime < FRAME_MS) return; // cap a 30fps
+      lastFrameTime = now;
+
+      var w = glitchOut.width, h = glitchOut.height;
+      if (!w || !h) return;
+
+      octx.globalAlpha = DECAY;
+      octx.drawImage(feedback, 0, 0, w, h);
+      octx.globalAlpha = 1;
+
+      channelPass(rCtx, '#f00');
+      channelPass(gCtx, '#0f0');
+      channelPass(bCtx, '#00f');
+
+      octx.globalCompositeOperation = 'lighter';
+      octx.drawImage(rCanvas, SHIFT_R, 0);
+      octx.drawImage(gCanvas, 0, 0);
+      octx.drawImage(bCanvas, SHIFT_B, 0);
+      octx.globalCompositeOperation = 'source-over';
+
+      fctx.clearRect(0, 0, w, h);
+      fctx.drawImage(glitchOut, 0, 0, w, h);
+    }
+
+    glitchClickHandler = function () {
+      var on = glitchBtn.getAttribute('aria-pressed') === 'true';
+      if (on) {
+        stopGlitchCam();
+      } else {
+        var ratio = Math.min(1, MAX_W / (sourceCanvas.width || MAX_W));
+        var w = Math.round((sourceCanvas.width || MAX_W) * ratio);
+        var h = Math.round((sourceCanvas.height || MAX_W) * ratio);
+        [glitchOut, feedback, rCanvas, gCanvas, bCanvas].forEach(function (cv) {
+          cv.width = w; cv.height = h;
+        });
+        fctx.clearRect(0, 0, w, h);
+        glitchOut.classList.add('active');
+        glitchBtn.setAttribute('aria-pressed', 'true');
+        lastFrameTime = 0;
+        glitchRafId = requestAnimationFrame(glitchRender);
+      }
+    };
+    glitchBtn.addEventListener('click', glitchClickHandler);
+  }
 
   var openedWindows = {};
   var achievementUnlocked = false;
@@ -180,6 +255,9 @@ export function initWindowManager() {
     win.classList.add('hidden');
     win.classList.remove('as-sheet');
     removeFromTaskbar(win.id);
+    // Fase 5.2: si esta ventana tenia un visor 3D corriendo, se libera todo
+    // (loop, listeners, geometrias, materiales, renderer) al cerrarla.
+    if (windowCloseHandlers[win.id]) windowCloseHandlers[win.id]();
     if (lastFocused && document.contains(lastFocused)) lastFocused.focus();
   }
 
@@ -262,7 +340,10 @@ export function initWindowManager() {
         win.style.visibility = '';
       }
 
-      if (lazyWindowInit[id]) { lazyWindowInit[id](); lazyWindowInit[id] = null; }
+      // OJO: se llama en CADA transicion oculta->visible, no solo la primera vez --
+      // papusBlindajeWindow necesita poder re-crear su visor 3D tras un dispose() al
+      // cerrar (Fase 5.2). Las funciones registradas aqui deben ser idempotentes.
+      if (lazyWindowInit[id]) lazyWindowInit[id]();
 
       openedWindows[id] = true;
       if (!achievementUnlocked && Object.keys(openedWindows).length >= ACHIEVEMENT_THRESHOLD) {

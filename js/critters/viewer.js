@@ -1,19 +1,64 @@
-// Extraido del monolito original (Fase 3): motor generico de los personajes 3D
-// (camara, fisica de agarrar/aventar, drag para rotar). three.js sigue siendo un
-// script clasico cargado desde CDN (no modulo), por eso se lee de window.THREE.
+// Extraido del monolito original (Fase 3) y optimizado en la Fase 5 (ver
+// OPTIMIZACION.md §5.1/5.2). three.js r128 usa la API global THREE.* (no es un
+// modulo ES real), asi que en vez de migrar a la build de modulos (que hubiera
+// significado cambiar outputEncoding->outputColorSpace, sRGBEncoding->SRGBColorSpace
+// y revisar como responden los MeshStandardMaterial) se tomo la alternativa que el
+// spec marca como aceptable: seguir con r128 pero cargandolo bajo demanda con un
+// <script> clasico inyectado dinamicamente, solo cuando se abre el visor 3D.
 import { build as buildGatito } from './gatito.js';
 import { build as buildMomo } from './momo.js';
 import { build as buildTvbot } from './tvbot.js';
 
 const CRITTER_BUILDERS = { gatito: buildGatito, momo: buildMomo, tvbot: buildTvbot };
+const THREE_URL = 'https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js';
 
-export function initCritterViewer(canvas, container, builderKey) {
-  var THREE = window.THREE;
+let threePromise = null;
+function loadThree() {
+  if (window.THREE) return Promise.resolve(window.THREE);
+  if (!threePromise) {
+    threePromise = new Promise((resolve, reject) => {
+      var s = document.createElement('script');
+      s.src = THREE_URL;
+      s.onload = function () { resolve(window.THREE); };
+      s.onerror = function () { threePromise = null; reject(new Error('No se pudo cargar three.js')); };
+      document.head.appendChild(s);
+    });
+  }
+  return threePromise;
+}
+
+function isMobile() {
+  return window.matchMedia('(max-width: 900px)').matches;
+}
+
+export async function initCritterViewer(canvas, container, builderKey) {
   'use strict';
-  if (!container || !canvas || !window.THREE) return null;
+  if (!container || !canvas) return null;
 
-  var renderer = new THREE.WebGLRenderer({canvas:canvas, antialias:true, alpha:true, preserveDrawingBuffer:true});
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  container.classList.add('loading'); // spinner pixel-art mientras baja three.js
+  var THREE;
+  try {
+    THREE = await loadThree();
+  } catch (err) {
+    container.classList.remove('loading');
+    console.warn('[viewer] three.js no cargo:', err);
+    return null;
+  }
+  container.classList.remove('loading');
+
+  var mobile = isMobile();
+  var renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: !mobile,
+    alpha: true,
+    // se deja en true a proposito: la camara glitch (js/window-manager.js) lee este
+    // canvas con drawImage() en su propio loop, en un momento que no necesariamente
+    // coincide con el frame recien pintado -- con preserveDrawingBuffer:false el
+    // navegador puede limpiar el back buffer entre medias y la captura saldria en
+    // negro. El costo real de este flag es chico comparado con romper la camara.
+    preserveDrawingBuffer: true
+  });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, mobile ? 1.5 : 2));
 
   var scene = new THREE.Scene();
   var camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
@@ -51,8 +96,8 @@ export function initCritterViewer(canvas, container, builderKey) {
   cat.add(spin); spin.add(squash);
   scene.add(cat);
 
-  var shadow = mesh(new THREE.CircleGeometry(1, 28),
-    new THREE.MeshBasicMaterial({color:0x000000, transparent:true, opacity:0.28}), 0, 0, 0);
+  var shadowMat = new THREE.MeshBasicMaterial({color:0x000000, transparent:true, opacity:0.28});
+  var shadow = mesh(new THREE.CircleGeometry(1, 28), shadowMat, 0, 0, 0);
   shadow.rotation.x = -Math.PI/2;
   scene.add(shadow);
 
@@ -84,9 +129,8 @@ export function initCritterViewer(canvas, container, builderKey) {
     return hit;
   }
 
-  canvas.addEventListener('contextmenu', function(e){ e.preventDefault(); });
-
-  canvas.addEventListener('pointerdown', function(e){
+  function onContextMenu(e){ e.preventDefault(); }
+  function onPointerDown(e){
     var p = setNDC(e);
     px = p.x; py = p.y;
     if(e.button === 2){                       // clic derecho: agarrar
@@ -102,9 +146,8 @@ export function initCritterViewer(canvas, container, builderKey) {
       canvas.style.cursor = 'grab';
     }
     canvas.setPointerCapture(e.pointerId);
-  });
-
-  canvas.addEventListener('pointermove', function(e){
+  }
+  function onPointerMove(e){
     var p = setNDC(e);
     if(grabbing){
       planeHit();
@@ -121,8 +164,7 @@ export function initCritterViewer(canvas, container, builderKey) {
       rotVelY = dx * 34;
     }
     px = p.x; py = p.y;
-  });
-
+  }
   function release(e){
     if(grabbing){ grabbing = false; }
     rotating = false;
@@ -131,13 +173,17 @@ export function initCritterViewer(canvas, container, builderKey) {
       try{ canvas.releasePointerCapture(e.pointerId); }catch(_){/*noop*/}
     }
   }
-  canvas.addEventListener('pointerup', release);
-  canvas.addEventListener('pointercancel', release);
-
-  canvas.addEventListener('wheel', function(e){
+  function onWheel(e){
     e.preventDefault();
     camera.position.z = Math.max(4.4, Math.min(9.5, camera.position.z + e.deltaY*0.003));
-  }, {passive:false});
+  }
+
+  canvas.addEventListener('contextmenu', onContextMenu);
+  canvas.addEventListener('pointerdown', onPointerDown);
+  canvas.addEventListener('pointermove', onPointerMove);
+  canvas.addEventListener('pointerup', release);
+  canvas.addEventListener('pointercancel', release);
+  canvas.addEventListener('wheel', onWheel, {passive:false});
 
   function resize(){
     var w = container.clientWidth || 230, h = container.clientHeight || 300;
@@ -191,8 +237,12 @@ export function initCritterViewer(canvas, container, builderKey) {
     container.style.borderRadius = built.bg ? '14px' : '';
   }
 
-  function animate(){
-    requestAnimationFrame(animate);
+  // ---------- Fase 5.2: el loop se puede parar/arrancar en vez de correr para siempre ----------
+  var rafId = null;
+  var running = false;
+
+  function frame(){
+    rafId = requestAnimationFrame(frame);
     var dt = Math.min(clock.getDelta(), 0.05);
     var t = clock.elapsedTime;
 
@@ -243,8 +293,52 @@ export function initCritterViewer(canvas, container, builderKey) {
     renderer.render(scene, camera);
   }
 
-  setCharacter(builderKey || 'gatito');
-  animate();
+  function start(){
+    if (running) return;
+    running = true;
+    clock.getDelta(); // descarta el tiempo acumulado mientras estuvo parado
+    rafId = requestAnimationFrame(frame);
+  }
+  function stop(){
+    running = false;
+    if (rafId) cancelAnimationFrame(rafId);
+    rafId = null;
+  }
 
-  return { setCharacter: setCharacter };
+  var io = new IntersectionObserver(function (entries) {
+    var e = entries[0];
+    if (e.isIntersecting) start(); else stop();
+  }, { threshold: 0.01 });
+  io.observe(canvas);
+
+  function onVisibilityChange(){
+    if (document.hidden) stop(); else if (io) start();
+  }
+  document.addEventListener('visibilitychange', onVisibilityChange);
+
+  function dispose(){
+    stop();
+    io.disconnect();
+    document.removeEventListener('visibilitychange', onVisibilityChange);
+    window.removeEventListener('resize', resize);
+    canvas.removeEventListener('contextmenu', onContextMenu);
+    canvas.removeEventListener('pointerdown', onPointerDown);
+    canvas.removeEventListener('pointermove', onPointerMove);
+    canvas.removeEventListener('pointerup', release);
+    canvas.removeEventListener('pointercancel', release);
+    canvas.removeEventListener('wheel', onWheel);
+    while (squash.children.length) disposeDeep(squash.children.pop());
+    floaters.forEach(function (f) { disposeDeep(f.obj); });
+    shadow.geometry.dispose();
+    shadowMat.dispose();
+    renderer.dispose();
+  }
+
+  setCharacter(builderKey || 'gatito');
+  // el propio IntersectionObserver dispara start() en cuanto confirme que el canvas
+  // esta en el viewport (deberia ser inmediato porque la ventana recien se abrio),
+  // pero por si el timing del observer tarda un tick, arrancamos tambien aqui.
+  start();
+
+  return { setCharacter: setCharacter, dispose: dispose };
 }
