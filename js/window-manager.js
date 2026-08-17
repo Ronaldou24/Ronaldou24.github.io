@@ -123,6 +123,37 @@ export function initWindowManager() {
     });
   }
 
+  // Fase 2: chiste de "descompresion" al abrir inventario.zip -- solo la primera
+  // vez por sesion de pagina (openedWindows vive en memoria, se resetea al
+  // recargar; nunca en localStorage/sessionStorage, tal como pide el brief).
+  var REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)');
+  function playUnzipAnim() {
+    var overlay = document.getElementById('inventarioUnzip');
+    var target = document.getElementById('inventarioTarget');
+    var fill = document.getElementById('inventarioUnzipFill');
+    var pct = document.getElementById('inventarioUnzipPct');
+    if (!overlay || !target || !fill || !pct) return;
+    if (REDUCED_MOTION.matches) return; // directo al contenido, sin animar
+
+    overlay.hidden = false;
+    target.classList.add('unzip-hidden');
+    // pasos duros (sin easing/transition) -- el sistema es de 1999, responde seco
+    var steps = [0, 16, 33, 51, 70, 86, 100];
+    var i = 0;
+    var iv = setInterval(function () {
+      fill.style.width = steps[i] + '%';
+      pct.textContent = steps[i] + '%';
+      i++;
+      if (i >= steps.length) {
+        clearInterval(iv);
+        setTimeout(function () {
+          overlay.hidden = true;
+          target.classList.remove('unzip-hidden');
+        }, 140);
+      }
+    }, 180); // 7 pasos x 180ms + 140ms = ~1.4s, dentro del limite de 1.5s
+  }
+
   var lazyWindowInit = {
     // se llama en CADA apertura de la ventana (ver openWindow) -- por eso es
     // idempotente: si el visor ya esta vivo (no se cerro desde la ultima vez), no
@@ -134,6 +165,13 @@ export function initWindowManager() {
       if (!c || !cont) return;
       if (isPerfMode()) { showPerfFallback(c, cont); return; }
       startPapusViewer(c, cont);
+    },
+    // openedWindows.inventarioWindow todavia no existe la primera vez que esto
+    // corre (se marca DESPUES de llamar lazyWindowInit, ver openWindow mas abajo)
+    // -- asi que esta condicion solo es true en la 2a apertura en adelante.
+    inventarioWindow: function () {
+      if (openedWindows.inventarioWindow) return;
+      playUnzipAnim();
     }
   };
 

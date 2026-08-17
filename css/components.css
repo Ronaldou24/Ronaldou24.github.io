@@ -1065,6 +1065,45 @@
   /* inventario */
   .skill-group { margin-bottom: 1.1rem; }
   .skill-group:last-child { margin-bottom: 0; }
+
+  /* barra de "descompresion" al abrir inventario.zip por primera vez (Fase 2) */
+  .unzip-overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.7rem;
+    min-height: 180px;
+    text-align: center;
+  }
+  .unzip-overlay[hidden] { display: none; }
+  .unzip-label {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--cream);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0;
+  }
+  .unzip-bar {
+    width: 78%;
+    height: 14px;
+    border: 2px solid var(--frame);
+    background: var(--void);
+    padding: 2px;
+  }
+  .unzip-fill {
+    height: 100%;
+    width: 0%;
+    background: var(--lime);
+  }
+  .unzip-pct {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    color: var(--lime);
+    margin: 0;
+  }
+  .unzip-target.unzip-hidden { display: none; }
   .skill-group h3 {
     font-family: var(--font-head);
     font-size: 0.68rem;

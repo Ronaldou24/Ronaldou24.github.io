@@ -503,6 +503,12 @@ SOLANO">RONALDO<br />SOLANO</h1>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
+    <div class="unzip-overlay" id="inventarioUnzip" hidden>
+      <p class="unzip-label">Descomprimiendo inventario.zip…</p>
+      <div class="unzip-bar"><div class="unzip-fill" id="inventarioUnzipFill"></div></div>
+      <p class="unzip-pct" id="inventarioUnzipPct">0%</p>
+    </div>
+    <div class="unzip-target" id="inventarioTarget">
     <div class="skill-group">
       <h3><img class="skill-icon" src="assets/icons/kirby/hammer.webp" alt="" aria-hidden="true" width="38" height="46" loading="lazy" decoding="async" />Backend &amp; Datos</h3>
       <div class="chip-row">
@@ -542,6 +548,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
         <span class="chip" data-tooltip="Hosting de repos y colaboracion">GitHub</span>
         <span class="chip" data-tooltip="El editor de todos los dias">VS Code</span>
       </div>
+    </div>
     </div>
   </div>
 </div>
