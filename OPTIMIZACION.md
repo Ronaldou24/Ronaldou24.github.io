@@ -2,7 +2,7 @@
 
 > **Spec de ejecución para Claude Code.**
 > Repo: `Ronaldou24.github.io` (GitHub Pages, sitio estático, sin build step).
-> Autor: Ronaldo Gael Solano Gutiérrez (Roni) · Puerto Vallarta, Jalisco → Guadalajara.
+> Autor: Ronaldo Gael Solano Gutiérrez (Roni) · Zapopan, Jalisco.
 > Fecha del spec: 15 de agosto de 2026.
 >
 > **Cómo usar este archivo:** abre Claude Code en la raíz del repo y dile
@@ -871,7 +871,7 @@ Si aparece cualquier resto de la info vieja (IPN / ESIME / 18 años / 2° semest
 |---|---|
 | Nombre | Ronaldo Gael Solano Gutiérrez |
 | Edad | **19 años** |
-| Origen | Puerto Vallarta, Jalisco |
+| Origen | Zapopan, Jalisco |
 | Universidad | **CUCEI — Centro Universitario de Ciencias Exactas e Ingenierías, Universidad de Guadalajara (UDG)** |
 | Carrera | **Ingeniería en Electrónica y Sistemas Inteligentes (INES)** |
 | Semestre | **1er semestre** (calendario 2026-B) |
