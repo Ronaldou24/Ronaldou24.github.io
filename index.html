@@ -11,7 +11,55 @@
     if (localStorage.getItem('perfMode') === '1') document.documentElement.classList.add('perf-mode');
   } catch (_) { /* noop: localStorage bloqueado (modo privado, cuota, etc.) */ }
 </script>
-<title>Ronaldo Solano — Full-Stack Dev Cartridge</title>
+<title>Ronaldo Solano — Dev Full-Stack &amp; Electrónica | Portafolio</title>
+<meta name="description" content="Ronaldo Solano — desarrollador full-stack (PHP · JavaScript · MySQL) y estudiante de Ingeniería en Electrónica y Sistemas Inteligentes en CUCEI, UDG. Portafolio interactivo estilo consola retro de 64 bits." />
+<link rel="canonical" href="https://ronaldou24.github.io/" />
+<meta name="theme-color" content="#1d2b53" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://ronaldou24.github.io/" />
+<meta property="og:title" content="Ronaldo Solano — Full-Stack Dev Cartridge" />
+<meta property="og:description" content="Portafolio interactivo estilo escritorio retro de 64 bits. Proyectos web, electrónica y modding de consolas." />
+<meta property="og:image" content="https://ronaldou24.github.io/assets/og-cover.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="es_MX" />
+
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="/favicon.ico" sizes="any" />
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/assets/img/apple-touch-icon.png" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Ronaldo Gael Solano Gutiérrez",
+  "alternateName": "Ronaldo Solano",
+  "url": "https://ronaldou24.github.io/",
+  "image": "https://ronaldou24.github.io/assets/og-cover.png",
+  "jobTitle": "Full-Stack Developer",
+  "email": "mailto:ronaldosolano56@gmail.com",
+  "alumniOf": {
+    "@type": "CollegeOrUniversity",
+    "name": "CUCEI — Centro Universitario de Ciencias Exactas e Ingenierías, Universidad de Guadalajara"
+  },
+  "knowsAbout": [
+    "PHP", "JavaScript", "MySQL", "HTML5", "CSS3", "Python", "C++", "C#", "Java",
+    "Arduino", "ESP32", "Console Modding",
+    "Ingeniería en Electrónica y Sistemas Inteligentes"
+  ],
+  "sameAs": [
+    "https://github.com/Ronaldou24",
+    "https://mx.pinterest.com/ronaldosolano56/",
+    "https://www.instagram.com/ronaldou_/"
+  ]
+}
+</script>
+<!-- PENDIENTE_RONI: si tenés usuario real de Telegram/TikTok (no el link generico que
+     hay hoy en #contactoWindow), agregalos al "sameAs" de arriba. -->
+
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Michroma&family=Barlow:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
@@ -385,7 +433,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 <!-- Windows -->
 <div class="window hidden" id="sobreMiWindow" data-default-pos="60,110">
   <header class="title-bar drag-handle">
-    <span class="title">SOBRE-MI.TXT</span>
+    <h2 class="title">SOBRE-MI.TXT</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -406,7 +454,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="curriculumWindow" data-default-pos="90,80">
   <header class="title-bar drag-handle">
-    <span class="title">CURRICULUM.PDF</span>
+    <h2 class="title">CURRICULUM.PDF</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -434,7 +482,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="statusWindow" data-default-pos="110,150">
   <header class="title-bar drag-handle">
-    <span class="title">STATUS.EXE</span>
+    <h2 class="title">STATUS.EXE</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -451,7 +499,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="inventarioWindow" data-default-pos="70,220">
   <header class="title-bar drag-handle">
-    <span class="title">INVENTARIO.ZIP</span>
+    <h2 class="title">INVENTARIO.ZIP</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -500,7 +548,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="misionesWindow" data-default-pos="130,90">
   <header class="title-bar drag-handle">
-    <span class="title">MISIONES.LNK</span>
+    <h2 class="title">MISIONES.LNK</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -643,7 +691,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden project" id="projDogfatherWindow" data-default-pos="100,80">
   <header class="title-bar drag-handle">
-    <span class="title">DOGFATHER.EXE</span>
+    <h2 class="title">DOGFATHER.EXE</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -654,11 +702,11 @@ SOLANO">RONALDO<br />SOLANO</h1>
       </picture>
     </div>
     <div class="proj-section">
-      <h4>Qué es</h4>
+      <h3>Qué es</h3>
       <p>Sitio de galería para un negocio de fotografía/estética de mascotas: landing con banner, sección de contacto y una galería de imágenes en grid.</p>
     </div>
     <div class="proj-section">
-      <h4>Cómo está hecho</h4>
+      <h3>Cómo está hecho</h3>
       <p>PHP con includes reutilizables (header/footer) por página, y layout de galería en CSS Grid con tamaños alternados tipo masonry.</p>
     </div>
     <div class="chip-row">
@@ -675,7 +723,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden project" id="projHollowheadsWindow" data-default-pos="130,110">
   <header class="title-bar drag-handle">
-    <span class="title">LOS_HOLLOWHEADS.SITE</span>
+    <h2 class="title">LOS_HOLLOWHEADS.SITE</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -686,11 +734,11 @@ SOLANO">RONALDO<br />SOLANO</h1>
       </picture>
     </div>
     <div class="proj-section">
-      <h4>Qué es</h4>
+      <h3>Qué es</h3>
       <p>Sitio multi-página para una banda/colectivo de Puerto Vallarta: inicio, galería, eventos, merch, blog y contacto.</p>
     </div>
     <div class="proj-section">
-      <h4>Cómo está hecho</h4>
+      <h3>Cómo está hecho</h3>
       <p>HTML y CSS puro, sin frameworks — con tipografía e identidad visual propia, distinta al resto del portafolio.</p>
     </div>
     <div class="chip-row">
@@ -707,7 +755,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden project" id="projFlujoWindow" data-default-pos="160,140">
   <header class="title-bar drag-handle">
-    <span class="title">MARTRANSPORT.SYS</span>
+    <h2 class="title">MARTRANSPORT.SYS</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -724,11 +772,11 @@ SOLANO">RONALDO<br />SOLANO</h1>
       <p class="proj-shot-cap">Vista rol "administrador"</p>
     </div>
     <div class="proj-section">
-      <h4>Qué es</h4>
+      <h3>Qué es</h3>
       <p>Sistema de gestión de rutas de transporte marítimo ("MarTransport") con login y dos roles: transporte y administrador, cada uno con su propio panel.</p>
     </div>
     <div class="proj-section">
-      <h4>Cómo está hecho</h4>
+      <h3>Cómo está hecho</h3>
       <p>CRUD completo de rutas (alta, consulta, edición y baja) contra MySQL, con sesiones en PHP y consultas preparadas (prepared statements) contra inyección SQL.</p>
     </div>
     <div class="chip-row">
@@ -746,7 +794,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden project" id="projEsteticaWindow" data-default-pos="190,170">
   <header class="title-bar drag-handle">
-    <span class="title">ESTETICA_CANINA.HTML</span>
+    <h2 class="title">ESTETICA_CANINA.HTML</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -757,11 +805,11 @@ SOLANO">RONALDO<br />SOLANO</h1>
       </picture>
     </div>
     <div class="proj-section">
-      <h4>Qué es</h4>
+      <h3>Qué es</h3>
       <p>Sitio para una estética canina: tabla de servicios y precios por tamaño de mascota, y páginas para agendar, cancelar y consultar citas.</p>
     </div>
     <div class="proj-section">
-      <h4>Cómo está hecho</h4>
+      <h3>Cómo está hecho</h3>
       <p>Frontend en HTML/CSS, con el esquema SQL ya diseñado (agenda_servicios.sql) para conectarlo a una base de datos de citas.</p>
     </div>
     <div class="chip-row">
@@ -778,7 +826,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden cute" id="moodboardWindow" data-default-pos="150,120">
   <header class="title-bar drag-handle">
-    <span class="title">MOODBOARD.BIN</span>
+    <h2 class="title">MOODBOARD.BIN</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -809,7 +857,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden cute" id="refsWindow" data-default-pos="180,150">
   <header class="title-bar drag-handle">
-    <span class="title">REFS.FRIQ</span>
+    <h2 class="title">REFS.FRIQ</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -835,7 +883,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden cute" id="retroWindow" data-default-pos="210,180">
   <header class="title-bar drag-handle">
-    <span class="title">RETRO-CARTR.TXT</span>
+    <h2 class="title">RETRO-CARTR.TXT</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -870,7 +918,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden cute" id="coleccionWindow" data-default-pos="240,210">
   <header class="title-bar drag-handle">
-    <span class="title">COLECCIÓN.ROM</span>
+    <h2 class="title">COLECCIÓN.ROM</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -894,7 +942,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden cute" id="papusBlindajeWindow" data-default-pos="170,100">
   <header class="title-bar drag-handle">
-    <span class="title">PAPUS BLINDAJE</span>
+    <h2 class="title">PAPUS BLINDAJE</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -915,7 +963,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="highscoreWindow" data-default-pos="150,120">
   <header class="title-bar drag-handle">
-    <span class="title">HIGHSCORE.EXE</span>
+    <h2 class="title">HIGHSCORE.EXE</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -926,7 +974,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="secretWindow" data-default-pos="90,180">
   <header class="title-bar drag-handle">
-    <span class="title">🔓 SECRET.LVL</span>
+    <h2 class="title">🔓 SECRET.LVL</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -938,7 +986,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden cute" id="cheatsWindow" data-default-pos="120,140">
   <header class="title-bar drag-handle">
-    <span class="title">CHEATS.INI</span>
+    <h2 class="title">CHEATS.INI</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -970,7 +1018,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="certificadosWindow" data-default-pos="140,190">
   <header class="title-bar drag-handle">
-    <span class="title">CERTIFICADOS.FOL</span>
+    <h2 class="title">CERTIFICADOS.FOL</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -1002,7 +1050,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="contactoWindow" data-default-pos="160,260">
   <header class="title-bar drag-handle">
-    <span class="title">CONTACTO.TXT</span>
+    <h2 class="title">CONTACTO.TXT</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">
@@ -1034,7 +1082,7 @@ SOLANO">RONALDO<br />SOLANO</h1>
 
 <div class="window hidden" id="copyrightWindow" data-default-pos="200,140">
   <header class="title-bar drag-handle">
-    <span class="title">CRÉDITOS</span>
+    <h2 class="title">CRÉDITOS</h2>
     <button class="btn-close" data-close type="button">X</button>
   </header>
   <div class="window-content">

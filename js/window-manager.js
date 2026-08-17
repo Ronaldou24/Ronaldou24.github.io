@@ -423,7 +423,7 @@ export function initWindowManager() {
         (OPEN_ALL_LABELS[winId] || winId) + '</button>';
     }).join('');
     p.innerHTML =
-      '<header class="title-bar drag-handle"><span class="title">ÍNDICE.LNK</span>' +
+      '<header class="title-bar drag-handle"><h2 class="title">ÍNDICE.LNK</h2>' +
       '<button class="btn-close" data-close type="button">X</button></header>' +
       '<div class="window-content"><p style="margin-top:0">Ver todo de un tirón satura la pantalla chica — elige a dónde ir:</p>' +
       '<div class="index-list">' + listHtml + '</div></div>';
@@ -491,7 +491,7 @@ export function initWindowManager() {
     msg.textContent = text; // textContent, no innerHTML -- ver Fase 8 (revision de seguridad)
     var header = document.createElement('header');
     header.className = 'title-bar drag-handle';
-    header.innerHTML = '<span class="title">AVISO</span><button class="btn-close" data-close type="button">X</button>';
+    header.innerHTML = '<h2 class="title">AVISO</h2><button class="btn-close" data-close type="button">X</button>';
     var content = document.createElement('div');
     content.className = 'window-content';
     content.appendChild(msg);

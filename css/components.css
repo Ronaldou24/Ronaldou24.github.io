@@ -935,6 +935,11 @@
     opacity: 0.7;
   }
   .title-bar .title {
+    /* Fase 6: era <span>, ahora es <h2> (jerarquia de encabezados correcta, un h2
+       por ventana) -- margin/font-weight en 0 porque el <span> original no traia
+       ninguno de los dos y el user-agent si se los pone a un <h2>. */
+    margin: 0;
+    font-weight: normal;
     font-family: var(--font-head);
     font-size: 0.7rem;
     letter-spacing: 0.06em;

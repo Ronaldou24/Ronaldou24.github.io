@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 140 180" width="140" height="180">
+  <rect x="45" y="0"  width="50" height="20" fill="#5F574F" stroke="#1D2B53" stroke-width="4"/>
+  <rect x="10" y="10" width="120" height="160" fill="#5F574F" stroke="#1D2B53" stroke-width="4"/>
+  <rect x="25" y="34" width="90" height="66" fill="#FFF1E8" stroke="#1D2B53" stroke-width="3"/>
+  <text x="70" y="80" font-family="Courier New, monospace" font-size="30" font-weight="bold"
+        fill="#1D2B53" text-anchor="middle">RS</text>
+  <g fill="#83769C">
+    <rect x="30" y="110" width="80" height="6"/>
+    <rect x="30" y="122" width="80" height="6"/>
+    <rect x="30" y="134" width="55" height="6"/>
+  </g>
+  <g>
+    <rect x="20" y="152" width="10" height="16" fill="#FF77A8"/>
+    <rect x="34" y="152" width="10" height="16" fill="#29ADFF"/>
+    <rect x="48" y="152" width="10" height="16" fill="#FFEC27"/>
+    <rect x="62" y="152" width="10" height="16" fill="#00E436"/>
+    <rect x="76" y="152" width="10" height="16" fill="#FF004D"/>
+    <rect x="90" y="152" width="10" height="16" fill="#29ADFF"/>
+    <rect x="104" y="152" width="10" height="16" fill="#FF77A8"/>
+  </g>
+</svg>
