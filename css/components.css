@@ -934,6 +934,60 @@
     letter-spacing: 0.2em;
     opacity: 0.7;
   }
+  /* visor falso de curriculum.pdf (Fase 2) -- puro chrome, el zoom no hace nada real */
+  .pdf-toolbar {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    background: var(--void);
+    border-bottom: 2px solid var(--frame);
+    padding: 0.35rem 0.6rem;
+    position: relative;
+    z-index: 2;
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--cream);
+  }
+  .pdf-tool {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    line-height: 1;
+    color: var(--frame);
+    background: var(--gold);
+    border: 2px solid var(--frame);
+    box-shadow: 2px 2px 0 var(--frame);
+    padding: 0.15rem 0.5rem;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  .pdf-tool:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--frame); }
+  .pdf-zoom-label { min-width: 3.2em; text-align: center; }
+  .pdf-toolbar-sep { flex: 1; }
+  .pdf-page-label { color: var(--sky); text-transform: uppercase; letter-spacing: 0.04em; }
+
+  /* highscore.exe: chrome de pantalla de puntajes arcade (Fase 2) */
+  .highscore-banner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+  .highscore-title {
+    font-family: var(--font-display);
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+    color: var(--gold);
+  }
+  .highscore-star { color: var(--flame); font-size: 0.7rem; }
+  .highscore-caption {
+    font-family: var(--font-mono);
+    font-size: 0.66rem;
+    color: var(--sky);
+    text-align: center;
+    margin: 0 0 0.9rem;
+  }
+
   .title-bar .title {
     /* Fase 6: era <span>, ahora es <h2> (jerarquia de encabezados correcta, un h2
        por ventana) -- margin/font-weight en 0 porque el <span> original no traia
@@ -992,52 +1046,52 @@
     pointer-events: none;
   }
 
+  /* Fase 2: vista de carpeta con iconos de archivo, no lista -- mismo lenguaje
+     que los iconos del escritorio (icono arriba, nombre debajo, centrado). */
   .certs-folder {
     display: grid;
-    gap: 0.7rem;
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
+    gap: 1rem;
   }
   .cert-item {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 0.7rem;
-    padding: 0.7rem;
-    background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(0,0,0,0.16));
-    border: 2px solid rgba(255,255,255,0.15);
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+    gap: 0.5rem;
+    text-align: center;
   }
   .cert-icon-8bit {
-    width: 42px;
-    height: 42px;
-    flex: 0 0 42px;
+    width: 54px;
+    height: 54px;
     display: grid;
     place-items: center;
     border: 3px solid var(--frame);
-    box-shadow: 3px 3px 0 rgba(0,0,0,0.25);
+    box-shadow: 3px 3px 0 var(--frame);
     font-family: var(--font-head);
-    font-size: 0.68rem;
+    font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.04em;
     color: var(--frame);
     text-transform: uppercase;
   }
-  .cert-item:nth-child(1) .cert-icon-8bit { background: linear-gradient(135deg, var(--sky), #7fdcff); }
-  .cert-item:nth-child(2) .cert-icon-8bit { background: linear-gradient(135deg, var(--flame), #ff7a99); }
-  .cert-item:nth-child(3) .cert-icon-8bit { background: linear-gradient(135deg, var(--lime), #8dff8b); }
-  .cert-item:nth-child(4) .cert-icon-8bit { background: linear-gradient(135deg, var(--gold), #ffe07a); }
-  .cert-item:nth-child(5) .cert-icon-8bit { background: linear-gradient(135deg, var(--grape), #ff8ce7); }
+  .cert-item:nth-child(1) .cert-icon-8bit { background: var(--sky); }
+  .cert-item:nth-child(2) .cert-icon-8bit { background: var(--flame); }
+  .cert-item:nth-child(3) .cert-icon-8bit { background: var(--lime); }
+  .cert-item:nth-child(4) .cert-icon-8bit { background: var(--gold); }
+  .cert-item:nth-child(5) .cert-icon-8bit { background: var(--grape); color: var(--cream); }
   .cert-meta {
     min-width: 0;
   }
   .cert-title {
-    font-family: var(--font-head);
-    font-size: 0.72rem;
+    font-family: var(--font-mono);
+    font-size: 0.64rem;
     color: var(--cream);
-    margin-bottom: 0.2rem;
+    margin-bottom: 0.3rem;
   }
   .cert-sub {
     font-family: var(--font-mono);
-    font-size: 0.64rem;
-    color: rgba(255,241,232,0.82);
+    font-size: 0.6rem;
+    color: var(--sky);
     line-height: 1.4;
   }
 
@@ -1396,6 +1450,17 @@
   .status-tag.side { background: var(--lime); color: var(--frame); }
   .fighter-card h3 { font-family: var(--font-head); font-size: 0.82rem; color: var(--cream); margin: 0 0 0.4rem; }
   .fighter-card p { font-size: 0.85rem; opacity: 0.88; margin: 0; }
+  /* dificultad + XP tipo quest (Fase 2) -- misiones.lnk, no cards de portafolio */
+  .quest-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.55rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+  }
+  .quest-diff { color: var(--gold); letter-spacing: 0.06em; }
+  .quest-xp { color: var(--lime); }
   .fighter-card.empty {
     border-style: dashed;
     opacity: 0.55;

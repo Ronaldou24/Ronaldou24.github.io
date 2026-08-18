@@ -485,6 +485,19 @@ export function initWindowManager() {
     else OPEN_ALL_IDS.forEach(openWindow);
   });
 
+  // Fase 2: visor falso de curriculum.pdf -- el zoom "no hace nada real pero se
+  // ve" (brief FASE 2): solo cambia el numero, el contenido no se escala.
+  var pdfZoomLabel = document.getElementById('pdfZoomLabel');
+  var pdfZoomPct = 100;
+  function setPdfZoom(delta) {
+    pdfZoomPct = Math.min(150, Math.max(50, pdfZoomPct + delta));
+    if (pdfZoomLabel) pdfZoomLabel.textContent = pdfZoomPct + '%';
+  }
+  var pdfZoomInBtn = document.getElementById('pdfZoomIn');
+  var pdfZoomOutBtn = document.getElementById('pdfZoomOut');
+  if (pdfZoomInBtn) pdfZoomInBtn.addEventListener('click', function () { setPdfZoom(10); });
+  if (pdfZoomOutBtn) pdfZoomOutBtn.addEventListener('click', function () { setPdfZoom(-10); });
+
   document.getElementById('logoBtn').addEventListener('click', function () {
     var cube = document.querySelector('.cube');
     if (!cube) return;
