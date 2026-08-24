@@ -82,7 +82,28 @@
       margin: 0 auto 1rem;
     }
     .hero-lede { clear: both; }
+    .hero-lede-extra { display: none; }
     .hero-inner { max-width: 100%; }
+
+    .hero-teaser {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 0.9rem 0.6rem;
+      margin: 1.3rem 0 0;
+    }
+    .hero-teaser .desktop-icon {
+      flex: 0 0 64px;
+      padding: 0.45rem 0.3rem;
+    }
+    .hero-teaser .icon-glyph {
+      width: 40px;
+      height: 40px;
+    }
+    .hero-teaser .icon-label {
+      font-size: 0.56rem;
+      text-align: center;
+    }
 
     .ambient-photo { display: none; }
 

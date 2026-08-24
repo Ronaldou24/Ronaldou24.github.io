@@ -562,6 +562,12 @@
   }
   .btn:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--frame); background: var(--sky); }
 
+  /* Teaser de íconos reales del escritorio, visible solo en mobile (ver responsive.css ≤640px).
+     Reusa .desktop-icon/.icon-glyph tal cual para que el afford sea identico al de #escritorio. */
+  .hero-teaser {
+    display: none;
+  }
+
   /* ---------- DESKTOP ---------- */
   .desktop {
     min-height: 60vh;
