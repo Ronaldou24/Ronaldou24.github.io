@@ -181,117 +181,29 @@
   .corner-badge b { font-size: 1.25rem; }
   .corner-badge span { font-size: 0.55rem; letter-spacing: 0.1em; margin-top: 2px; }
 
-  .cube-wrap {
+  /* ---------- gifs decorativos del hero (antes: cubo/pirámide/cubo mini en CSS 3D) ---------- */
+  .hero-gif {
     position: absolute;
-    right: 9%;
-    bottom: 12%;
-    width: 110px;
-    height: 110px;
-    perspective: 600px;
-    opacity: 0.9;
     z-index: 1;
-    display: none;
+    object-fit: contain;
+    border-radius: 10px;
+    filter: drop-shadow(0 6px 12px rgba(0,0,0,0.4));
+    animation: heroGifFloat 6s ease-in-out infinite;
   }
-  @media (min-width: 720px) { .cube-wrap { display: block; } }
-  .cube {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: spin 14s linear infinite;
+  .hero-gif.g1 { right: 9%; bottom: 12%; width: 110px; height: 110px; opacity: 0.92; animation-duration: 7s; }
+  .hero-gif.g2 { left: 6%; top: 2%; width: 62px; height: 62px; opacity: 0.88; animation-duration: 5.5s; animation-delay: 0.4s; }
+  .hero-gif.g3 { right: 24%; top: 10%; width: 58px; height: 46px; opacity: 0.88; animation-duration: 6.5s; animation-delay: 0.8s; }
+  @keyframes heroGifFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
   }
   @media (prefers-reduced-motion: reduce) {
-    .cube { animation: none; transform: rotateX(-18deg) rotateY(28deg); }
+    .hero-gif { animation: none; }
   }
-  @keyframes spin {
-    from { transform: rotateX(0deg) rotateY(0deg); }
-    to { transform: rotateX(360deg) rotateY(360deg); }
-  }
-  .cube .face {
-    position: absolute;
-    width: 110px;
-    height: 110px;
-    border: 3px solid var(--frame);
-    opacity: 0.92;
-  }
-  .face.front  { background: var(--flame); transform: translateZ(55px); }
-  .face.back   { background: var(--sky);   transform: rotateY(180deg) translateZ(55px); }
-  .face.right  { background: var(--gold);  transform: rotateY(90deg) translateZ(55px); }
-  .face.left   { background: var(--lime);  transform: rotateY(-90deg) translateZ(55px); }
-  .face.top    { background: var(--grape); transform: rotateX(90deg) translateZ(55px); }
-  .face.bottom { background: var(--navy-light); transform: rotateX(-90deg) translateZ(55px); }
-
-  /* ---------- figuras 3D extra del hero (pirámide + cubo mini) ---------- */
-  .pyramid-wrap {
-    position: absolute;
-    left: 6%;
-    top: 12%;
-    width: 70px;
-    height: 70px;
-    perspective: 500px;
-    opacity: 0.85;
-    z-index: 1;
-    display: none;
-  }
-  @media (min-width: 720px) { .pyramid-wrap { display: block; } }
-  .pyramid {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: spinReverse 11s linear infinite;
-  }
-  .pyramid .side {
-    position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 0;
-    height: 0;
-    border-left: 35px solid transparent;
-    border-right: 35px solid transparent;
-    border-bottom: 62px solid var(--sky);
-    opacity: 0.92;
-    filter: drop-shadow(0 0 0 var(--frame));
-  }
-  .pyramid .side1 { border-bottom-color: var(--flame); transform: translateX(-50%) rotateY(0deg)   rotateX(28deg); }
-  .pyramid .side2 { border-bottom-color: var(--gold);  transform: translateX(-50%) rotateY(90deg)  rotateX(28deg); }
-  .pyramid .side3 { border-bottom-color: var(--lime);  transform: translateX(-50%) rotateY(180deg) rotateX(28deg); }
-  .pyramid .side4 { border-bottom-color: var(--grape); transform: translateX(-50%) rotateY(270deg) rotateX(28deg); }
-
-  .cube-wrap-mini {
-    position: absolute;
-    right: 24%;
-    top: 10%;
-    width: 46px;
-    height: 46px;
-    perspective: 400px;
-    opacity: 0.8;
-    z-index: 1;
-    display: none;
-  }
-  @media (min-width: 720px) { .cube-wrap-mini { display: block; } }
-  .cube-mini {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    transform-style: preserve-3d;
-    animation: spin 6s linear infinite;
-  }
-  .cube-mini .face { position: absolute; width: 46px; height: 46px; border: 2px solid var(--frame); opacity: 0.92; }
-  .cube-mini .face.front  { background: var(--lime);       transform: translateZ(23px); }
-  .cube-mini .face.back   { background: var(--flame);      transform: rotateY(180deg) translateZ(23px); }
-  .cube-mini .face.right  { background: var(--sky);        transform: rotateY(90deg) translateZ(23px); }
-  .cube-mini .face.left   { background: var(--gold);       transform: rotateY(-90deg) translateZ(23px); }
-  .cube-mini .face.top    { background: var(--cream);      transform: rotateX(90deg) translateZ(23px); }
-  .cube-mini .face.bottom { background: var(--grape);      transform: rotateX(-90deg) translateZ(23px); }
-
-  @keyframes spinReverse {
-    from { transform: rotateX(360deg) rotateY(0deg); }
-    to   { transform: rotateX(0deg) rotateY(360deg); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .pyramid { animation: none; transform: rotateX(-16deg) rotateY(22deg); }
-    .cube-mini { animation: none; transform: rotateX(14deg) rotateY(-24deg); }
+  @media (max-width: 480px) {
+    .hero-gif.g1 { width: 78px; height: 78px; }
+    .hero-gif.g2 { width: 50px; height: 50px; }
+    .hero-gif.g3 { width: 42px; height: 34px; }
   }
 
   /* ---------- personajes 3D (three.js, procedural, con física de arrastre) ---------- */
@@ -1607,34 +1519,9 @@
   <div class="poly b"></div>
   <div class="poly c"></div>
   <div class="corner-badge"><b>RS</b><span>·64</span></div>
-  <div class="cube-wrap">
-    <div class="cube">
-      <div class="face front"></div>
-      <div class="face back"></div>
-      <div class="face right"></div>
-      <div class="face left"></div>
-      <div class="face top"></div>
-      <div class="face bottom"></div>
-    </div>
-  </div>
-  <div class="pyramid-wrap">
-    <div class="pyramid">
-      <div class="side side1"></div>
-      <div class="side side2"></div>
-      <div class="side side3"></div>
-      <div class="side side4"></div>
-    </div>
-  </div>
-  <div class="cube-wrap-mini">
-    <div class="cube-mini">
-      <div class="face front"></div>
-      <div class="face back"></div>
-      <div class="face right"></div>
-      <div class="face left"></div>
-      <div class="face top"></div>
-      <div class="face bottom"></div>
-    </div>
-  </div>
+  <img class="hero-gif g1" src="assets/hero-gifs/disco.gif" alt="Disco retro 3D girando" />
+  <img class="hero-gif g2" src="assets/hero-gifs/bolita.gif" alt="Esfera wireframe 3D girando" />
+  <img class="hero-gif g3" src="assets/hero-gifs/gamecube.gif" alt="Consola retro flotando" />
   <div class="hero-inner">
     <p class="hero-eyebrow">Full-Stack Dev Cartridge</p>
     <h1 class="hero-title" data-text="RONALDO
