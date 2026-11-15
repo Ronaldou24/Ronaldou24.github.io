@@ -225,7 +225,7 @@ Sin baseline no se puede demostrar la mejora, y demostrar la mejora es parte del
 ### FASE 1 — Limpieza de peso muerto (la victoria más barata)
 
 - [ ] **Sacar `curriculum.rar` (30.8 MB) del repo.** Agregarlo a `.gitignore`.
-      El CV ya está publicado como PDF (`Ronaldo Gael Solano Gutierrez-1 (1).pdf`), el `.rar` no aporta nada.
+      El CV ya está publicado como PDF (`cv-ronaldo-solano.pdf`), el `.rar` no aporta nada.
 - [ ] Borrar o mover fuera del repo lo que no se usa: `image.png` (3.6 MB), `pesi.png`,
       `gatito.png`, `assets/hero-bg.png`, `d.txt`, `papus.json` — **verificar con `grep` antes de borrar cada uno**:
       ```bash
@@ -233,7 +233,7 @@ Sin baseline no se puede demostrar la mejora, y demostrar la mejora es parte del
       ```
 - [ ] Borrar `styles.css` y `script.js` (huérfanos confirmados: `index.html` no los enlaza).
       Si algo de `styles.css` sirve, migrarlo a `css/components.css` **antes** de borrarlo.
-- [ ] Renombrar el PDF del CV a `cv-ronaldo-solano.pdf` (sin espacios ni paréntesis: los espacios
+- [x] Renombrar el PDF del CV a `cv-ronaldo-solano.pdf` (hecho: CV nuevo sin teléfono; sin espacios ni paréntesis: los espacios
       en URLs se escapan feo y rompen links al compartir). Actualizar el `href` en `index.html`.
 - [ ] Igual con las rutas que hoy llevan `%20`: `htdocs/Estetica_Canina - Monuu/`,
       `htdocs/web2/uploads/2025124304_Captura de pantalla...`. Renombrar a `kebab-case` sin espacios.
@@ -876,7 +876,7 @@ Si aparece cualquier resto de la info vieja (IPN / ESIME / 18 años / 2° semest
 | Carrera | **Ingeniería en Electrónica y Sistemas Inteligentes (INES)** |
 | Semestre | **1er semestre** (calendario 2026-B) |
 | Bachillerato | Técnico en Programación · CBTIS68 · Promedio 8.8 |
-| Experiencia | 3 meses de apoyo administrativo en oficina (Guadalajara) · +2 años de curso en línea full-stack certificado por W3Schools |
+| Experiencia | +9 meses como operativo en las oficinas de Travel Sanabrio (facturación y captura de datos) · +2 años de curso en línea full-stack certificado por W3Schools |
 | Correo | ronaldosolano56@gmail.com |
 | GitHub | github.com/Ronaldou24 |
 | Pinterest | mx.pinterest.com/ronaldosolano56 |
