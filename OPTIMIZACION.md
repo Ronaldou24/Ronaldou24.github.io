@@ -876,7 +876,7 @@ Si aparece cualquier resto de la info vieja (IPN / ESIME / 18 años / 2° semest
 | Carrera | **Ingeniería en Electrónica y Sistemas Inteligentes (INES)** |
 | Semestre | **1er semestre** (calendario 2026-B) |
 | Bachillerato | Técnico en Programación · CBTIS68 · Promedio 8.8 |
-| Experiencia | +9 meses como operativo en las oficinas de Travel Sanabrio (facturación y captura de datos) · +2 años de curso en línea full-stack certificado por W3Schools |
+| Experiencia | +9 meses como operativo en las oficinas de Travel Sanabria (facturación y captura de datos) · +2 años de curso en línea full-stack certificado por W3Schools |
 | Correo | ronaldosolano56@gmail.com |
 | GitHub | github.com/Ronaldou24 |
 | Pinterest | mx.pinterest.com/ronaldosolano56 |
